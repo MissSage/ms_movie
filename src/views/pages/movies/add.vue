@@ -29,8 +29,8 @@
 <script lang="ts" setup>
 import { ElForm, ElMessage } from "element-plus"
 import { reactive, ref } from "vue"
-import { postMovie } from "../api"
-import router from "../router"
+import { postMovie } from "../../../api"
+import router from "../../../router"
 const refForm = ref<InstanceType<typeof ElForm>>()
 const defaultValue = {
   type: "",

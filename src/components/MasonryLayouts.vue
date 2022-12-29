@@ -1,10 +1,13 @@
 <template>
   <div class="itemsbox">
-    <div class="items" v-for="(item, index) in dataList" :key="index" :style="{ width: '200px', minHeight: '260px', left: lefts[index] + 'px', top: imgtop[index] + 'px' }">
+    <div class="items" v-for="(item, index) in dataList" :key="index"
+      :style="{ width: '200px', minHeight: '260px', left: lefts[index] + 'px', top: imgtop[index] + 'px' }">
       <el-image class="image" :src="item.img" :alt="item.title" @load="init(index)">
         <template #error>
           <div class="image-slot">
-            <el-icon><icon-picture /></el-icon>
+            <el-icon>
+              <Icon icon="mdi:picture-in-picture-bottom-right"></Icon>
+            </el-icon>
           </div>
         </template>
       </el-image>
@@ -15,6 +18,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
+import { Icon } from '@iconify/vue'
 defineProps<{
   dataList: any[]
 }>()
@@ -57,10 +61,12 @@ const init = async (index: number) => {
 .items {
   position: absolute;
 }
+
 .el-image {
   width: 100%;
   height: calc(100% - 30px);
 }
+
 .image-slot {
   width: 100%;
   height: 100%;

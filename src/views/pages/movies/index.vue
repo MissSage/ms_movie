@@ -8,9 +8,9 @@
 </template>
 <script lang="ts" setup>
 import { onBeforeMount, reactive } from "vue"
-import { getMovies } from "../api"
-import MasonryLayouts from "../components/MasonryLayouts.vue"
-import Pagination from "../components/Pagination.vue"
+import { getMovies } from "../../../api"
+import MasonryLayouts from "../../../components/MasonryLayouts.vue"
+import Pagination from "../../../components/Pagination.vue"
 const state = reactive<{
   dataList: any[]
 }>({
