@@ -1,7 +1,7 @@
 <template>
-  <div class="itemsbox">
-    <div class="items" v-for="(item, index) in dataList" :key="index"
-      :style="{ width: '200px', minHeight: '260px', left: lefts[index] + 'px', top: imgtop[index] + 'px' }">
+  <div class="img-gallary">
+    <div class="img-item" v-for="(item, index) in dataList" :key="index"
+      :style="{ width: '200px', left: state.imgLefts[index] + 'px', top: state.imgTops[index] + 'px' }">
       <el-image class="image" :src="item.img" :alt="item.title" @load="init(index)">
         <template #error>
           <div class="image-slot">
@@ -17,48 +17,58 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
+import { reactive, ref } from "vue"
 import { Icon } from '@iconify/vue'
 defineProps<{
   dataList: any[]
 }>()
-let lefts = ref<any>([])
-let imgheight: number[] = []
-let imgtop = ref<any>([])
-const top: any = 20
+const state = reactive<{
+  imgLefts: number[]
+  imgHeights: number[]
+  imgTops: number[]
+  top: number
+}>({
+  imgLefts: [],
+  imgHeights: [],
+  imgTops: [],
+  top: 20
+})
 const init = async (index: number) => {
-  console.log(index)
-  const winwidth = document.body.clientWidth
+  debugger
+  const winwidth = document.querySelector('.img-gallary')?.clientWidth||0
   const num = Math.floor(winwidth / 220)
   // console.log(num);
   // for (let index = 0; index < emit.yui.length; index++) {
   if (index < num) {
-    if (index < num) {
-      lefts.value[index] = index * (200 + 20)
-      let bili = (document.querySelector(`.itemsbox :nth-child(${index + 1})`) as HTMLImageElement).naturalWidth / 200
-      imgheight[index] = (document.querySelector(`.itemsbox :nth-child(${index + 1})`) as HTMLImageElement).naturalHeight / bili + top
-      imgtop.value[index] = 0
-    }
+      state.imgLefts[index] = index * (200 + 20)
+      let bili = (document.querySelector(`.img-item :nth-child(${index + 1})`) as HTMLImageElement)?.naturalWidth / 200
+      state.imgHeights[index] = (document.querySelector(`.img-item :nth-child(${index + 1})`) as HTMLImageElement).naturalHeight / bili + state.top
+      state.imgTops[index] = 0
   } else {
-    let minheight: any = imgheight[0]
+    // 记录最小高度
+    let minheight: any = state.imgHeights[0]
+    // 记录最小索引
     let minindex: number = 0
     // console.log(imgheight.value);
     for (let i = 0; i < num; i++) {
-      if (imgheight[i] < minheight) {
-        minheight = imgheight[i]
+      if (state.imgHeights[i] < minheight) {
+        minheight = state.imgHeights[i]
         minindex = i
       }
     }
-    lefts.value[index] = minindex * (200 + 20)
-    let bili = (document.querySelector(`.itemsbox :nth-child(${index + 1})`) as HTMLImageElement).naturalWidth / 200
-    imgtop.value[index] = imgheight[minindex]
-    imgheight[minindex] = (document.querySelector(`.itemsbox :nth-child(${index + 1})`) as HTMLImageElement).naturalHeight / bili + minheight + top
+    state.imgLefts[index] = minindex * (200 + 20)
+    let bili = (document.querySelector(`.img-item :nth-child(${index + 1})`) as HTMLImageElement)?.naturalWidth / 200
+    state.imgTops[index] = state.imgHeights[minindex]
+    state.imgHeights[minindex] = (document.querySelector(`.img-item :nth-child(${index + 1})`) as HTMLImageElement)?.naturalHeight / bili + minheight + state.top
   }
   // }
 }
 </script>
 <style lang="scss" scoped>
-.items {
+.img-gallary{
+  position: relative;
+}
+.img-item {
   position: absolute;
 }
 

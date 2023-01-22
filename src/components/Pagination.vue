@@ -1,5 +1,7 @@
 <template>
   <ElPagination
+    role="pagination"
+    aria-label="pagination"
     :current-page="config.page"
     :page-size="config.limit"
     :class="config.align || 'left'"
@@ -14,24 +16,24 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from "vue"
-import { ElPagination } from "element-plus"
+import { reactive } from "vue";
+import { ElPagination } from "element-plus";
 const props = defineProps<{
-  config: IPagination
-  refreshData?: (pageSize: { page: number; size: number }) => any
-}>()
+  config: IPagination;
+  refreshData?: (pageSize: { page: number; size: number }) => any;
+}>();
 const state = reactive<{ page: number; size: number }>({
   page: props.config?.page || 1,
-  size: props.config?.limit || 20
-})
+  size: props.config?.limit || 20,
+});
 const handlePage = (page: number) => {
-  state.page = page
-  props.refreshData?.(state)
-}
+  state.page = page;
+  props.refreshData?.(state);
+};
 const handleSize = (size: number) => {
-  state.size = size
-  props.refreshData?.(state)
-}
+  state.size = size;
+  props.refreshData?.(state);
+};
 </script>
 
 <style lang="scss" scoped>
