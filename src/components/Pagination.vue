@@ -20,7 +20,6 @@ import { reactive } from "vue";
 import { ElPagination } from "element-plus";
 const props = defineProps<{
   config: IPagination;
-  refreshData?: (pageSize: { page: number; size: number }) => any;
 }>();
 const state = reactive<{ page: number; size: number }>({
   page: props.config?.page || 1,
@@ -28,11 +27,11 @@ const state = reactive<{ page: number; size: number }>({
 });
 const handlePage = (page: number) => {
   state.page = page;
-  props.refreshData?.(state);
+  props.config.refreshData?.(state);
 };
 const handleSize = (size: number) => {
   state.size = size;
-  props.refreshData?.(state);
+  props.config.refreshData?.(state);
 };
 </script>
 

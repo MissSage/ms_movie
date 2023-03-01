@@ -1,5 +1,5 @@
 import request from "./axios"
-export const getMovies = (params: any) => {
+export const getMovies = (params?: IQueryParams) => {
   return request({
     url: "/api/movie",
     method: "get",
@@ -11,5 +11,12 @@ export const postMovie = (params: any) => {
     url: "/api/movie",
     method: "post",
     data: params
+  })
+}
+
+export const getMovie = (id: string) => {
+  return request({
+    url: '/api/movie/' + id,
+    method: 'get'
   })
 }

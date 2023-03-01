@@ -11,3 +11,22 @@ interface IPagination {
   layout?: string // 分布布局
   pageSize?: number[]
 }
+interface ITableColumn {
+  label: string
+  prop: string
+  image?: boolean
+  minWidth?: string|number
+  formatter?: (row: any, value: any, field: string) => any
+}
+interface IButton {
+  text: string
+  click: (row: any,...args)=>any
+}
+interface ITable{
+  data: any[]
+  pagination: IPagination
+  columns: ITableColumn[]
+  operations: IButton[]
+  operationWidth?: number
+  currentRow?: any
+}

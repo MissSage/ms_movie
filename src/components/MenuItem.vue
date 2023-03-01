@@ -10,7 +10,7 @@
   3. 是否是group
  -->
 <template>
-  <template v-if="menu.children">
+  <template v-if="hasShowedChild(menu)">
     <template v-if="menu.meta?.childOnly">
       <template v-for="cMenu in menu.children" :key="cMenu.path">
         <menu-item v-if="!cMenu.meta?.notMenu" :menu="cMenu"></menu-item>
@@ -40,7 +40,7 @@
       </template>
     </el-sub-menu>
   </template>
-  <el-menu-item v-else :index="menu.path">
+  <el-menu-item v-else-if="!menu.meta?.hidden" :index="menu.path">
     <el-icon>
       <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon"></Icon>
     </el-icon>
@@ -52,9 +52,13 @@
   </el-menu-item>
 </template>
 <script lang="ts" setup>
-import { RouteRecordRaw } from "vue-router"
-import { Icon } from "@iconify/vue"
+import { RouteRecordRaw } from "vue-router";
+import { Icon } from "@iconify/vue";
 defineProps<{
-  menu: RouteRecordRaw
-}>()
+  menu: RouteRecordRaw;
+}>();
+const hasShowedChild = (menu: RouteRecordRaw) => {
+  if (!menu.children?.length) return false;
+  return menu.children.filter((item) => !item.meta?.notMenu).length > 0;
+};
 </script>
