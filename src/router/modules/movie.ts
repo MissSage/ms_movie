@@ -13,7 +13,6 @@ const routes: RouteRecordRaw[] = [
         meta: {
           title: "视频",
           icon: "mdi:movie-roll",
-          childOnly: true
         },
         name: "movieIndex",
         path: "/movieIndex",
@@ -22,6 +21,7 @@ const routes: RouteRecordRaw[] = [
           {
             meta: {
               title: '视频列表',
+              notMenu: true,
               icon: 'mdi:movie-roll'
             },
             name: 'movieDetail',

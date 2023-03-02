@@ -20,3 +20,10 @@ export const getMovie = (id: string) => {
     method: 'get'
   })
 }
+export const editMovie = (id: string, params: any) => {
+  return request({
+    url: '/api/movie/' + id,
+    method: 'put',
+    data: params
+  })
+}

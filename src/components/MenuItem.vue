@@ -59,6 +59,6 @@ defineProps<{
 }>();
 const hasShowedChild = (menu: RouteRecordRaw) => {
   if (!menu.children?.length) return false;
-  return menu.children.filter((item) => !item.meta?.notMenu).length > 0;
+  return menu.children.filter((item) => item.meta?.notMenu!==true).length > 0;
 };
 </script>

@@ -2,8 +2,8 @@
   <ElPagination
     role="pagination"
     aria-label="pagination"
-    :current-page="config.page"
-    :page-size="config.limit"
+    :current-page="config.page || 1"
+    :page-size="config.limit || 20"
     :class="config.align || 'left'"
     :layout="config.layout || 'total,sizes, prev, pager, next, jumper'"
     :total="config.total || 0"
@@ -21,17 +21,15 @@ import { ElPagination } from "element-plus";
 const props = defineProps<{
   config: IPagination;
 }>();
-const state = reactive<{ page: number; size: number }>({
-  page: props.config?.page || 1,
-  size: props.config?.limit || 20,
-});
+// const state = reactive<{ page: number; size: number }>({
+//   page: props.config?.page || 1,
+//   size: props.config?.limit || 20,
+// });
 const handlePage = (page: number) => {
-  state.page = page;
-  props.config.refreshData?.(state);
+  props.config.refreshData?.({ page, size: props.config.limit || 20 });
 };
 const handleSize = (size: number) => {
-  state.size = size;
-  props.config.refreshData?.(state);
+  props.config.refreshData?.({ page: props.config.page || 1, size });
 };
 </script>
 

@@ -15,18 +15,30 @@ interface ITableColumn {
   label: string
   prop: string
   image?: boolean
-  minWidth?: string|number
+  minWidth?: string | number
   formatter?: (row: any, value: any, field: string) => any
 }
 interface IButton {
   text: string
-  click: (row: any,...args)=>any
+  click: (row: any, ...args) => any
 }
-interface ITable{
+interface ITable {
   data: any[]
   pagination: IPagination
   columns: ITableColumn[]
   operations: IButton[]
   operationWidth?: number
   currentRow?: any
+}
+
+interface IFormItem {
+  type: string
+  label: string
+  field: string
+}
+interface ISearch {
+  filters: IFormItem[]
+  operations: IButton[]
+  defaultQuery: Record<string,ang>
+  submit?: (params: any) => any
 }
