@@ -5,7 +5,7 @@ import FormItem from './FormItem.vue';
     <el-form
       ref="refForm"
       :model="state.formData"
-      label-width="120"
+      :label-width="config.labelWidth||120"
       :inline="true"
     >
       <el-form-item

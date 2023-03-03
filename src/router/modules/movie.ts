@@ -16,29 +16,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: "movieIndex",
         path: "/movieIndex",
-        component: () => import("@/views/pages/movies/movies.vue"),
-        children: [
-          {
-            meta: {
-              title: '视频列表',
-              notMenu: true,
-              icon: 'mdi:movie-roll'
-            },
-            name: 'movieDetail',
-            path: '/play/:id',
-            component: () => import('@/views/pages/movies/components/detail.vue')
-          },
-          {
-            meta: {
-              title: "创作",
-              notMenu: true,
-              icon: "mdi:plus-circle-outline"
-            },
-            name: "addMovie",
-            path: "/add",
-            component: () => import("@/views/pages/movies/components/add.vue")
-          }
-        ]
+        component: () => import("@/views/pages/movies/movies.vue")
       },
     ]
   }

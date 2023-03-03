@@ -1,9 +1,9 @@
 import { editMovie, getMovie as getMovieDetail } from "@/api"
 import { ElMessage } from "element-plus"
-import { computed, onMounted, ref } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { useTags } from './useTag'
 export const useMovie = () => {
-    const movie = ref<any>()
+    const movie = ref<Record<string, any> | undefined>()
     const tags = useTags()
     const getMovie = async (id: string) => {
         if (!id) {
@@ -14,14 +14,6 @@ export const useMovie = () => {
         const res = await getMovieDetail(id)
         movie.value = res.data || {}
     }
-    const curTags = computed<string[]>(() => {
-        if (typeof movie.value?.tags === 'string') {
-
-            return movie.value?.tags?.split(',')?.filter((item: string) => !!item) || []
-        } else {
-            return movie.value?.tas || []
-        }
-    })
     const putMovie = async (id: string, params: any) => {
         const res = await editMovie(id, params)
         if (res.data) {
@@ -38,7 +30,7 @@ export const useMovie = () => {
             if (curTags.value.indexOf(newTag.value) !== -1) return
             movie.value.tags = [...curTags.value, newTag.value].join(',')
             await putMovie(movie.value._id, { tags: movie.value.tags })
-            if (tags.hasTag(newTag.value)) {
+            if (!tags.hasTag(newTag.value)) {
                 tags.addTag(newTag.value)
             }
             ElMessage.success('添加成功')
@@ -48,10 +40,15 @@ export const useMovie = () => {
         }
 
     }
+    const curTags = ref<string[]>([])
+    watch(()=>movie.value?.tags,()=>{
+        curTags.value = movie.value?.tags?.split(',')?.filter((item: string) => !!item) || []
+    })
     onMounted(() => {
         tags.getTagList()
     })
     return {
+        tags,
         movie,
         curTags,
         getMovie,

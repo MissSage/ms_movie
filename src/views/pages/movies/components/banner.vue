@@ -4,25 +4,29 @@
       当前正在播放：
       <span class="title">{{ props.title }}</span>
     </span>
-    <el-button @click="router.push({ path: '/add' })">上传</el-button>
+    <div class="right">
+      <el-button @click="uploadFiles">上传</el-button>
+    </div>
   </div>
 </template>
 <script lang="ts" setup>
-import router from "@/router";
-
-const props = defineProps<{ title: string }>();
+const emit = defineEmits(["upload"]);
+const props = defineProps<{ title?: string; selected?: any[] }>();
+const uploadFiles = () => {
+  emit("upload");
+};
 </script>
 <style lang="scss" scoped>
-.banner-wrapper{
+.banner-wrapper {
   height: 60px;
   display: flex;
   justify-content: space-between;
   padding: 0 20px;
   align-items: center;
-  span{
+  span {
     font-size: 14px;
   }
-  .title{
+  .title {
     font-weight: bold;
   }
 }

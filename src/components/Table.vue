@@ -1,6 +1,13 @@
 <template>
   <div class="table-wrapper">
-    <el-table class="table" :data="config.data" style="width: 100%">
+    <el-table
+      class="table"
+      :data="config.data"
+      style="width: 100%"
+      @selection-change="config.handleSelectChange"
+    >
+      <el-table-column type="index" width="50" />
+      <el-table-column type="selection" width="55" />
       <el-table-column
         v-for="column in config.columns"
         :key="column.label"
@@ -51,10 +58,10 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { formatter } from "element-plus";
+import { ElTable } from "element-plus";
+import { ref } from "vue";
 import Pagination from "./Pagination.vue";
-
-const props = defineProps<{
+defineProps<{
   config: ITable;
 }>();
 </script>

@@ -10,7 +10,7 @@ export const postMovieTag = (params: any) => {
     return request({
         url: "/api/movietags",
         method: "post",
-        data: params
+        data: { tags: params }
     })
 }
 
@@ -18,6 +18,6 @@ export const updateMovieTag = (id: string, params: any) => {
     return request({
         url: '/api/movietags/' + id,
         method: 'put',
-        data: params
+        data: { tags: params }
     })
 }

@@ -1,5 +1,28 @@
 <template>
   <el-input v-if="config.type === 'input'" v-model="value"></el-input>
+  <el-date-picker v-if="config.type === 'dates'" v-model="value" type="dates" />
+  <el-date-picker
+    v-if="
+      [
+        'date',
+        'year',
+        'month',
+        'dates',
+        'week',
+        'datetime',
+        'datetimerange',
+        'daterange',
+        'monthrange',
+      ].indexOf(config.type) !== -1
+    "
+    v-model="value"
+    :type="(config.type as any)"
+    unlink-panels
+    range-separator="~"
+    start-placeholder="开始时间"
+    end-placeholder="结束时间"
+    :shortcuts="(config as IDateRange).shortcuts"
+  />
 </template>
 <script lang="ts" setup>
 import { ref, watch } from "vue";

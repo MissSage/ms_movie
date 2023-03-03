@@ -11,14 +11,19 @@
         height: img.height,
       }"
     >
-      <img fit="contain" :src="img.src" alt="" style="width: 100%" />
+      <img fit="contain" :src="img.img" alt="" style="width: 100%" />
     </div>
   </div>
+  <Pagination :config="pagination"></Pagination>
 </template>
 
 <script setup lang="ts">
-import { getImageUrl } from "@/utils/UrlHelper";
-import { onBeforeMount, onMounted, reactive, ref } from "vue";
+import { onMounted, reactive, ref } from "vue";
+import Pagination from "./Pagination.vue";
+const props = defineProps<{
+  data: any[];
+  pagination: IPagination;
+}>();
 const state = reactive<{
   waterfallList: any[]; //存放计算好的数据
   waterfallImgWidth: number; //每一列的宽度
@@ -26,10 +31,6 @@ const state = reactive<{
   waterfallImgRight: number; //右边距
   waterfallImgBottom: number; //下边距
   waterfallDeviationHeight: number[]; //存放瀑布流各个列的高度
-  imgList: {
-    title: string;
-    img: string;
-  }[];
 }>({
   waterfallList: [], //存放计算好的数据
   waterfallImgWidth: 200, //每一列的宽度
@@ -37,32 +38,7 @@ const state = reactive<{
   waterfallImgRight: 10, //右边距
   waterfallImgBottom: 10, //下边距
   waterfallDeviationHeight: [], //存放瀑布流各个列的高度
-  imgList: [],
 });
-const pagination = reactive<IPagination>({
-  refreshData: ({ page, size }) => {
-    pagination.page = page;
-    pagination.limit = size;
-    initData();
-  },
-});
-const initData = async () => {
-  // const res = await getMovies({
-  //   page: pagination.page || 1,
-  //   size: pagination.limit || 20
-  // })
-  // state.imgList = res.data.data
-  state.imgList = Array.from({ length: pagination.limit || 50 }).map(
-    (item, i) => {
-      const index = i % 5;
-      const imgUrl = getImageUrl(index + ".jpg");
-      return {
-        title: i.toString(),
-        img: imgUrl,
-      };
-    }
-  );
-};
 const refContainer = ref<HTMLDialogElement>();
 //计算每个图片的宽度或者是列数
 const calculationWidth = () => {
@@ -81,23 +57,25 @@ const calculationWidth = () => {
   imgPreloading();
 };
 const imgPreloading = () => {
-  debugger;
-  for (let i = 0; i < state.imgList.length; i++) {
+  if (!props.data?.length) return;
+  props.data.map((item) => {
     let aImg = new Image();
-    aImg.src = state.imgList[i]?.img;
+    aImg.src = item.img;
     aImg.onload = aImg.onerror = (e) => {
-      let imgData: any = {};
-      //根据设定的列宽度求出图片的高度
-      imgData.height =
-        aImg.width === 0
-          ? 0
-          : (state.waterfallImgWidth / aImg.width) * aImg.height;
-      imgData.src = state.imgList[i]?.img;
+      let imgData: any = {
+        ...item,
+        //根据设定的列宽度求出图片的高度
+        height:
+          aImg.width === 0
+            ? 0
+            : (state.waterfallImgWidth / aImg.width) * aImg.height,
+      };
       state.waterfallList.push(imgData);
+
       //调用图片位置计算方法
       rankImg(imgData);
     };
-  }
+  });
 };
 const rankImg = (imgData: any) => {
   let {
@@ -118,9 +96,6 @@ const rankImg = (imgData: any) => {
   //改变当前列高度
   waterfallDeviationHeight[minIndex] += imgData.height + waterfallImgBottom;
 };
-onBeforeMount(() => {
-  initData();
-});
 onMounted(() => {
   calculationWidth();
 });
@@ -128,8 +103,8 @@ onMounted(() => {
 <style lang="scss" scoped>
 .v-waterfall-content {
   width: 100%;
-  height: 100%;
   max-width: 100%;
+  height: 100%;
   position: relative;
 }
 .v-waterfall-item {
