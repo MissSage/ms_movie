@@ -5,8 +5,9 @@ import FormItem from './FormItem.vue';
     <el-form
       ref="refForm"
       :model="state.formData"
-      :label-width="config.labelWidth||120"
+      :label-width="config.labelWidth || 120"
       :inline="true"
+      @keyup.enter="submit"
     >
       <el-form-item
         v-for="item in config.filters"

@@ -21,7 +21,7 @@
         </template>
       </el-input>
     </el-form-item>
-    <el-form-item label="标签">
+    <el-form-item label="">
       <el-checkbox-group v-model="movie.curTags.value" @change="setMovieTags">
         <el-checkbox
           v-for="tag in movie.tags.tagList.value"
@@ -40,7 +40,6 @@
 import { ElForm, ElMessage } from "element-plus";
 import { ref, watch } from "vue";
 import { useMovie } from "../hooks/useMovie";
-const emit = defineEmits(["success"]);
 const refForm = ref<InstanceType<typeof ElForm>>();
 const movie = useMovie();
 const props = defineProps<{

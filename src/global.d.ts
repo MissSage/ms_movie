@@ -22,6 +22,7 @@ interface IPagination {
 interface ITableColumn {
     label: string
     prop: string
+    fit?: "" | "fill" | "none" | "contain" | "cover" | "scale-down"
     image?: boolean
     minWidth?: string | number
     formatter?: (row: any, value: any, field: string) => any
@@ -35,11 +36,13 @@ interface ITable {
     pagination: IPagination
     columns: ITableColumn[]
     operations: IButton[]
+    height?: number
     operationWidth?: number
     currentRow?: any
     selected?: any[]
     nextRow?: any
     previewRow?: any
+    rowClick?: (row: any) => void
     handleSelectChange?: (selected: any) => void
 }
 
@@ -58,4 +61,16 @@ interface ISearch {
     operations: IButton[]
     defaultQuery: Record<string, ang>
     submit?: (params: any) => any
+}
+interface Window {
+    SITE_CONFIG: {
+
+        movieConfig: {
+            apiBase: string
+            imgBase: string
+            movieBase: string
+            imgOriginBase: string
+            movieOriginBase: string
+        }
+    }
 }

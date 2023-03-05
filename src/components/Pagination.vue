@@ -2,7 +2,6 @@
   <ElPagination
     role="pagination"
     aria-label="pagination"
-    :small="true"
     :current-page="config.page || 1"
     :page-size="config.limit || 20"
     :class="config.align || 'left'"
@@ -42,5 +41,8 @@ const handleSize = (size: number) => {
 .right {
   text-align: right;
   justify-content: flex-end;
+}
+.el-pagination{
+  flex-wrap: wrap;
 }
 </style>

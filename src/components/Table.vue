@@ -4,7 +4,9 @@
       class="table"
       :data="config.data"
       style="width: 100%"
+      :height="config.height"
       @selection-change="config.handleSelectChange"
+      @row-click="config.rowClick"
     >
       <el-table-column type="index" width="50" />
       <el-table-column type="selection" width="55" />
@@ -18,11 +20,18 @@
         <template #default="scope">
           <el-image
             v-if="column.image"
-            style="width: 100px; height: 100px; margin-top: 5px"
+            :fit="column.fit"
+            style="width: 50px; height: 50px; margin-top: 5px"
             :src="scope.row[column.prop]"
             :preview-src-list="[scope.row[column.prop]]"
             :preview-teleported="true"
-          />
+          >
+            <template #error>
+              <div class="image-slot">
+                <Icon icon="ep:picture" style="font-size: 50px;"></Icon>
+              </div>
+            </template>
+          </el-image>
           <template v-else>
             {{
               column.formatter
@@ -58,6 +67,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import { ElTable } from "element-plus";
 import { ref } from "vue";
 import Pagination from "./Pagination.vue";

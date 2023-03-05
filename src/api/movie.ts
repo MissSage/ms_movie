@@ -50,3 +50,19 @@ export const patchMovies = (ids: string[], params: Record<string, any>) => {
     }
   })
 }
+/**
+ * 上传图片base64生成图片并保存路径到对应视频数据
+ * @param id 视频id
+ * @param params {data：封面图片base64，rootPath: 要上传到哪个路径下（默认是：http://localhost/封面图/)}
+ * @returns 
+ */
+export const postMovieImg = (id: string, params: {
+  data: string
+  rootPath?: string
+}) => {
+  return request({
+    url: '/api/movie/imgs/' + id,
+    method: 'post',
+    data: params
+  })
+}
