@@ -26,7 +26,9 @@
         </div>
       </div>
     </div>
-
+    <div class="more">
+      <el-button style="width: 100%;" @click="emit('append')">加载更多...</el-button>
+    </div>
     <Pagination :config="config.pagination"></Pagination>
   </div>
 </template>
@@ -35,7 +37,7 @@
 import Pagination from "@/components/Pagination.vue";
 import { getImageUrl } from "@/utils/UrlHelper";
 import { onMounted, reactive, ref, watch } from "vue";
-const emit = defineEmits(["img-click"]);
+const emit = defineEmits(["img-click", "append"]);
 const props = defineProps<{
   config: ITable;
 }>();
@@ -81,7 +83,6 @@ const imgPreloading = () => {
     let aImg = new Image();
     aImg.src = item.img || getImageUrl("404.png");
     aImg.onload = aImg.onerror = (e) => {
-      console.log(aImg);
       let imgData: any = {
         ...item,
         img: item.img || getImageUrl("404.png"),
@@ -127,6 +128,9 @@ onMounted(() => {
 .waterfall {
   display: flex;
   flex-direction: column;
+  .more{
+    padding: 20px;
+  }
 }
 .waterfall-wrapper {
   position: relative;

@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <Search ref="refSearch" :config="SearchConfig"></Search>
-    <List :config="TableConfig"></List>
+    <List :config="TableConfig" @append="handleAppend"></List>
     <!-- <Table :config="TableConfig"></Table> -->
     <Banner
       :title="TableConfig.currentRow?.title"
@@ -137,13 +137,17 @@ const viewMovie = (row: any) => {
   togglePrevOrNext();
 };
 const handleImgUpdate = (img: string) => {
-  refreshData();
+  // refreshData();
 };
 const handleDirectClick = (direct: string) => {
   refreshData({ direct });
 };
-const refreshData = async (extraParams?: Record<string, any>) => {
-  console.log(TableConfig.pagination.page);
+const refreshData = async (
+  extraParams?: Record<string, any>,
+  options?: {
+    append?: boolean;
+  }
+) => {
   const params: any = {
     sortField: "_id",
     sortType: "asc",
@@ -160,7 +164,7 @@ const refreshData = async (extraParams?: Record<string, any>) => {
   };
   delete params.daterange;
   const res = await getMovies(params);
-  TableConfig.data =
+  const data =
     res.data.data?.map((item: any) => {
       item.url = item.url?.replace(
         window.SITE_CONFIG.movieConfig.movieOriginBase,
@@ -172,6 +176,18 @@ const refreshData = async (extraParams?: Record<string, any>) => {
       );
       return item;
     }) || [];
+  if (options?.append) {
+    let tData = TableConfig.data;
+    if (
+      TableConfig.data.length > 200 &&
+      TableConfig.data.length > data.length
+    ) {
+      tData = TableConfig.data.slice(data.length);
+    }
+    TableConfig.data = [...tData, ...data];
+  } else {
+    TableConfig.data = data;
+  }
   TableConfig.pagination.total = res.data.total || 0;
   togglePrevOrNext();
 };
@@ -190,7 +206,10 @@ const togglePrevOrNext = async (offset = 0) => {
   // 处理当前索引
   curIndex += offset;
   curIndex < 0 && (curIndex = length - 1);
-  curIndex > length - 1 && (curIndex = 0);
+  if (curIndex > length - 1) {
+    TableConfig.pagination.page = (TableConfig.pagination.page ?? 1) + 1;
+    await refreshData(undefined, { append: true });
+  }
   // 处理前后索引
   const prevIndex = curIndex === 0 ? length - 1 : curIndex - 1;
   const nextIndex = curIndex === length - 1 ? 0 : curIndex + 1;
@@ -203,6 +222,10 @@ const handleNext = () => {
 };
 const handlePrev = () => {
   togglePrevOrNext(-1);
+};
+const handleAppend = () => {
+  TableConfig.pagination.page = (TableConfig.pagination.page ?? 1) + 1;
+  refreshData(undefined, { append: true });
 };
 onMounted(() => {
   refreshData();

@@ -68,11 +68,11 @@ const tags = computed<string[]>(() => {
 });
 let timer: any = undefined;
 const handleError = () => {
-  ElMessage.info("视频无法播放，3秒后自动播放下一部");
+  ElMessage.info("视频无法播放，自动播放下一部");
   timer && clearTimeout(timer);
   timer = setTimeout(() => {
     autoPlay.value && playNext();
-  }, 3000);
+  }, 1000);
 };
 const playNext = () => {
   timer && clearTimeout(timer);

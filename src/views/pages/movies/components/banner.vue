@@ -45,18 +45,16 @@ const uploadFiles = () => {
     display: flex;
     margin-left: 20px;
     .direct {
-      max-width: 150px;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
       cursor: pointer;
-      &:last-child {
-        max-width: 260px;
-      }
-
       &:hover {
         color: aqua;
         text-decoration: underline;
+      }
+      &:not(:last-child) {
+        max-width: 150px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
     .divider {
