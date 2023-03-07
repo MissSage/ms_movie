@@ -5,65 +5,65 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { onBeforeUnmount, onMounted, ref } from "vue"
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
-const refCanvas = ref<HTMLCanvasElement>()
-let analyser: AnalyserNode | undefined
+const refCanvas = ref<HTMLCanvasElement>();
+let analyser: AnalyserNode | undefined;
 
-let dataArray: Uint8Array | undefined
-let canvasCtx: CanvasRenderingContext2D
-let bufferLength = 0
+let dataArray: Uint8Array = new Uint8Array();
+let canvasCtx: CanvasRenderingContext2D | undefined | null;
+let bufferLength = 0;
 const init = () => {
-  const audioCtx = new window.AudioContext()
-  analyser = audioCtx.createAnalyser()
-  analyser.fftSize = 2048
-  bufferLength = analyser.frequencyBinCount
-  dataArray = new Uint8Array(bufferLength)
-  analyser.getByteTimeDomainData(dataArray)
-  canvasCtx = refCanvas.value?.getContext("2d")
-  draw()
-}
+  const audioCtx = new window.AudioContext();
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 2048;
+  bufferLength = analyser.frequencyBinCount;
+  dataArray = new Uint8Array(bufferLength);
+  analyser.getByteTimeDomainData(dataArray);
+  canvasCtx = refCanvas.value?.getContext("2d");
+  draw();
+};
 // 绘制一个当前音频源的示波器
-let drawVisual: number = 0
+let drawVisual: number = 0;
 const draw = () => {
-  if (!canvasCtx || !refCanvas.value) return
-  drawVisual = requestAnimationFrame(draw)
+  if (!canvasCtx || !refCanvas.value) return;
+  drawVisual = requestAnimationFrame(draw);
 
-  analyser.getByteTimeDomainData(dataArray)
+  analyser?.getByteTimeDomainData(dataArray);
 
-  canvasCtx.fillStyle = "rgb(200, 200, 200)"
-  canvasCtx.fillRect(0, 0, refCanvas.value?.width, refCanvas.value?.height)
+  canvasCtx.fillStyle = "rgb(200, 200, 200)";
+  canvasCtx.fillRect(0, 0, refCanvas.value?.width, refCanvas.value?.height);
 
-  canvasCtx.lineWidth = 2
-  canvasCtx.strokeStyle = "rgb(0, 0, 0)"
+  canvasCtx.lineWidth = 2;
+  canvasCtx.strokeStyle = "rgb(0, 0, 0)";
 
-  canvasCtx.beginPath()
+  canvasCtx.beginPath();
 
-  const sliceWidth = (refCanvas.value.width * 1.0) / bufferLength
-  let x = 0
+  const sliceWidth = (refCanvas.value.width * 1.0) / bufferLength;
+  let x = 0;
 
   for (let i = 0; i < bufferLength; i++) {
-    const v = dataArray[i] / 128.0
-    const y = (v * refCanvas.value.height) / 2
+    const v = dataArray[i] / 128.0;
+    const y = (v * refCanvas.value.height) / 2;
 
     if (i === 0) {
-      canvasCtx.moveTo(x, y)
+      canvasCtx.moveTo(x, y);
     } else {
-      canvasCtx.lineTo(x, y)
+      canvasCtx.lineTo(x, y);
     }
 
-    x += sliceWidth
+    x += sliceWidth;
   }
 
-  canvasCtx.lineTo(refCanvas.value.width, refCanvas.value.height / 2)
-  canvasCtx.stroke()
-}
+  canvasCtx.lineTo(refCanvas.value.width, refCanvas.value.height / 2);
+  canvasCtx.stroke();
+};
 const destroy = () => {
-  drawVisual && cancelAnimationFrame(drawVisual)
-}
+  drawVisual && cancelAnimationFrame(drawVisual);
+};
 onBeforeUnmount(() => {
-  destroy()
-})
+  destroy();
+});
 </script>
 <style lang="scss" scoped>
 .wave-wrapper {

@@ -1,5 +1,6 @@
 <template>
   <div class="waterfall">
+    <Pagination :config="config.pagination" style="padding: 0 0 20PX 0;"></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
         <div
@@ -9,8 +10,8 @@
           :style="{
             top: img.top + 'px',
             left: img.left + 'px',
-            width: state.imgWidth + 'px',
-            height: img.height,
+            width: imageWidth + 'px',
+            height: img.height + 'px',
           }"
           @click="config.rowClick?.(img)"
         >
@@ -27,7 +28,9 @@
       </div>
     </div>
     <div class="more">
-      <el-button style="width: 100%;" @click="emit('append')">加载更多...</el-button>
+      <el-button style="width: 100%" @click="emit('append')"
+        >加载更多...</el-button
+      >
     </div>
     <Pagination :config="config.pagination"></Pagination>
   </div>
@@ -36,7 +39,7 @@
 <script setup lang="ts">
 import Pagination from "@/components/Pagination.vue";
 import { getImageUrl } from "@/utils/UrlHelper";
-import { onMounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 const emit = defineEmits(["img-click", "append"]);
 const props = defineProps<{
   config: ITable;
@@ -48,25 +51,36 @@ const state = reactive<{
   imgRightGap: number; //右边距
   imgBottomGap: number; //下边距
   colHeights: number[]; //存放瀑布流各个列的高度
+  isMobile: boolean;
+  mobileImgWidth: number;
 }>({
   data: [], //存放计算好的数据
-  imgWidth: 150, //每一列的宽度
+  imgWidth: 200, //每一列的宽度
+
   waterfallImgCol: 1, //多少列
   imgRightGap: 10, //右边距
   imgBottomGap: 10, //下边距
   colHeights: [], //存放瀑布流各个列的高度
+  isMobile: false,
+  mobileImgWidth: 400,
+});
+const imageWidth = computed(() => {
+  return state.isMobile ? state.mobileImgWidth : state.imgWidth;
 });
 const refContainer = ref<HTMLDivElement>();
 //计算每个图片的宽度或者是列数
 const calculationWidth = () => {
   const domWidth = refContainer.value?.clientWidth;
   if (!domWidth) return;
-  if (domWidth > 400) {
+  if (domWidth > state.imgWidth * 2 - state.imgRightGap * 2) {
+    state.isMobile = false;
     state.waterfallImgCol = Math.floor(
       domWidth / (state.imgWidth + state.imgRightGap)
     );
   } else {
-    state.imgWidth = domWidth || 400;
+    state.isMobile = true;
+    state.waterfallImgCol = 1;
+    state.mobileImgWidth = domWidth;
   }
 
   //初始化偏移高度数组
@@ -88,7 +102,7 @@ const imgPreloading = () => {
         img: item.img || getImageUrl("404.png"),
         //根据设定的列宽度求出图片的高度
         height:
-          aImg.width === 0 ? 0 : (state.imgWidth / aImg.width) * aImg.height,
+          aImg.width === 0 ? 0 : ((state.imgWidth / aImg.width) * aImg.height +44),
       };
       state.data.push(imgData);
 
@@ -128,7 +142,7 @@ onMounted(() => {
 .waterfall {
   display: flex;
   flex-direction: column;
-  .more{
+  .more {
     padding: 20px;
   }
 }
@@ -175,13 +189,18 @@ onMounted(() => {
     bottom: 0;
     left: 0;
     width: 100%;
+    height: 44px;
+    background-color: antiquewhite;
+    display: flex;
+    align-items: center;
     .title {
+      font-size: 12px;
       padding: 4px 12px;
-      background-color: antiquewhite;
+      line-height: 1.5em;
       text-overflow: ellipsis;
       // white-space: nowrap;
       overflow: hidden;
-      color: aqua;
+      color: rgb(98, 110, 110);
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;

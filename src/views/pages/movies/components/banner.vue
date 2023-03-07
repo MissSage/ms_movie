@@ -1,8 +1,7 @@
 <template>
   <div class="banner-wrapper">
     <span> 当前正在播放： </span>
-    <span class="title" :title="props.title">{{ props.title }}</span>
-    <div v-if="directs" class="directs">
+    <div v-if="directs" class="directs title">
       <template v-for="(direct, i) in directs">
         <span
           class="direct"

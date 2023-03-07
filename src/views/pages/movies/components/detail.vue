@@ -9,19 +9,25 @@
             autoplay
             controls
             :src="movie?.url"
-            @ended="addViewTime"
+            @ended="playEnd"
             @error="handleError"
           ></video>
         </div>
       </el-col>
     </el-row>
-    <div class="comment">这里是评论区</div>
     <div class="footer">
       <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
       <span class="footer-item">{{
         DateFormtter(props.movie?.createTime)
       }}</span>
       <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
+      <span
+        class="footer-item favour"
+        :class="[isFavoured === true ? 'favoured' : '']"
+        @click="toggleFavour"
+      >
+        <Icon icon="mdi:heart"></Icon>
+      </span>
       <div class="footer-item pager">
         <span class="footer-item">上一部:</span>
         <span
@@ -45,27 +51,32 @@
         <span v-else class="footer-item">没有了</span>
       </div>
     </div>
+    <pagination
+      :config="pagination"
+      style="display: flex; justify-content: flex-end; padding: 12px 0 20px 0"
+    ></pagination>
+    <div class="comment">这里是评论区</div>
   </div>
 </template>
 <script lang="ts" setup>
-import { editMovie, postMovieImg } from "@/api";
+import { editMovie, postMovieImg, getFavour, toggleFavourMovie } from "@/api";
 import { ElMessage } from "element-plus";
 import { computed, onMounted, ref, watch } from "vue";
 import { DateFormtter } from "@/utils/Formatter";
+import Pagination from "@/components/Pagination.vue";
+import { Icon } from "@iconify/vue";
 const props = defineProps<{
   movie?: Record<string, any>;
   prev?: Record<string, any>;
   next?: Record<string, any>;
+  pagination: IPagination;
 }>();
 const url = computed(() => {
   return props.movie?.url?.replace("localhost", "192.168.0.102");
 });
-const emit = defineEmits(["next", "prev", "update-img"]);
+const emit = defineEmits(["next", "prev", "update-img", "addViewTimes"]);
 const autoPlay = ref<boolean>(true);
-const newTag = ref<string>("");
-const tags = computed<string[]>(() => {
-  return props.movie?.tags?.split(",") || [];
-});
+
 let timer: any = undefined;
 const handleError = () => {
   ElMessage.info("视频无法播放，自动播放下一部");
@@ -73,6 +84,42 @@ const handleError = () => {
   timer = setTimeout(() => {
     autoPlay.value && playNext();
   }, 1000);
+};
+const isFavoured = ref<boolean>(false);
+let viewTimesTimer: any = undefined;
+const addViewTimes = () => {
+  if (viewTimesTimer) clearTimeout(viewTimesTimer);
+  viewTimesTimer = setTimeout(() => {
+    if (!props.movie?._id) return;
+    let times = props.movie?.viewTimes || 0;
+    editMovie(props.movie._id, { viewTimes: ++times });
+    emit("addViewTimes");
+  }, 1000 * 10);
+};
+watch(
+  () => props.movie,
+  () => {
+    checkFavour();
+    // 观看10s则播放次数+1
+    addViewTimes();
+  }
+);
+const checkFavour = async () => {
+  if (!props.movie) return;
+  const res = await getFavour(props.movie._id);
+  console.log(res);
+  isFavoured.value = res.data.data.length > 0;
+};
+const toggleFavour = async () => {
+  if (!props.movie) return;
+  try {
+    const res = await toggleFavourMovie(props.movie._id);
+    ElMessage.success(res.data.message);
+    isFavoured.value = !isFavoured.value;
+  } catch (error: any) {
+    console.log(error.message);
+    isFavoured.value = false;
+  }
 };
 const playNext = () => {
   timer && clearTimeout(timer);
@@ -82,12 +129,8 @@ const playPrev = () => {
   timer && clearTimeout(timer);
   emit("prev");
 };
-const addViewTime = async () => {
-  if (!props.movie?._id) return;
-  let times = props.movie?.viewTimes || 0;
+const playEnd = async () => {
   autoPlay.value && playNext();
-  await editMovie(props.movie._id, { viewTimes: ++times });
-  ElMessage.success("观看次数 +1 !");
 };
 const getVideoBase64 = () => {
   const url = props.movie?.url;
@@ -114,7 +157,6 @@ const getVideoBase64 = () => {
     }).then((res) => {
       emit("update-img");
       ElMessage.success("已自动生成封面图片");
-      console.log(res.data.data);
     });
   });
 };
@@ -123,6 +165,7 @@ onMounted(() => {
   refVideo.value?.addEventListener("loadeddata", () => {
     !props.movie?.img && getVideoBase64();
   });
+  checkFavour();
 });
 </script>
 <style lang="scss" scoped>
@@ -130,15 +173,10 @@ onMounted(() => {
   padding: 20px;
   .video {
     width: 100%;
+    height: 600px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    .tags {
-      width: 50%;
-    }
-    .right {
-      width: 50%;
-    }
+    justify-content: center;
   }
   .comment {
     max-height: 560px;
@@ -153,6 +191,14 @@ onMounted(() => {
     flex-wrap: wrap;
     .footer-item {
       margin-left: 15px;
+      &.favour {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+      }
+      &.favoured {
+        color: var(--el-color-primary);
+      }
       &.prev,
       &.next {
         color: aqua;

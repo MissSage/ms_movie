@@ -15,12 +15,14 @@
       :movie="TableConfig.currentRow"
     ></Add>
     <Detail
+      :pagination="TableConfig.pagination"
       :movie="TableConfig.currentRow"
       :next="TableConfig.nextRow"
       :prev="TableConfig.previewRow"
       @next="handleNext"
       @prev="handlePrev"
       @update-img="handleImgUpdate"
+      @addViewTimes="handleAddViewTimes"
     ></Detail>
     <Edit
       v-if="aouFlag === 'edit'"
@@ -116,6 +118,11 @@ const TableConfig = reactive<ITable>({
   },
   rowClick: (row) => viewMovie(row),
 });
+const handleAddViewTimes = () => {
+  if (!TableConfig.currentRow) return;
+  TableConfig.currentRow.viewTimes =
+    (TableConfig.currentRow.viewTimes ?? 0) + 1;
+};
 const handleRemove = () => {
   const rows = TableConfig.selected || [];
   ElMessageBox.confirm("确定删除?", "提示信息")
