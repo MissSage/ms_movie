@@ -10,6 +10,7 @@ import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from "v
 import doodle from "./modules/doodle"
 import movies from "./modules/movie"
 import webComponents from "./modules/webComponents"
+import music from './modules/music'
 import NotFound from '@/views/404.vue'
 export const routes: RouteRecordRaw[] = [
   {
@@ -35,6 +36,7 @@ export const routes: RouteRecordRaw[] = [
       ...movies,
       ...webComponents,
       ...doodle,
+      ...music,
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
     ]
   }

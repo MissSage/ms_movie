@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: "fc",
         path: "/fc",
-        component: () => import("@/views/pages/fc.vue")
+        component: () => import("@/views/pages/facy-component/fc.vue")
       }
     ]
   }
