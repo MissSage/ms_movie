@@ -1,24 +1,24 @@
-import { RouteRecordRaw } from "vue-router"
+import { RouteRecordRaw } from 'vue-router'
 
 const routes: RouteRecordRaw[] = [
   {
     meta: {
       // isGroup: true,
-      title: "WebComponents",
-      icon: "mdi:spotlight-beam"
+      title: 'WebComponents',
+      icon: 'mdi:spotlight-beam',
     },
-    redirect: "/fc",
-    path: "/webcomponents",
+    redirect: '/fc',
+    path: '/webcomponents',
     children: [
       {
         meta: {
-          title: "fc-components"
+          title: 'fc-components',
         },
-        name: "fc",
-        path: "/fc",
-        component: () => import("@/views/pages/facy-component/fc.vue")
-      }
-    ]
-  }
+        name: 'fc',
+        path: '/fc',
+        component: () => import('@/views/pages/facy-component/fc.vue'),
+      },
+    ],
+  },
 ]
 export default routes

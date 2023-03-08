@@ -16,8 +16,8 @@ import FormItem from './FormItem.vue';
         :prop="item.field"
       >
         <FormItem
-          :config="item"
           v-model="state.formData[item.field]"
+          :config="item"
         ></FormItem>
       </el-form-item>
       <el-form-item>
@@ -32,28 +32,25 @@ import FormItem from './FormItem.vue';
   </div>
 </template>
 <script lang="ts" setup>
-import { ElForm } from "element-plus";
-import { reactive, ref, toRefs } from "vue";
-import FormItem from "./FormItem.vue";
 const props = defineProps<{
-  config: ISearch;
-}>();
-const refForm = ref<InstanceType<typeof ElForm>>();
+  config: ISearch
+}>()
+const refForm = ref()
 const state = reactive<{
-  formData: Record<string, any>;
+  formData: Record<string, any>
 }>({
   formData: { ...(props.config.defaultQuery || {}) },
-});
+})
 const submit = async () => {
   try {
-    const flag = await refForm.value?.validate();
+    const flag = await refForm.value?.validate()
     if (flag) {
-      props.config.submit?.(state.formData);
+      props.config.submit?.(state.formData)
     }
   } catch (error) {}
-};
+}
 defineExpose({
   submit,
   ...toRefs(state),
-});
+})
 </script>

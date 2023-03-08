@@ -27,43 +27,42 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { ElForm, ElMessage } from "element-plus";
-import { ref } from "vue";
-import { importMovies } from "@/api";
-const emit = defineEmits(["success"]);
-const refForm = ref<InstanceType<typeof ElForm>>();
+import { ElMessage } from 'element-plus'
+import { importMovies } from '@/api'
+const emit = defineEmits(['success'])
+const refForm = ref()
 const defaultValue = {
-  path: "",
-  replacePath: "",
-  tags: "",
-  title: "",
-  img: "",
-};
-const importedFiles = ref<any[]>([]);
+  path: '',
+  replacePath: '',
+  tags: '',
+  title: '',
+  img: '',
+}
+const importedFiles = ref([])
 const form = ref({
   ...defaultValue,
-});
+})
 
 const onSubmit = async () => {
   try {
-    const res = await refForm.value?.validate();
+    const res = await refForm.value?.validate()
     if (res) {
       const submitForm = {
         ...form.value,
-      };
-      const res = await importMovies(submitForm);
-      ElMessage.success("保存成功");
-      importedFiles.value = res.data.data;
-      emit("success");
+      }
+      const res = await importMovies(submitForm)
+      ElMessage.success('保存成功')
+      importedFiles.value = res.data.data
+      emit('success')
     }
   } catch (error) {
-    ElMessage.error("保存失败");
+    ElMessage.error('保存失败')
   }
-};
+}
 const resetForm = () => {
   form.value = {
     ...defaultValue,
-  };
-};
+  }
+}
 </script>
 <style lang="scss" scoped></style>

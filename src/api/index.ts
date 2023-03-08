@@ -1,4 +1,4 @@
-export * from './movie'
-export * from './pictures'
-export * from './favours'
-export *from './movieTags'
+export * from './modules/movie'
+export * from './modules/pictures'
+export * from './modules/favours'
+export * from './modules/movieTags'

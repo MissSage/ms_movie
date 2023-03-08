@@ -45,10 +45,9 @@ css-doodle {
   --odd: (@grid: 5 / 8em; @odd {background: #60569e;});
   --even: (@grid: 5 / 8em; @even {background: #60569e;});
   --at: (@grid: 5 / 8em; @at (4, 2) {background: #60569e;});
-
   --random: (
     @grid: 5 / 8em; @random {border-top: 1px solid #60569e;} @random {border-left:
-      1px solid #60569e;} @random (0.2) {: after {content: "" ; background: hsl(
+      1px solid #60569e;} @random (0.2) {: after {content: '' ; background: hsl(
         @rand (360),
         60%,
         70%

@@ -1,4 +1,4 @@
-import { useLayoutStore } from "./modules/layout"
+import { useLayoutStore } from './modules/layout'
 export interface IPiniaStore {
   layout: ReturnType<typeof useLayoutStore>
 }

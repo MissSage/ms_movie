@@ -25,24 +25,23 @@
   />
 </template>
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-const emit = defineEmits(["change", "update:modelValue"]);
+const emit = defineEmits(['change', 'update:modelValue'])
 const props = defineProps<{
-  config: IFormItem;
-  modelValue: any;
-}>();
-const value = ref<string>(props.modelValue);
+  config: IFormItem
+  modelValue: any
+}>()
+const value = ref<string>(props.modelValue)
 watch(
   () => props.modelValue,
   () => {
-    if (props.modelValue === value.value) return;
-    value.value = props.modelValue;
-  }
-);
+    if (props.modelValue === value.value) return
+    value.value = props.modelValue
+  },
+)
 watch(
   () => value.value,
   () => {
-    emit("update:modelValue", value.value);
-  }
-);
+    emit('update:modelValue', value.value)
+  },
+)
 </script>

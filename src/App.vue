@@ -4,8 +4,8 @@
   </el-config-provider>
 </template>
 <script setup lang="ts">
-import { zhCn } from "element-plus/es/locales"
-import { RouterView } from "vue-router"
+import { zhCn } from 'element-plus/es/locales'
+import { RouterView } from 'vue-router'
 </script>
 
 <style scoped>

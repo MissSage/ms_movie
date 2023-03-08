@@ -13,55 +13,28 @@ import 'css-doodle'
 </script>
 <style lang="scss">
 css-doodle {
-
-  --circle: ( :doodle {
-      @shape: circle;
-    });
-
-  --triangle: ( :doodle {
-      @shape: triangle;
-    });
-
-  --triangle: ( :doodle {
-      @shape: triangle;
-    });
-
-  --hypocycloid: ( :doodle {
-      @shape: hypocycloid 5;
-    });
-
-  --windmill: ( :doodle {
-      @shape: windmill;
-    }
+  --circle: (: doodle {@shape: circle;});
+  --triangle: (: doodle {@shape: triangle;});
+  --hypocycloid: (: doodle {@shape: hypocycloid 5;});
+  --windmill: (: doodle {@shape: windmill;});
+  --windmill-grid: (
+    @grid: 7 / 8em; @even {@shape: windmill; background: #60569e; transform: scale(
+        1
+      ) rotate(-60deg) ;}
   );
-  
-  --windmill-grid:(@grid: 7/8em;
-
-    @even {
-      @shape: windmill;
-      background: #60569e;
-      transform: scale(1) rotate(-60deg);
-    });
-  --clover-grid:(@grid: 7/8em;
-
-    @even {
-      @shape: clover 5;
-      background: #60569e;
-      transform: scale(1) rotate(-60deg);
-    });
-  --hypocycloid-grid:(@grid: 7/8em;
-
-    @even {
-      @shape: hypocycloid 5;
-      background: #60569e;
-      transform: scale(1) rotate(-60deg);
-    });
-  --bud-grid:(@grid: 7/8em;
-
-    @even {
-      @shape: bud 10;
-      background: #60569e;
-      transform: scale(1) rotate(-60deg);
-    });
+  --clover-grid: (
+    @grid: 7 / 8em; @even {@shape: clover 5; background: #60569e; transform: scale(
+        1
+      ) rotate(-60deg) ;}
+  );
+  --hypocycloid-grid: (
+    @grid: 7 / 8em; @even {@shape: hypocycloid 5; background: #60569e; transform:
+      scale(1) rotate(-60deg) ;}
+  );
+  --bud-grid: (
+    @grid: 7 / 8em; @even {@shape: bud 10; background: #60569e; transform: scale(
+        1
+      ) rotate(-60deg) ;}
+  );
 }
 </style>

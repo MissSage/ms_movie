@@ -52,13 +52,13 @@
   </el-menu-item>
 </template>
 <script lang="ts" setup>
-import { RouteRecordRaw } from "vue-router";
-import { Icon } from "@iconify/vue";
+import { RouteRecordRaw } from 'vue-router'
+import { Icon } from '@iconify/vue'
 defineProps<{
-  menu: RouteRecordRaw;
-}>();
+  menu: RouteRecordRaw
+}>()
 const hasShowedChild = (menu: RouteRecordRaw) => {
-  if (!menu.children?.length) return false;
-  return menu.children.filter((item) => item.meta?.notMenu!==true).length > 0;
-};
+  if (!menu.children?.length) return false
+  return menu.children.filter((item) => item.meta?.notMenu !== true).length > 0
+}
 </script>

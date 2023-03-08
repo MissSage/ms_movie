@@ -9,7 +9,11 @@
       <el-input v-model="movie.movie.value.title" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="路径">
-      <el-input :readonly="true" v-model="movie.movie.value.url" placeholder="请输入" />
+      <el-input
+        v-model="movie.movie.value.url"
+        :readonly="true"
+        placeholder="请输入"
+      />
     </el-form-item>
     <el-form-item label="封面">
       <el-input v-model="movie.movie.value.img" placeholder="请输入" />
@@ -37,44 +41,44 @@
   </el-form>
 </template>
 <script lang="ts" setup>
-import { ElForm, ElMessage } from "element-plus";
-import { ref, watch } from "vue";
-import { useMovie } from "../hooks/useMovie";
-const refForm = ref<InstanceType<typeof ElForm>>();
-const movie = useMovie();
+import { ElForm, ElMessage } from 'element-plus'
+import { ref, watch } from 'vue'
+import { useMovie } from '../hooks/useMovie'
+const refForm = ref<InstanceType<typeof ElForm>>()
+const movie = useMovie()
 const props = defineProps<{
-  row: any;
-}>();
-const checkedTags = ref<string[]>([]);
+  row: any
+}>()
+const checkedTags = ref<string[]>([])
 watch(
   () => props.row,
   () => {
-    checkedTags.value = props.row?.tags?.split(",");
-    movie.movie.value = { ...(props.row || {}) };
-  }
-);
+    checkedTags.value = props.row?.tags?.split(',')
+    movie.movie.value = { ...(props.row || {}) }
+  },
+)
 const setMovieTags = (value: any[]) => {
-  if(!movie.movie.value) return
+  if (!movie.movie.value) return
   movie.movie.value.tags = value.join(',')
-};
+}
 const onSubmit = async () => {
   try {
-    const res = await refForm.value?.validate();
+    const res = await refForm.value?.validate()
     if (res) {
       const submitForm = {
         ...movie.movie.value,
-        tags: movie.movie.value?.tags
-      };
-      const res = await movie.putMovie(movie.movie.value?._id, submitForm);
-      ElMessage.success("保存成功");
+        tags: movie.movie.value?.tags,
+      }
+      await movie.putMovie(movie.movie.value?._id, submitForm)
+      ElMessage.success('保存成功')
     }
   } catch (error) {
-    ElMessage.error("保存失败");
+    ElMessage.error('保存失败')
   }
-};
+}
 const resetForm = () => {
-  movie.movie.value = props.row;
-  refForm.value?.resetFields();
-};
+  movie.movie.value = props.row
+  refForm.value?.resetFields()
+}
 </script>
 <style lang="scss" scoped></style>

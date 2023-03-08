@@ -1,10 +1,13 @@
 <template>
   <div class="waterfall">
-    <Pagination :config="config.pagination" style="padding: 0 0 20PX 0;"></Pagination>
+    <Pagination
+      :config="config.pagination"
+      style="padding: 0 0 20px"
+    ></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
         <div
-          v-for="(img, i) in state.data"
+          v-for="img in state.data"
           :key="img.img"
           class="waterfall-item"
           :style="{
@@ -37,22 +40,22 @@
 </template>
 
 <script setup lang="ts">
-import Pagination from "@/components/Pagination.vue";
-import { getImageUrl } from "@/utils/UrlHelper";
-import { computed, onMounted, reactive, ref, watch } from "vue";
-const emit = defineEmits(["img-click", "append"]);
+import Pagination from '@/components/Pagination.vue'
+import { getImageUrl } from '@/utils/UrlHelper'
+import { computed, onMounted, reactive, ref, watch } from 'vue'
+const emit = defineEmits(['img-click', 'append'])
 const props = defineProps<{
-  config: ITable;
-}>();
+  config: ITable
+}>()
 const state = reactive<{
-  data: any[]; //存放计算好的数据
-  imgWidth: number; //每一列的宽度
-  waterfallImgCol: number; //多少列
-  imgRightGap: number; //右边距
-  imgBottomGap: number; //下边距
-  colHeights: number[]; //存放瀑布流各个列的高度
-  isMobile: boolean;
-  mobileImgWidth: number;
+  data: any[] //存放计算好的数据
+  imgWidth: number //每一列的宽度
+  waterfallImgCol: number //多少列
+  imgRightGap: number //右边距
+  imgBottomGap: number //下边距
+  colHeights: number[] //存放瀑布流各个列的高度
+  isMobile: boolean
+  mobileImgWidth: number
 }>({
   data: [], //存放计算好的数据
   imgWidth: 200, //每一列的宽度
@@ -63,145 +66,155 @@ const state = reactive<{
   colHeights: [], //存放瀑布流各个列的高度
   isMobile: false,
   mobileImgWidth: 400,
-});
+})
 const imageWidth = computed(() => {
-  return state.isMobile ? state.mobileImgWidth : state.imgWidth;
-});
-const refContainer = ref<HTMLDivElement>();
+  return state.isMobile ? state.mobileImgWidth : state.imgWidth
+})
+const refContainer = ref<HTMLDivElement>()
 //计算每个图片的宽度或者是列数
 const calculationWidth = () => {
-  const domWidth = refContainer.value?.clientWidth;
-  if (!domWidth) return;
+  const domWidth = refContainer.value?.clientWidth
+  if (!domWidth) return
   if (domWidth > state.imgWidth * 2 - state.imgRightGap * 2) {
-    state.isMobile = false;
+    state.isMobile = false
     state.waterfallImgCol = Math.floor(
-      domWidth / (state.imgWidth + state.imgRightGap)
-    );
+      domWidth / (state.imgWidth + state.imgRightGap),
+    )
   } else {
-    state.isMobile = true;
-    state.waterfallImgCol = 1;
-    state.mobileImgWidth = domWidth;
+    state.isMobile = true
+    state.waterfallImgCol = 1
+    state.mobileImgWidth = domWidth
   }
 
   //初始化偏移高度数组
-  state.colHeights = new Array(state.waterfallImgCol);
+  state.colHeights = new Array(state.waterfallImgCol)
   state.colHeights = Array.from({
     length: state.waterfallImgCol,
-  }).map(() => 0);
-  imgPreloading();
-};
+  }).map(() => 0)
+  imgPreloading()
+}
 const imgPreloading = () => {
-  const data = props.config.data || [];
-  state.data = [];
+  const data = props.config.data || []
+  state.data = []
   data.map((item) => {
-    let aImg = new Image();
-    aImg.src = item.img || getImageUrl("404.png");
-    aImg.onload = aImg.onerror = (e) => {
+    let aImg = new Image()
+    aImg.src = item.img || getImageUrl('404.png')
+    aImg.onload = aImg.onerror = () => {
       let imgData: any = {
         ...item,
-        img: item.img || getImageUrl("404.png"),
+        img: item.img || getImageUrl('404.png'),
         //根据设定的列宽度求出图片的高度
         height:
-          aImg.width === 0 ? 0 : ((state.imgWidth / aImg.width) * aImg.height +44),
-      };
-      state.data.push(imgData);
+          aImg.width === 0
+            ? 0
+            : (state.imgWidth / aImg.width) * aImg.height + 44,
+      }
+      state.data.push(imgData)
 
       //调用图片位置计算方法
-      rankImg(imgData);
-    };
-  });
-};
+      rankImg(imgData)
+    }
+  })
+}
 const rankImg = (imgData: any) => {
-  let { imgWidth, imgRightGap, imgBottomGap, colHeights, waterfallImgCol } =
-    state;
+  let { imgWidth, imgRightGap, imgBottomGap, colHeights } = state
   //找出当前最短列的索引
-  const minIndex = state.colHeights.indexOf(Math.min(...state.colHeights));
+  const minIndex = state.colHeights.indexOf(Math.min(...state.colHeights))
   //获取最短列底部高度，既下一张图片的顶部高度
-  imgData.top = colHeights[minIndex];
+  imgData.top = colHeights[minIndex]
   //计算左侧偏移，最短列索引*（右边距+列宽度）
-  imgData.left = minIndex * (imgRightGap + imgWidth);
+  imgData.left = minIndex * (imgRightGap + imgWidth)
   //改变当前列高度
-  colHeights[minIndex] += imgData.height + imgBottomGap;
+  colHeights[minIndex] += imgData.height + imgBottomGap
   // 处理容器高度
-  const maxHeight = Math.max(...colHeights);
-  refContainer.value && (refContainer.value.style.height = maxHeight + "px");
-};
+  const maxHeight = Math.max(...colHeights)
+  refContainer.value && (refContainer.value.style.height = maxHeight + 'px')
+}
 watch(
   () => props.config.data,
   () => {
-    calculationWidth();
-  }
-);
+    calculationWidth()
+  },
+)
 
 onMounted(() => {
-  calculationWidth();
-  window.onresize = calculationWidth;
-});
+  calculationWidth()
+  window.onresize = calculationWidth
+})
 </script>
 <style lang="scss" scoped>
 .waterfall {
   display: flex;
   flex-direction: column;
+
   .more {
     padding: 20px;
   }
 }
+
 .waterfall-wrapper {
   position: relative;
-  height: 100%;
   width: 100%;
+  height: 100%;
 
   &::after {
-    content: "";
+    content: '';
     display: block;
     clear: both;
     height: 0;
   }
 }
+
 .waterfall-item {
-  overflow: hidden;
-  float: left;
   position: absolute;
+  float: left;
+  overflow: hidden;
   cursor: pointer;
+
   &:hover {
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 1px 3px rgb(0 0 0 / 25%);
   }
+
   &::after {
-    content: "";
+    content: '';
     display: block;
     clear: both;
     height: 0;
   }
+
   .img {
-    width: auto;
-    height: auto;
     position: absolute;
     top: 0;
     left: 0;
+    width: auto;
+    height: auto;
+
     &::after {
-      content: "";
+      content: '';
       display: block;
       clear: both;
     }
   }
+
   .footer {
     position: absolute;
     bottom: 0;
     left: 0;
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 44px;
     background-color: antiquewhite;
-    display: flex;
-    align-items: center;
+
     .title {
-      font-size: 12px;
-      padding: 4px 12px;
-      line-height: 1.5em;
-      text-overflow: ellipsis;
+      display: -webkit-box;
       // white-space: nowrap;
       overflow: hidden;
-      color: rgb(98, 110, 110);
-      display: -webkit-box;
+      padding: 4px 12px;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      color: rgb(98 110 110);
+      line-height: 1.5em;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       word-break: break-all;

@@ -5,6 +5,6 @@
  * @returns
  */
 export const getImageUrl = (name: string | URL) => {
-    const href = new URL(`../assets/images/${name}`, import.meta.url)?.href
-    return href
+  const href = new URL(`../assets/images/${name}`, import.meta.url)?.href
+  return href
 }

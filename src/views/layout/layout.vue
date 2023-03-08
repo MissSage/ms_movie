@@ -22,8 +22,8 @@
             :title="store.layout.collapse ? '展开菜单' : '折叠菜单'"
             class="hamburger"
             :class="{ collapse: store.layout.collapse }"
-            @click="store.layout.Toggle_Collapse"
             icon="quill:hamburger"
+            @click="store.layout.Toggle_Collapse"
           >
           </Icon>
         </div>
@@ -41,12 +41,11 @@
   </ElContainer>
 </template>
 <script setup lang="ts">
-import "css-doodle";
-import { RouterView } from "vue-router";
-import router, { routes } from "../../router";
-import MenuItem from "@/components/MenuItem.vue";
-import store from "@/store";
-import { Icon } from "@iconify/vue";
+import 'css-doodle'
+import { RouterView } from 'vue-router'
+import router, { routes } from '../../router'
+import store from '@/store'
+import { Icon } from '@iconify/vue'
 </script>
 
 <style lang="scss" scoped>
@@ -61,13 +60,14 @@ import { Icon } from "@iconify/vue";
 .el-header {
   --el-header-padding: 0;
   --el-header-height: 40px;
+
   display: flex;
   align-items: center;
   overflow: hidden;
 
   .header-wrapper {
-    padding: 0 12px;
     position: absolute;
+    padding: 0 12px;
   }
 }
 
@@ -81,10 +81,10 @@ import { Icon } from "@iconify/vue";
 
 css-doodle {
   --container: (
-    : doodle {@grid: 20x1; @size: 100vmax 40px; background: #0a0c27;}
+    : doodle{@grid: 20x1; @size: 100vmax 40px; background: #0a0c27;}
   );
   --flowers: (
-    @shape: clover 5; background: hsla(calc(360 - @i * 4), 70%, 68%, @r.8) ;
+    @shape: clover 5; background: hsl(calc(360 - @i * 4) 70% 68% / @r.8) ;
       transform: scale(@r (0.2, 1.5)) translate(@m2. @r (±50%)) ;
   );
 }

@@ -1,36 +1,40 @@
-/* eslint-disable prettier/prettier */
-
 /**
  * !--------- FBI WARNING ----------!
  *
  * 根据 /packages 目录下的组件所生成的组件类侧边导航栏配置，请勿手动修改
  */
 
-import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from "vue-router"
-import doodle from "./modules/doodle"
-import movies from "./modules/movie"
-import webComponents from "./modules/webComponents"
+import {
+  createRouter,
+  createWebHistory,
+  RouteRecordRaw,
+  RouterOptions,
+} from 'vue-router'
+import NProgress from 'nprogress'
+import doodle from './modules/doodle'
+import movies from './modules/movie'
+import webComponents from './modules/webComponents'
 import music from './modules/music'
 import NotFound from '@/views/404.vue'
 export const routes: RouteRecordRaw[] = [
   {
     meta: {
-      title: "首页",
+      title: '首页',
       childOnly: true,
-      icon: "mdi:home"
+      icon: 'mdi:home',
     },
-    path: "/",
-    component: () => import("@/views/layout/layout.vue"),
-    redirect: "/home",
+    path: '/',
+    component: () => import('@/views/layout/layout.vue'),
+    redirect: '/home',
     children: [
       {
         meta: {
-          title: "首页",
-          icon: "mdi:home"
+          title: '首页',
+          icon: 'mdi:home',
         },
-        name: "home",
-        path: "/home",
-        component: () => import("@/views/pages/home.vue")
+        name: 'home',
+        path: '/home',
+        component: () => import('@/views/pages/home.vue'),
       },
 
       ...movies,
@@ -38,8 +42,8 @@ export const routes: RouteRecordRaw[] = [
       ...doodle,
       ...music,
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
-    ]
-  }
+    ],
+  },
 ]
 
 const routerConfig = {
@@ -49,9 +53,17 @@ const routerConfig = {
     if (to.path !== from.path) {
       return { top: 0 }
     }
-  }
+  },
 }
 
 const router = createRouter(routerConfig as RouterOptions)
+router.beforeEach(() => {
+  if (!NProgress.isStarted()) {
+    NProgress.start()
+  }
+})
 
+router.afterEach(() => {
+  NProgress.done()
+})
 export default router

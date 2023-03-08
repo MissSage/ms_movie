@@ -14,35 +14,35 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, watch } from "vue";
-import { ElPagination } from "element-plus";
 const props = defineProps<{
-  config: IPagination;
-}>();
+  config: IPagination
+}>()
 
 const state = reactive<{ page: number; size: number }>({
   page: props.config?.page || 1,
   size: props.config?.limit || 20,
-});
+})
 const handlePage = (page: number) => {
-  state.page = page;
-  props.config.refreshData?.(state);
-};
+  state.page = page
+  props.config.refreshData?.(state)
+}
 const handleSize = (size: number) => {
-  state.size = size;
-  props.config.refreshData?.(state);
-};
+  state.size = size
+  props.config.refreshData?.(state)
+}
 </script>
 
 <style lang="scss" scoped>
 .left {
   text-align: left;
 }
+
 .right {
-  text-align: right;
   justify-content: flex-end;
+  text-align: right;
 }
-.el-pagination{
+
+.el-pagination {
   flex-wrap: wrap;
 }
 </style>

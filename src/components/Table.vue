@@ -21,14 +21,14 @@
           <el-image
             v-if="column.image"
             :fit="column.fit"
-            style="width: 50px; height: 50px; margin-top: 5px"
+            style="margin-top: 5px; width: 50px; height: 50px"
             :src="scope.row[column.prop]"
             :preview-src-list="[scope.row[column.prop]]"
             :preview-teleported="true"
           >
             <template #error>
               <div class="image-slot">
-                <Icon icon="ep:picture" style="font-size: 50px;"></Icon>
+                <Icon icon="ep:picture" style="font-size: 50px"></Icon>
               </div>
             </template>
           </el-image>
@@ -38,7 +38,7 @@
                 ? column.formatter(
                     scope.row[column.prop],
                     scope.row,
-                    column.prop
+                    column.prop,
                   )
                 : scope.row[column.prop]
             }}
@@ -67,18 +67,16 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { Icon } from "@iconify/vue";
-import { ElTable } from "element-plus";
-import { ref } from "vue";
-import Pagination from "./Pagination.vue";
+import { Icon } from '@iconify/vue'
 defineProps<{
-  config: ITable;
-}>();
+  config: ITable
+}>()
 </script>
 <style lang="scss" scoped>
 .table-wrapper {
   height: 100%;
 }
+
 .table {
   height: calc(100% - 40px);
 }

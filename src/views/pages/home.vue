@@ -1,15 +1,4 @@
 <template>
-  <div class="home">
-    Home page
-    <!-- <el-button :type="'primary'" @click="go('/pictures')">View Pictures</el-button>
-    <el-button :type="'primary'" @click="go('/videos')">View Videos</el-button> -->
-  </div>
+  <div class="home">Home page</div>
 </template>
-<script lang="ts" setup>
-import router from "../../router"
-const go = (path: string) => {
-  router.push({
-    path: path
-  })
-}
-</script>
+<script lang="ts" setup></script>
