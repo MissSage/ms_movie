@@ -9,7 +9,7 @@ const routes: RouteRecordRaw[] = [
     path: "/doodle",
     redirect: "/doodle-use",
     children: [
-      
+
       {
         meta: {
           title: "doodle-use",
