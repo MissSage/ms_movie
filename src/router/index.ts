@@ -4,12 +4,7 @@
  * 根据 /packages 目录下的组件所生成的组件类侧边导航栏配置，请勿手动修改
  */
 
-import {
-  createRouter,
-  createWebHistory,
-  RouteRecordRaw,
-  RouterOptions,
-} from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from 'vue-router'
 import NProgress from 'nprogress'
 import doodle from './modules/doodle'
 import movies from './modules/movie'

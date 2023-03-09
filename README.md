@@ -77,3 +77,35 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 - 该命令会在 pnpm install 之后运行，这样其他克隆该项目的同学就在装包的时候就会自动执行该命令来安装 husky。这里我们就不重新执行 pnpm install 了，直接执行 pnpm prepare，这个时候你会发现多了一个.husky 目录。
 - 执行如下脚本，会在.husky 目录下生成 pre-commit 文件，以后提交前(pre-commit)都会执行 `pnpm format` 来进行格式化:
   `pnpm husky add .husky/pre-commit "pnpm format"`
+
+## vite-plugin-imagemin 图片压缩
+
+- 一个压缩图片资源的 vite 插件
+
+### 处理无法的情况
+
+- 在 package.json 中添加如下选项：
+
+```json
+"resolutions": {
+    "bin-wrapper": "npm:bin-wrapper-china"
+},
+```
+
+用于安装 imagemin 的依赖关系，因为国内无法直接安装 imagemin。
+
+### 配置
+
+## 使用 conventional-changelog-cli 生成变更记录
+
+- 要全局安装。按照官网说的做就行。
+
+`npm install conventional-changelog-cli -g --dev`
+
+- package.json 文件中的 scripts 字段。
+
+`"log": "conventional-changelog -p angular -i CHANGELOG.md -s"`
+
+- 执行`pnpm log`会在根目录下生成`CHANGELOG.md`文件
+
+- 每次提交都是在文件后面进行内容追加

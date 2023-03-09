@@ -22,9 +22,7 @@ export const useTags = () => {
     }
   }
   const addTags = async (tags?: string[]) => {
-    const tos = tags?.filter(
-      (item) => tagList.value.findIndex((o) => o.name === item) === -1,
-    )
+    const tos = tags?.filter((item) => tagList.value.findIndex((o) => o.name === item) === -1)
     await postMovieTag({ names: tos })
   }
   return {

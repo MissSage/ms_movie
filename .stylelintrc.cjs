@@ -14,15 +14,7 @@ module.exports = {
       customSyntax: 'postcss-html',
     },
   ],
-  ignoreFiles: [
-    '**/*.js',
-    '**/*.jsx',
-    '**/*.tsx',
-    '**/*.ts',
-    '**/*.json',
-    '**/*.md',
-    '**/*.yaml',
-  ],
+  ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts', '**/*.json', '**/*.md', '**/*.yaml'],
   rules: {
     'scss/at-if-no-null': null,
     'no-descending-specificity': null, // 禁止在具有较高优先级的选择器后出现被其覆盖的较低优先级的选择器

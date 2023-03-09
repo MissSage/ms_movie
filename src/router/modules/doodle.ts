@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: 'doodle-use',
         path: '/doodle-use',
-        component: () => import('@/views/pages/doodle/use.vue'),
+        component: () => import('@/views/pages/doodle/DoodleUses.vue'),
       },
       {
         meta: {
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: 'doodle-shape',
         path: '/doodle-shape',
-        component: () => import('@/views/pages/doodle/shape.vue'),
+        component: () => import('@/views/pages/doodle/DoodleShapes.vue'),
       },
       {
         meta: {
@@ -34,7 +34,7 @@ const routes: RouteRecordRaw[] = [
         },
         name: 'doodle-flowers',
         path: '/doodle-flowers',
-        component: () => import('@/views/pages/doodle/flowers.vue'),
+        component: () => import('@/views/pages/doodle/DoodleFlowers.vue'),
       },
     ],
   },

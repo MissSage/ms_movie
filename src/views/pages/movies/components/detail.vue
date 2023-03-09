@@ -17,9 +17,7 @@
     </el-row>
     <div class="footer">
       <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
-      <span class="footer-item">{{
-        DateFormtter(props.movie?.createTime)
-      }}</span>
+      <span class="footer-item">{{ DateFormtter(props.movie?.createTime) }}</span>
       <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
       <span
         class="footer-item favour"

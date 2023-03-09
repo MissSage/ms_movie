@@ -13,12 +13,7 @@
       <el-input v-model="form.img" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="标签">
-      <el-input
-        v-model="form.tags"
-        :rows="2"
-        type="textarea"
-        placeholder="请输入"
-      />
+      <el-input v-model="form.tags" :rows="2" type="textarea" placeholder="请输入" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit">确定</el-button>

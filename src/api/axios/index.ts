@@ -1,9 +1,4 @@
-import axios, {
-  AxiosInstance,
-  InternalAxiosRequestConfig,
-  AxiosResponse,
-  AxiosError,
-} from 'axios'
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import showCodeMessage from './code'
 

@@ -1,4 +1,6 @@
 <template>
-  <div class="home">Home page</div>
+  <div class="home">{{ vitePort }}</div>
 </template>
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const vitePort = ref(import.meta.env.VITE_PORT)
+</script>

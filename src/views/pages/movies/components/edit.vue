@@ -1,19 +1,10 @@
 <template>
-  <el-form
-    v-if="movie.movie.value"
-    ref="refForm"
-    :model="movie.movie.value"
-    label-width="120px"
-  >
+  <el-form v-if="movie.movie.value" ref="refForm" :model="movie.movie.value" label-width="120px">
     <el-form-item label="标题">
       <el-input v-model="movie.movie.value.title" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="路径">
-      <el-input
-        v-model="movie.movie.value.url"
-        :readonly="true"
-        placeholder="请输入"
-      />
+      <el-input v-model="movie.movie.value.url" :readonly="true" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="封面">
       <el-input v-model="movie.movie.value.img" placeholder="请输入" />
@@ -27,11 +18,7 @@
     </el-form-item>
     <el-form-item label="">
       <el-checkbox-group v-model="movie.curTags.value" @change="setMovieTags">
-        <el-checkbox
-          v-for="tag in movie.tags.tagList.value"
-          :key="tag._id"
-          :label="tag.name"
-        />
+        <el-checkbox v-for="tag in movie.tags.tagList.value" :key="tag._id" :label="tag.name" />
       </el-checkbox-group>
     </el-form-item>
     <el-form-item>

@@ -1,9 +1,6 @@
 <template>
   <div class="waterfall">
-    <Pagination
-      :config="config.pagination"
-      style="padding: 0 0 20px"
-    ></Pagination>
+    <Pagination :config="config.pagination" style="padding: 0 0 20px"></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
         <div
@@ -18,12 +15,7 @@
           }"
           @click="config.rowClick?.(img)"
         >
-          <img
-            fit="contain"
-            :src="img.img"
-            :alt="img.title"
-            style="width: 100%"
-          />
+          <img fit="contain" :src="img.img" :alt="img.title" style="width: 100%" />
           <div :title="img.title" class="footer">
             <span class="title">{{ img.title }}</span>
           </div>
@@ -31,9 +23,7 @@
       </div>
     </div>
     <div class="more">
-      <el-button style="width: 100%" @click="emit('append')"
-        >加载更多...</el-button
-      >
+      <el-button style="width: 100%" @click="emit('append')">加载更多...</el-button>
     </div>
     <Pagination :config="config.pagination"></Pagination>
   </div>
@@ -77,9 +67,7 @@ const calculationWidth = () => {
   if (!domWidth) return
   if (domWidth > state.imgWidth * 2 - state.imgRightGap * 2) {
     state.isMobile = false
-    state.waterfallImgCol = Math.floor(
-      domWidth / (state.imgWidth + state.imgRightGap),
-    )
+    state.waterfallImgCol = Math.floor(domWidth / (state.imgWidth + state.imgRightGap))
   } else {
     state.isMobile = true
     state.waterfallImgCol = 1
@@ -104,10 +92,7 @@ const imgPreloading = () => {
         ...item,
         img: item.img || getImageUrl('404.png'),
         //根据设定的列宽度求出图片的高度
-        height:
-          aImg.width === 0
-            ? 0
-            : (state.imgWidth / aImg.width) * aImg.height + 44,
+        height: aImg.width === 0 ? 0 : (state.imgWidth / aImg.width) * aImg.height + 44,
       }
       state.data.push(imgData)
 

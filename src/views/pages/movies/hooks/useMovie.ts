@@ -42,8 +42,7 @@ export const useMovie = () => {
   watch(
     () => movie.value?.tags,
     () => {
-      curTags.value =
-        movie.value?.tags?.split(',')?.filter((item: string) => !!item) || []
+      curTags.value = movie.value?.tags?.split(',')?.filter((item: string) => !!item) || []
     },
   )
   onMounted(() => {

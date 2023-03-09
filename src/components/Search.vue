@@ -15,10 +15,7 @@ import FormItem from './FormItem.vue';
         :label="item.label"
         :prop="item.field"
       >
-        <FormItem
-          v-model="state.formData[item.field]"
-          :config="item"
-        ></FormItem>
+        <FormItem v-model="state.formData[item.field]" :config="item"></FormItem>
       </el-form-item>
       <el-form-item>
         <el-button

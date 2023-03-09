@@ -63,10 +63,7 @@ const imgPreloading = () => {
       let imgData: any = {
         ...item,
         //根据设定的列宽度求出图片的高度
-        height:
-          aImg.width === 0
-            ? 0
-            : (state.waterfallImgWidth / aImg.width) * aImg.height,
+        height: aImg.width === 0 ? 0 : (state.waterfallImgWidth / aImg.width) * aImg.height,
       }
       state.waterfallList.push(imgData)
 
@@ -76,12 +73,7 @@ const imgPreloading = () => {
   })
 }
 const rankImg = (imgData: any) => {
-  let {
-    waterfallImgWidth,
-    waterfallImgRight,
-    waterfallImgBottom,
-    waterfallDeviationHeight,
-  } = state
+  let { waterfallImgWidth, waterfallImgRight, waterfallImgBottom, waterfallDeviationHeight } = state
   //找出当前最短列的索引
   const minIndex = state.waterfallDeviationHeight.indexOf(
     Math.min(...state.waterfallDeviationHeight),

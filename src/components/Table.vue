@@ -35,21 +35,13 @@
           <template v-else>
             {{
               column.formatter
-                ? column.formatter(
-                    scope.row[column.prop],
-                    scope.row,
-                    column.prop,
-                  )
+                ? column.formatter(scope.row[column.prop], scope.row, column.prop)
                 : scope.row[column.prop]
             }}
           </template>
         </template>
       </el-table-column>
-      <el-table-column
-        fixed="right"
-        label="操作"
-        :width="config.operationWidth || 120"
-      >
+      <el-table-column fixed="right" label="操作" :width="config.operationWidth || 120">
         <template #default="scope">
           <el-button
             v-for="(btn, i) in config.operations"

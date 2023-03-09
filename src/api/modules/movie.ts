@@ -27,11 +27,7 @@ export const editMovie = (id: string, params: any) => {
     data: params,
   })
 }
-export const importMovies = (params: {
-  path: string
-  replacePath: string
-  tags: string
-}) => {
+export const importMovies = (params: { path: string; replacePath: string; tags: string }) => {
   return request({
     url: '/api/movie/import',
     method: 'post',

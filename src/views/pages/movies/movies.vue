@@ -9,11 +9,7 @@
       @upload="aouFlag = 'upload'"
       @direct-click="handleDirectClick"
     ></Banner>
-    <Add
-      v-if="aouFlag === 'upload'"
-      :movie="TableConfig.currentRow"
-      @success="refreshData"
-    ></Add>
+    <Add v-if="aouFlag === 'upload'" :movie="TableConfig.currentRow" @success="refreshData"></Add>
     <Detail
       :pagination="TableConfig.pagination"
       :movie="TableConfig.currentRow"
@@ -23,11 +19,7 @@
       @prev="handlePrev"
       @add-view-times="handleAddViewTimes"
     ></Detail>
-    <Edit
-      v-if="aouFlag === 'edit'"
-      :row="TableConfig.currentRow"
-      @success="refreshData"
-    ></Edit>
+    <Edit v-if="aouFlag === 'edit'" :row="TableConfig.currentRow" @success="refreshData"></Edit>
   </div>
 </template>
 <script lang="ts" setup>
@@ -179,10 +171,7 @@ const refreshData = async (
     }) || []
   if (options?.append) {
     let tData = TableConfig.data
-    if (
-      TableConfig.data.length > 200 &&
-      TableConfig.data.length > data.length
-    ) {
+    if (TableConfig.data.length > 200 && TableConfig.data.length > data.length) {
       tData = TableConfig.data.slice(data.length)
     }
     TableConfig.data = [...tData, ...data]
@@ -197,9 +186,7 @@ const togglePrevOrNext = async (offset = 0) => {
   await nextTick()
   const length = TableConfig.data.length
   if (!length) return
-  let curIndex = TableConfig.data.findIndex(
-    (item) => item._id === TableConfig.currentRow?._id,
-  )
+  let curIndex = TableConfig.data.findIndex((item) => item._id === TableConfig.currentRow?._id)
   // 处理没有的情况
   if (curIndex < 0) {
     curIndex = 0

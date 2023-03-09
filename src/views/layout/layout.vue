@@ -13,10 +13,7 @@
     </el-menu>
     <el-container>
       <el-header>
-        <css-doodle
-          click-to-update
-          use="var(--container),var(--flowers)"
-        ></css-doodle>
+        <css-doodle click-to-update use="var(--container),var(--flowers)"></css-doodle>
         <div class="header-wrapper">
           <Icon
             :title="store.layout.collapse ? '展开菜单' : '折叠菜单'"
@@ -80,12 +77,10 @@ import { Icon } from '@iconify/vue'
 }
 
 css-doodle {
-  --container: (
-    : doodle{@grid: 20x1; @size: 100vmax 40px; background: #0a0c27;}
-  );
+  --container: (: doodle{@grid: 20x1; @size: 100vmax 40px; background: #0a0c27;});
   --flowers: (
-    @shape: clover 5; background: hsl(calc(360 - @i * 4) 70% 68% / @r.8) ;
-      transform: scale(@r (0.2, 1.5)) translate(@m2. @r (±50%)) ;
+    @shape: clover 5; background: hsl(calc(360 - @i * 4) 70% 68% / @r.8) ; transform:
+      scale(@r (0.2, 1.5)) translate(@m2. @r (±50%)) ;
   );
 }
 </style>

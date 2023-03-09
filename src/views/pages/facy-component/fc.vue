@@ -1,8 +1,6 @@
 <template>
   <div class="box">
-    <fc-wave-filter mode="alpha"
-      ><img src="@/assets/vue.svg" alt=""
-    /></fc-wave-filter>
+    <fc-wave-filter mode="alpha"><img src="@/assets/vue.svg" alt="" /></fc-wave-filter>
     <fc-warp-btn text-align="center"></fc-warp-btn>
     <fc-three></fc-three>
     <fc-arrow-btn></fc-arrow-btn>
