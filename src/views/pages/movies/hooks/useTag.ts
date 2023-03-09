@@ -1,13 +1,15 @@
 import { getMovieTags, postMovieTag } from '@/api/modules/movieTags'
 
 export const useTags = () => {
+  const newTag = ref<string>('')
+  const curTags = ref<string[]>([])
   const tagList = ref<{ _id: string; name: string }[]>([])
   const getTagList = async () => {
     const res = await getMovieTags({
       page: 1,
       size: 999,
     })
-    tagList.value = res.data.data?.data || []
+    tagList.value = res.data.data || []
   }
   const hasTag = (name: string) => {
     return tagList.value.findIndex((item) => item.name === name) !== -1
@@ -27,6 +29,8 @@ export const useTags = () => {
   }
   return {
     tagList,
+    newTag,
+    curTags,
     getTagList,
     hasTag,
     addTag,

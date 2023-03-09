@@ -32,7 +32,6 @@ service.interceptors.response.use(
     if (response.status === 200) {
       return response
     }
-    ElMessage.info(JSON.stringify(response.status))
     return response
   },
   (error: AxiosError) => {

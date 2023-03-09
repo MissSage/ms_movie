@@ -1,6 +1,16 @@
 <template>
   <div class="wrapper">
     <Search ref="refSearch" :config="SearchConfig"></Search>
+    <div class="type-search">
+      <el-check-tag
+        v-for="(item, i) in types.typeList.value"
+        :key="i"
+        :checked="types.newType.value === item.name"
+        @change="(flag:boolean) =>handleTypeChange(item.name,flag)"
+      >
+        {{ item.name }}
+      </el-check-tag>
+    </div>
     <List :config="TableConfig" @append="handleAppend"></List>
     <!-- <Table :config="TableConfig"></Table> -->
     <Banner
@@ -32,6 +42,8 @@ import Detail from './components/detail.vue'
 import Add from './components/add.vue'
 import Edit from './components/edit.vue'
 import List from './components/list.vue'
+import { useTypes } from './hooks/useType'
+const types = useTypes()
 const aouFlag = ref<'edit' | 'upload'>('edit')
 const refSearch = ref<InstanceType<typeof Search>>()
 const SearchConfig = reactive<ISearch>({
@@ -39,48 +51,13 @@ const SearchConfig = reactive<ISearch>({
   filters: [
     { type: 'input', label: '搜索', field: 'title' },
     { type: 'input', label: '标签', field: 'tags' },
-    // {
-    //   type: "datetimerange",
-    //   label: "时间",
-    //   field: "daterange",
-    //   shortcuts: [
-    //     {
-    //       text: "最近一周",
-    //       value: () => {
-    //         const start = new Date();
-    //         const end = new Date();
-    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-    //         return [start, end];
-    //       },
-    //     },
-    //     {
-    //       text: "最近一月",
-    //       value: () => {
-    //         const start = new Date();
-    //         const end = new Date();
-    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-    //         return [start, end];
-    //       },
-    //     },
-    //     {
-    //       text: "最近半年",
-    //       value: () => {
-    //         const end = new Date();
-    //         const start = new Date();
-    //         start.setTime(start.getTime() - 3600 * 1000 * 24 * 180);
-    //         return [start, end];
-    //       },
-    //     },
-    //   ],
-    // } as IDateRange,
   ],
   defaultQuery: {},
   operations: [
     { text: '搜索', click: () => refSearch.value?.submit() },
     { text: '删除', click: () => handleRemove() },
   ],
-  submit: (params) => {
-    console.log(params)
+  submit: () => {
     refreshData()
   },
 })
@@ -135,6 +112,14 @@ const viewMovie = (row: any) => {
 const handleDirectClick = (direct: string) => {
   refreshData({ direct })
 }
+const handleTypeChange = (type: string, flag: boolean) => {
+  if (!flag) {
+    types.newType.value = ''
+  } else {
+    types.newType.value = type
+  }
+  refreshData()
+}
 const refreshData = async (
   extraParams?: Record<string, any>,
   options?: {
@@ -154,6 +139,7 @@ const refreshData = async (
       ? new Date(refSearch.value?.formData?.daterange?.[1]).valueOf()
       : undefined,
     ...(extraParams || {}),
+    type: types.newType.value,
   }
   delete params.daterange
   const res = await getMovies(params)
@@ -217,10 +203,19 @@ const handleAppend = () => {
 }
 onMounted(() => {
   refreshData()
+  types.getTypeList()
 })
 </script>
 <style lang="scss" scoped>
 .wrapper {
   padding: 20px;
+}
+
+.el-tag {
+  margin-bottom: 12px;
+
+  & + .el-tag {
+    margin-left: 8px;
+  }
 }
 </style>
