@@ -29,7 +29,6 @@ declare module '@vue/runtime-core' {
     ElPagination: typeof import('element-plus/es')['ElPagination']
     ElRow: typeof import('element-plus/es')['ElRow']
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
-    ElTag: typeof import('element-plus/es')['ElTag']
     FormItem: typeof import('./components/FormItem.vue')['default']
     MasonryLayouts: typeof import('./components/MasonryLayouts.vue')['default']
     MenuItem: typeof import('./components/MenuItem.vue')['default']

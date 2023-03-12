@@ -1,18 +1,21 @@
-import { defineConfig, loadEnv } from 'vite'
-import type { UserConfig, ConfigEnv } from 'vite'
+import { defineConfig, loadEnv, ConfigEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import Imagemin from 'vite-plugin-imagemin'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
+import { wrapperEnv } from './build/utils'
 function pathResolve(dir: string) {
   return path.resolve(__dirname, '.', dir)
 }
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode, ssrBuild }: ConfigEnv): UserConfig => {
-  console.log(command, mode, ssrBuild)
   const root = process.cwd()
+  const env = loadEnv(mode, root)
+  const viteEnv = wrapperEnv(env)
+  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE, VITE_LEGACY } = viteEnv
+  const isBuild = command === 'build'
   return {
     root,
     mode: 'development',

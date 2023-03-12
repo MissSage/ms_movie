@@ -66,10 +66,9 @@ interface Window {
   SITE_CONFIG: {
     movieConfig: {
       apiBase: string
+      audioBase: string
       imgBase: string
       movieBase: string
-      imgOriginBase: string
-      movieOriginBase: string
     }
   }
 }

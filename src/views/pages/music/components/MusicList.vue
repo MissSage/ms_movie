@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { getMovies, removeMovies } from '@/api'
+import { getMusics, removeMusics } from '@/api'
 import Pagination from '@/components/Pagination.vue'
 import { DateFormtter } from '@/utils/Formatter'
 import { getImageUrl } from '@/utils/UrlHelper'
@@ -153,9 +153,9 @@ const remove = (row?: any) => {
     .then(async () => {
       try {
         if (row) {
-          await removeMovies([row._id])
+          await removeMusics([row._id])
         } else {
-          await removeMovies(rows.map((item) => item._id))
+          await removeMusics(rows.map((item) => item._id))
         }
         ElMessage.success('删除成功')
         refresh()
@@ -173,7 +173,7 @@ const refresh = async (append?: boolean) => {
     ...(props.params || { page: 1, size: 20 }),
   }
   delete params.daterange
-  const res = await getMovies(params)
+  const res = await getMusics(params)
   const data =
     res.data.data?.map((item: any) => {
       item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.movieBase)
