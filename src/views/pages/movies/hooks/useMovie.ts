@@ -1,12 +1,14 @@
 import { editMovie, getMovie as getMovieDetail } from '@/api'
 import { ElMessage } from 'element-plus'
 import { usePlatForms } from './usePlatForm'
+import { useStarrings } from './useStarrings'
 import { useTags } from './useTag'
 import { useTypes } from './useType'
 export const useMovie = () => {
   const movie = ref<Record<string, any> | undefined>()
   const tags = useTags()
   const types = useTypes()
+  const starrings = useStarrings()
   const platforms = usePlatForms()
   const getMovie = async (id: string) => {
     if (!id) {
@@ -25,11 +27,26 @@ export const useMovie = () => {
     }
     return res
   }
+  const addStarring = async () => {
+    if (!starrings.newStarring.value || !movie.value) return
+    try {
+      if (starrings.curStarrings.value.indexOf(starrings.newStarring.value) !== -1) return
+      movie.value.starrings = [...starrings.curStarrings.value, starrings.newStarring.value]
+      await putMovie(movie.value._id, { starrings: movie.value.starrings })
+      if (!starrings.hasStarring(starrings.newStarring.value)) {
+        await starrings.addStarring(starrings.newStarring.value)
+      }
+      ElMessage.success('添加成功')
+    } catch (error: any) {
+      ElMessage.error('添加失败')
+      throw new Error(error.message)
+    }
+  }
   const addTag = async () => {
     if (!tags.newTag.value || !movie.value) return
     try {
       if (tags.curTags.value.indexOf(tags.newTag.value) !== -1) return
-      movie.value.tags = [...tags.curTags.value, tags.newTag.value].join(',')
+      movie.value.tags = [...tags.curTags.value, tags.newTag.value]
       await putMovie(movie.value._id, { tags: movie.value.tags })
       if (!tags.hasTag(tags.newTag.value)) {
         await tags.addTag(tags.newTag.value)
@@ -78,6 +95,10 @@ export const useMovie = () => {
     if (!movie.value) return
     movie.value.types = value
   }
+  const setMovieStarrings = (value: any[]) => {
+    if (!movie.value) return
+    movie.value.starrings = value
+  }
   const setMoviePlatForms = (value: any[]) => {
     if (!movie.value) return
     movie.value.platforms = value
@@ -99,6 +120,17 @@ export const useMovie = () => {
     },
   )
   watch(
+    () => movie.value?.starrings,
+    (newVal: any) => {
+      if (typeof newVal === 'object') {
+        starrings.curStarrings.value =
+          movie.value?.starrings?.filter((item: string) => !!item) || []
+      } else {
+        starrings.curStarrings.value = []
+      }
+    },
+  )
+  watch(
     () => movie.value?.platforms,
     (newVal: any) => {
       if (typeof newVal === 'object') {
@@ -113,6 +145,7 @@ export const useMovie = () => {
     tags.getTagList()
     types.getTypeList()
     platforms.getPlatFormList()
+    starrings.getStarringList()
   })
   return {
     tags,
@@ -127,5 +160,8 @@ export const useMovie = () => {
     platforms,
     setMoviePlatForms,
     addPlatForm,
+    starrings,
+    addStarring,
+    setMovieStarrings,
   }
 }

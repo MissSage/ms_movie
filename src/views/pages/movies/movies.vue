@@ -3,9 +3,9 @@
     <SearchMovie ref="refSearch" @search="refreshData" @remove="refList?.remove"></SearchMovie>
     <div class="type-search">
       <el-check-tag
-        v-for="(item, i) in types.typeList.value"
+        v-for="(item, i) in refEdit?.movie?.types.typeList.value"
         :key="i"
-        :checked="types.newType.value === item.name"
+        :checked="refEdit?.movie?.types.newType.value === item.name"
         @change="(flag:boolean) =>handleTypeChange(item.name,flag)"
       >
         {{ item.name }}
@@ -35,6 +35,7 @@
     ></Detail>
     <Edit
       v-if="aouFlag === 'edit'"
+      ref="refEdit"
       :row="refList?.TableConfig.currentRow"
       @success="refreshData"
     ></Edit>
@@ -46,11 +47,10 @@ import Detail from './components/detail.vue'
 import Add from './components/add.vue'
 import Edit from './components/edit.vue'
 import List from './components/list.vue'
-import { useTypes } from './hooks/useType'
 import SearchMovie from './components/SearchMovie.vue'
-const types = useTypes()
 const refSearch = ref<InstanceType<typeof SearchMovie>>()
 const aouFlag = ref<'edit' | 'upload'>('edit')
+const refEdit = ref<InstanceType<typeof Edit>>()
 const refList = ref<InstanceType<typeof List>>()
 const handleAddViewTimes = () => {
   if (!refList.value?.TableConfig.currentRow) return
@@ -60,17 +60,17 @@ const handleAddViewTimes = () => {
 const handleDirectClick = (direct: string) => {
   if (!refSearch.value?.refSearch) return
   refSearch.value.refSearch.formData.direct = direct
-  nextTick().then(() => {
-    refreshData()
-  })
+  refreshData()
 }
 const handleTypeChange = (type: string, flag: boolean) => {
-  if (!flag) {
-    types.newType.value = ''
-  } else {
-    types.newType.value = type
+  if (refEdit.value?.movie) {
+    if (!flag) {
+      refEdit.value.movie.types.newType.value = ''
+    } else {
+      refEdit.value.movie.types.newType.value = type
+    }
+    refreshData()
   }
-  refreshData()
 }
 
 const handleNext = async () => {
@@ -98,14 +98,14 @@ const params = computed<any>(() => ({
   endTime: refSearch.value?.refSearch?.formData?.daterange?.[1]
     ? new Date(refSearch.value?.refSearch?.formData?.daterange?.[1]).valueOf()
     : undefined,
-  type: types.newType.value,
+  type: refEdit.value?.movie?.types.newType.value,
 }))
 const refreshData = (append?: boolean) => {
   refList.value?.refresh(append)
 }
 onMounted(() => {
   refreshData()
-  types.getTypeList()
+  refEdit.value?.movie?.types.getTypeList()
 })
 </script>
 <style lang="scss" scoped>

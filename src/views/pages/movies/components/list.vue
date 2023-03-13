@@ -169,6 +169,7 @@ const remove = (row?: any) => {
 }
 
 const refresh = async (append?: boolean) => {
+  await nextTick()
   const params = {
     ...(props.params || { page: 1, size: 20 }),
   }
@@ -193,7 +194,6 @@ const refresh = async (append?: boolean) => {
   togglePrevOrNext()
 }
 const togglePrevOrNext = async (offset = 0) => {
-  await nextTick()
   const length = TableConfig.data.length
   if (!length) return
   let curIndex = TableConfig.data.findIndex((item) => item._id === TableConfig.currentRow?._id)

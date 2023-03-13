@@ -145,8 +145,7 @@ const getVideoBase64 = () => {
     const dataURL = canvas.toDataURL('image/jpeg') //转换为base64
     postMovieImg(id, {
       data: dataURL,
-    }).then((res) => {
-      console.log(res)
+    }).then(() => {
       emit('update-img')
       ElMessage.success('已自动生成封面图片')
     })

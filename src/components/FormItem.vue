@@ -1,6 +1,11 @@
 <template>
-  <el-input v-if="config.type === 'input'" v-model="value"></el-input>
-  <el-date-picker v-if="config.type === 'dates'" v-model="value" type="dates" />
+  <el-input v-if="config.type === 'input'" v-model="value" @change="config.onChange"></el-input>
+  <el-date-picker
+    v-if="config.type === 'dates'"
+    v-model="value"
+    type="dates"
+    @change="config.onChange"
+  />
   <el-date-picker
     v-if="
       [
@@ -22,6 +27,7 @@
     start-placeholder="开始时间"
     end-placeholder="结束时间"
     :shortcuts="(config as IDateRange).shortcuts"
+    @change="config.onChange"
   />
 </template>
 <script lang="ts" setup>

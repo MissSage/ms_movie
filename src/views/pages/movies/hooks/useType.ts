@@ -8,6 +8,8 @@ export const useTypes = () => {
     const res = await getMovieTypes({
       page: 1,
       size: 999,
+      sortField: 'name',
+      sortType: 'asc',
     })
     typeList.value = res.data.data || []
   }

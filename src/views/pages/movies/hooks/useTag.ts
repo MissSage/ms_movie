@@ -8,6 +8,8 @@ export const useTags = () => {
     const res = await getMovieTags({
       page: 1,
       size: 999,
+      sortField: 'name',
+      sortType: 'asc',
     })
     tagList.value = res.data.data || []
   }

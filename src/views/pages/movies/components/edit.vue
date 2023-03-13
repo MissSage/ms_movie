@@ -10,7 +10,23 @@
       <el-input v-model="movie.movie.value.img" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="主演">
-      <el-input v-model="movie.movie.value.starring" placeholder="请输入" />
+      <el-input v-model="movie.starrings.newStarring.value" placeholder="请输入">
+        <template #append>
+          <el-button @click="movie.addStarring">添加</el-button>
+        </template>
+      </el-input>
+    </el-form-item>
+    <el-form-item label="">
+      <el-checkbox-group
+        v-model="movie.starrings.curStarrings.value"
+        @change="movie.setMovieStarrings"
+      >
+        <el-checkbox
+          v-for="tag in movie.starrings.starringList.value"
+          :key="tag._id"
+          :label="tag.name"
+        />
+      </el-checkbox-group>
     </el-form-item>
     <el-form-item label="平台">
       <el-input v-model="movie.platforms.newPlatForm.value" placeholder="请输入">
@@ -85,6 +101,7 @@ const onSubmit = async () => {
         tags: movie.movie.value?.tags,
         types: movie.movie.value?.types,
         platform: movie.movie.value?.platforms,
+        starrings: movie.movie.value?.starrings,
       }
       await movie.putMovie(movie.movie.value?._id, submitForm)
     }
@@ -96,5 +113,8 @@ const resetForm = () => {
   movie.movie.value = props.row
   refForm.value?.resetFields()
 }
+defineExpose({
+  movie,
+})
 </script>
 <style lang="scss" scoped></style>

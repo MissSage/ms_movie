@@ -50,6 +50,7 @@ interface IFormItem {
   type: string
   label: string
   field: string
+  onChange?: (value: any) => any
 }
 interface IDateRange extends IFormItem {
   type: 'daterange' | 'datetimerange'

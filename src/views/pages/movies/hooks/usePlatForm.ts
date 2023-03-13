@@ -8,6 +8,8 @@ export const usePlatForms = () => {
     const res = await getMoviePlatForms({
       page: 1,
       size: 999,
+      sortField: 'name',
+      sortType: 'asc',
     })
     platFormList.value = res.data.data || []
   }
