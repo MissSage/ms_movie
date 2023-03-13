@@ -2,8 +2,9 @@
   <div class="detail">
     <el-row :gutter="0">
       <el-col>
-        <div class="video">
-          <video
+        <div class="audio">
+          <AudioWave :url="movie?.url" @error="handleError" @ended="playEnd"></AudioWave>
+          <!-- <video
             ref="refVideo"
             style="max-width: 100%; height: 600px"
             autoplay
@@ -11,7 +12,7 @@
             :src="movie?.url"
             @ended="playEnd"
             @error="handleError"
-          ></video>
+          ></video> -->
         </div>
       </el-col>
     </el-row>
@@ -60,6 +61,7 @@
 import { editMusic } from '@/api'
 import { DateFormtter } from '@/utils/Formatter'
 import { Icon } from '@iconify/vue'
+import AudioWave from './AudioWave.vue'
 const props = defineProps<{
   movie?: Record<string, any>
   prev?: Record<string, any>
@@ -163,12 +165,12 @@ onMounted(() => {
 .detail {
   padding: 20px;
 
-  .video {
+  .audio {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 600px;
+    height: 400px;
   }
 
   .comment {

@@ -1,16 +1,7 @@
 <template>
   <div class="wrapper">
     <SearchMusic ref="refSearch" @search="refreshData" @remove="refMusicList?.remove"></SearchMusic>
-    <div class="type-search">
-      <el-check-tag
-        v-for="(item, i) in types.typeList.value"
-        :key="i"
-        :checked="types.newType.value === item.name"
-        @change="(flag:boolean) =>handleTypeChange(item.name,flag)"
-      >
-        {{ item.name }}
-      </el-check-tag>
-    </div>
+
     <MusicList
       ref="refMusicList"
       :params="params"
@@ -51,9 +42,7 @@ import MusicDetail from './components/MusicDetail.vue'
 import AddMusic from './components/AddMusic.vue'
 import EditMusic from './components/EditMusic.vue'
 import MusicList from './components/MusicList.vue'
-import { useTypes } from './hooks/useType'
 import SearchMusic from './components/SearchMusic.vue'
-const types = useTypes()
 const refSearch = ref<InstanceType<typeof SearchMusic>>()
 const aouFlag = ref<'edit' | 'upload'>('edit')
 const refMusicList = ref<InstanceType<typeof MusicList>>()
@@ -69,15 +58,6 @@ const handleDirectClick = (direct: string) => {
     refreshData()
   })
 }
-const handleTypeChange = (type: string, flag: boolean) => {
-  if (!flag) {
-    types.newType.value = ''
-  } else {
-    types.newType.value = type
-  }
-  refreshData()
-}
-
 const handleNext = async () => {
   aouFlag.value = 'edit'
   await refMusicList.value?.togglePrevOrNext(1)
@@ -104,14 +84,12 @@ const params = computed<any>(() => ({
   endTime: refSearch.value?.refSearch?.formData?.daterange?.[1]
     ? new Date(refSearch.value?.refSearch?.formData?.daterange?.[1]).valueOf()
     : undefined,
-  type: types.newType.value,
 }))
 const refreshData = (append?: boolean) => {
   refMusicList.value?.refresh(append)
 }
 onMounted(() => {
   refreshData()
-  types.getTypeList()
 })
 </script>
 <style lang="scss" scoped>

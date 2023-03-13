@@ -169,6 +169,7 @@ const remove = (row?: any) => {
 }
 
 const refresh = async (append?: boolean) => {
+  await nextTick()
   const params = {
     ...(props.params || { page: 1, size: 20 }),
   }
