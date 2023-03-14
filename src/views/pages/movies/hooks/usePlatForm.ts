@@ -25,12 +25,6 @@ export const usePlatForms = () => {
       throw new Error(error.message)
     }
   }
-  const addPlatForms = async (PlatForms?: string[]) => {
-    const tos = PlatForms?.filter(
-      (item) => platFormList.value.findIndex((o) => o.name === item) === -1,
-    )
-    tos?.length && (await postMoviePlatForm(tos))
-  }
   return {
     platFormList,
     newPlatForm,
@@ -38,6 +32,5 @@ export const usePlatForms = () => {
     getPlatFormList,
     hasPlatForm,
     addPlatForm,
-    addPlatForms,
   }
 }

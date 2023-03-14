@@ -19,15 +19,16 @@
       <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
       <span class="footer-item">{{ DateFormtter(props.movie?.createTime) }}</span>
       <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
+      <span class="footer-item">时长：{{ formateDuration(props.movie?.duration) }}</span>
       <span
         class="footer-item favour"
         :class="[isFavoured === true ? 'favoured' : '']"
         @click="toggleFavour"
       >
-        <Icon icon="mdi:heart"></Icon>
+        <Icon icon="mdi:heart"></Icon>收藏
       </span>
       <div class="footer-item pager">
-        <span class="footer-item">上一部:</span>
+        <span class="footer-item" style="margin-left: 0">上一部:</span>
         <span
           v-if="props.prev"
           class="footer-item prev"
@@ -97,6 +98,22 @@ watch(
     addViewTimes()
   },
 )
+const formateDuration = (duration = 0) => {
+  if (!duration) return '--'
+  if (duration < 60) return Math.floor(duration) + '秒'
+  else if (duration < 3600)
+    return Math.floor(duration / 60) + '分' + Math.floor(duration % 60) + '秒'
+  else {
+    return (
+      Math.floor(duration / 3600) +
+      '时' +
+      Math.floor((duration % 3600) / 60) +
+      '分' +
+      Math.floor(duration % 60) +
+      '秒'
+    )
+  }
+}
 const checkFavour = async () => {
   if (!props.movie) return
   const res = await getFavour(props.movie._id)
@@ -142,12 +159,9 @@ const getVideoBase64 = () => {
     canvas.width = width
     canvas.height = height
     canvas.getContext('2d')?.drawImage(video, 0, 0, width, height) //绘制canvas
-    const dataURL = canvas.toDataURL('image/jpeg') //转换为base64
+    const dataURL = canvas.toDataURL('image/png') //转换为base64
     postMovieImg(id, {
       data: dataURL,
-    }).then(() => {
-      emit('update-img')
-      ElMessage.success('已自动生成封面图片')
     })
   })
 }
@@ -155,6 +169,9 @@ const refVideo = ref<HTMLVideoElement>()
 onMounted(() => {
   refVideo.value?.addEventListener('loadeddata', () => {
     !props.movie?.img && getVideoBase64()
+    editMovie(props.movie?._id, {
+      duration: refVideo.value?.duration,
+    })
   })
   checkFavour()
 })

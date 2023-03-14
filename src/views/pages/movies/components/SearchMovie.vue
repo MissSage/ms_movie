@@ -11,6 +11,7 @@ const SearchConfig = reactive<ISearch>({
     { type: 'input', label: '搜索', field: 'title', onChange: () => emit('search') },
     { type: 'input', label: '标签', field: 'tags', onChange: () => emit('search') },
     { type: 'input', label: '路径', field: 'direct', onChange: () => emit('search') },
+    { type: 'input', label: '姓名', field: 'starring', onChange: () => emit('search') },
   ],
   defaultQuery: {},
   operations: [

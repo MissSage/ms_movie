@@ -89,7 +89,7 @@ export const useMovie = () => {
   }
   const setMovieTags = (value: any[]) => {
     if (!movie.value) return
-    movie.value.tags = value.join(',')
+    movie.value.tags = value
   }
   const setMovieTypes = (value: any[]) => {
     if (!movie.value) return
@@ -105,8 +105,12 @@ export const useMovie = () => {
   }
   watch(
     () => movie.value?.tags,
-    () => {
-      tags.curTags.value = movie.value?.tags?.split(',')?.filter((item: string) => !!item) || []
+    (newVal: any) => {
+      if (typeof newVal === 'object') {
+        tags.curTags.value = movie.value?.tags?.filter((item: string) => !!item) || []
+      } else {
+        tags.curTags.value = movie.value?.tags?.split(',') || []
+      }
     },
   )
   watch(

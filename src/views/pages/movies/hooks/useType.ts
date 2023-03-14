@@ -25,10 +25,6 @@ export const useTypes = () => {
       throw new Error(error.message)
     }
   }
-  const addTypes = async (Types?: string[]) => {
-    const tos = Types?.filter((item) => typeList.value.findIndex((o) => o.name === item) === -1)
-    tos?.length && (await postMovieType(tos))
-  }
   return {
     typeList,
     newType,
@@ -36,6 +32,5 @@ export const useTypes = () => {
     getTypeList,
     hasType,
     addType,
-    addTypes,
   }
 }

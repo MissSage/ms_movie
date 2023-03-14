@@ -25,12 +25,6 @@ export const useStarrings = () => {
       throw new Error(error.message)
     }
   }
-  const addStarrings = async (starrings?: string[]) => {
-    const tos = starrings?.filter(
-      (item) => starringList.value.findIndex((o) => o.name === item) === -1,
-    )
-    await postMovieStarring({ names: tos })
-  }
   return {
     starringList,
     newStarring,
@@ -38,6 +32,5 @@ export const useStarrings = () => {
     getStarringList,
     hasStarring,
     addStarring,
-    addStarrings,
   }
 }

@@ -25,10 +25,6 @@ export const useTags = () => {
       throw new Error(error.message)
     }
   }
-  const addTags = async (tags?: string[]) => {
-    const tos = tags?.filter((item) => tagList.value.findIndex((o) => o.name === item) === -1)
-    await postMovieTag({ names: tos })
-  }
   return {
     tagList,
     newTag,
@@ -36,6 +32,5 @@ export const useTags = () => {
     getTagList,
     hasTag,
     addTag,
-    addTags,
   }
 }
