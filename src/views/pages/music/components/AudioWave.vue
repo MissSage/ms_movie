@@ -1,7 +1,7 @@
 <template>
   <div class="wave-wrapper">
     <div class="canvas-wrapper">
-      <canvas ref="refCanvas" style="width: 100%; height: 100%" height="510"></canvas>
+      <canvas ref="refCanvas" style="width: 100%; height: 100%"></canvas>
     </div>
     <el-button @click="() => handleToggle()">{{ start ? '暂停' : '播放' }}</el-button>
   </div>
@@ -30,6 +30,8 @@ watch(
     audioWave?.destroy()
     if (!props.url || !refCanvas.value) emit('error')
     else {
+      refCanvas.value.width = refCanvas.value.clientWidth
+      refCanvas.value.height = refCanvas.value.clientHeight
       audioWave = new AudioWave(props.url, refCanvas.value, { onended: () => emit('next') })
       audioWave.init().then(() => {
         start.value = true
@@ -38,14 +40,6 @@ watch(
     }
   },
 )
-onMounted(() => {
-  if (!props.url || !refCanvas.value) return
-  refCanvas.value.width = refCanvas.value.clientWidth
-  audioWave = new AudioWave(props.url, refCanvas.value, { onended: () => emit('next') })
-  audioWave.init().then(() => {
-    start.value = true
-  })
-})
 onBeforeUnmount(() => {
   audioWave?.destroy()
 })
