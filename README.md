@@ -23,9 +23,9 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
 
 - 安装(共 4 步)
 
-  1.  全局安装 commitizen: `npm i -g commitizen`
-  2.  项目安装 cz-git: `pnpm install -D cz-git`
-  3.  修改 package.json,增加`config`配置项
+  1. 全局安装 commitizen: `npm i -g commitizen`
+  2. 项目安装 cz-git: `pnpm install -D cz-git`
+  3. 修改 package.json,增加`config`配置项
 
       ```json
       {
@@ -37,7 +37,7 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
       }
       ```
 
-  4.  （可选）根目录添加 .commitlintrc.cjs 文件
+  4. （可选）根目录添加 .commitlintrc.cjs 文件
 
       ```js
       // .commitlintrc.cjs

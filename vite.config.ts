@@ -1,21 +1,17 @@
-import { defineConfig, loadEnv, ConfigEnv, UserConfig } from 'vite'
+import { defineConfig, ConfigEnv, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
-import Imagemin from 'vite-plugin-imagemin'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 import path from 'path'
-import { wrapperEnv } from './build/utils'
 function pathResolve(dir: string) {
   return path.resolve(__dirname, '.', dir)
 }
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode, ssrBuild }: ConfigEnv): UserConfig => {
+export default defineConfig((env: ConfigEnv): UserConfig => {
+  console.log(env)
+
   const root = process.cwd()
-  const env = loadEnv(mode, root)
-  const viteEnv = wrapperEnv(env)
-  const { VITE_PORT, VITE_PUBLIC_PATH, VITE_PROXY, VITE_DROP_CONSOLE, VITE_LEGACY } = viteEnv
-  const isBuild = command === 'build'
   return {
     root,
     mode: 'development',
@@ -42,33 +38,6 @@ export default defineConfig(({ command, mode, ssrBuild }: ConfigEnv): UserConfig
           compilerOptions: {
             isCustomElement: (tag) => tag.startsWith('fc-') || tag.startsWith('css-'),
           },
-        },
-      }),
-      Imagemin({
-        gifsicle: {
-          optimizationLevel: 7,
-          interlaced: false,
-        },
-        optipng: {
-          optimizationLevel: 7,
-        },
-        mozjpeg: {
-          quality: 20,
-        },
-        pngquant: {
-          quality: [0.8, 0.9],
-          speed: 4,
-        },
-        svgo: {
-          plugins: [
-            {
-              name: 'removeViewBox',
-            },
-            {
-              name: 'removeEmptyAttrs',
-              active: false,
-            },
-          ],
         },
       }),
       AutoImport({
