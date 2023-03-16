@@ -3,7 +3,12 @@
     <el-row :gutter="0">
       <el-col>
         <div class="audio">
-          <AudioWave :url="movie?.url" @error="handleError" @ended="playEnd"></AudioWave>
+          <AudioWave
+            :url="movie?.url"
+            @error="handleError"
+            @ended="playEnd"
+            @next="emit('next')"
+          ></AudioWave>
           <!-- <video
             ref="refVideo"
             style="max-width: 100%; height: 600px"

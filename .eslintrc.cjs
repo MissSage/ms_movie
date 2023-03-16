@@ -36,5 +36,6 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-types': 'off',
     'vue/multi-word-component-names': 'off',
+    '@typescript-eslint/no-this-alias': 'off',
   },
 }
