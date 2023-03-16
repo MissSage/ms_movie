@@ -27,33 +27,33 @@ If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has a
   2. 项目安装 cz-git: `pnpm install -D cz-git`
   3. 修改 package.json,增加`config`配置项
 
-      ```json
-      {
-        "config": {
-          "commitizen": {
-            "path": "node_modules/cz-git"
-          }
-        }
-      }
-      ```
+     ```json
+     {
+       "config": {
+         "commitizen": {
+           "path": "node_modules/cz-git"
+         }
+       }
+     }
+     ```
 
   4. （可选）根目录添加 .commitlintrc.cjs 文件
 
-      ```js
-      // .commitlintrc.cjs
-      /** @type {import('cz-git').UserConfig} */
-      module.exports = {
-        rule: {
-          // ...
-        },
-        prompt: {
-          useEmoji: false,
-          // option...
-        },
-      }
-      ```
+     ```js
+     // .commitlintrc.cjs
+     /** @type {import('cz-git').UserConfig} */
+     module.exports = {
+       rule: {
+         // ...
+       },
+       prompt: {
+         useEmoji: false,
+         // option...
+       },
+     }
+     ```
 
-      - 注意：vite3.x 开始生成的项目，package.json 会自动加上 "type": "module"，这时根目录的配置文件不能以 .js 结尾，要改为 .cjs，如 .commitlintrc.cjs, .prettierrc.cjs, .eslintrc.cjs。
+     - 注意：vite3.x 开始生成的项目，package.json 会自动加上 "type": "module"，这时根目录的配置文件不能以 .js 结尾，要改为 .cjs，如 .commitlintrc.cjs, .prettierrc.cjs, .eslintrc.cjs。
 
 - 使用
 
