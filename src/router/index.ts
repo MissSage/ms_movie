@@ -10,6 +10,7 @@ import doodle from './modules/doodle'
 import movies from './modules/movie'
 import webComponents from './modules/webComponents'
 import music from './modules/music'
+import webgl from './modules/webgl'
 import NotFound from '@/views/404.vue'
 export const routes: RouteRecordRaw[] = [
   {
@@ -36,6 +37,7 @@ export const routes: RouteRecordRaw[] = [
       ...webComponents,
       ...doodle,
       ...music,
+      ...webgl,
       { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
     ],
   },

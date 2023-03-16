@@ -71,5 +71,8 @@ interface Window {
       imgBase: string
       movieBase: string
     }
+    gisConfig: {
+      tdtToken: string
+    }
   }
 }

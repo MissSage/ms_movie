@@ -17,9 +17,9 @@
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "dependencies": {
+    "@arcgis/core": "^4.26.5",
     "axios": "^1.2.1",
     "css-doodle": "^0.32.2",
-    "esri-loader": "^3.7.0",
     "fancy-components": "^0.0.23",
     "moment": "^2.29.4",
     "nprogress": "^0.2.0",
@@ -30,7 +30,6 @@
   "devDependencies": {
     "@iconify/vue": "^4.0.2",
     "@ls-lint/ls-lint": "^1.11.2",
-    "@types/arcgis-js-api": "^4.26.0",
     "@types/node": "^18.11.18",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
