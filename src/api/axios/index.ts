@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import { ElMessage } from 'element-plus'
 import showCodeMessage from './code'
-
+let timer: any
 // 创建实例
 const service: AxiosInstance = axios.create({
   // 前缀
@@ -35,12 +35,16 @@ service.interceptors.response.use(
     return response
   },
   (error: AxiosError) => {
+    debugger
     const { response } = error
     if (response) {
       ElMessage.error(showCodeMessage(response.status))
       return Promise.reject(response.data)
     }
-    ElMessage.warning('网络连接异常,请稍后再试!')
+    timer && clearTimeout(timer)
+    timer = setTimeout(() => {
+      ElMessage.warning('网络连接异常,请稍后再试!')
+    }, 500)
     return Promise.reject(error)
   },
 )

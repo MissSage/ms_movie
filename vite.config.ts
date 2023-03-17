@@ -3,6 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
+import ImageMin from 'vite-plugin-imagemin'
+import Compression from 'vite-plugin-compression'
+import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 function pathResolve(dir: string) {
   return path.resolve(__dirname, '.', dir)
@@ -68,6 +71,38 @@ export default defineConfig((): UserConfig => {
         resolvers: [ElementPlusResolver(), VueUseComponentsResolver()],
         dts: './src/components.d.ts',
       }),
+      ImageMin({
+        gifsicle: {
+          optimizationLevel: 7,
+          interlaced: false,
+        },
+        optipng: {
+          optimizationLevel: 7,
+        },
+        webp: {
+          quality: 75,
+        },
+        mozjpeg: {
+          quality: 8,
+        },
+        pngquant: {
+          quality: [0.8, 0.9],
+          speed: 4,
+        },
+        svgo: {
+          plugins: [
+            {
+              name: 'removeViewBox',
+            },
+            {
+              name: 'removeEmptyAttrs',
+              active: false,
+            },
+          ],
+        },
+      }),
+      Compression(),
+      visualizer(),
     ],
     build: {
       chunkSizeWarningLimit: 2000,

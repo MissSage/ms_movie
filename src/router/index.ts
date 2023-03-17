@@ -38,7 +38,7 @@ export const routes: RouteRecordRaw[] = [
       ...doodle,
       ...music,
       ...webgl,
-      { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
+      { path: '/:pathMatch(.*)*', meta: { notMenu: true }, name: 'NotFound', component: NotFound },
     ],
   },
 ]
