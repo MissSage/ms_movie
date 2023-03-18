@@ -2,7 +2,7 @@
 // import esriRequest from '@arcgis/core/request.js'
 export const initTintLayer = (
   BaseTileLayer: __esri.BaseTileLayerConstructor,
-  esriRequest: __esri.request,
+  esriRequest: typeof __esri.request,
 ) => {
   class TintLayer extends BaseTileLayer {
     constructor(properties: { urlTemplate: string; subDomains: string[]; color?: any }) {

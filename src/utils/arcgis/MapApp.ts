@@ -11,8 +11,8 @@ export class MapApp {
     Map?: __esri.MapConstructor
     MapView?: __esri.MapViewConstructor
     BaseTileLayer?: __esri.BaseTileLayerConstructor
-    MapImageLayer?: __esri.MapImageLayer
-    request?: __esri.request
+    MapImageLayer?: typeof __esri.MapImageLayer
+    request?: typeof __esri.request
   } = {}
   private mapView?: __esri.MapView
   private sdk: string
@@ -28,8 +28,8 @@ export class MapApp {
         __esri.MapConstructor,
         __esri.MapViewConstructor,
         __esri.BaseTileLayerConstructor,
-        __esri.MapImageLayer,
-        __esri.request,
+        typeof __esri.MapImageLayer,
+        typeof __esri.request,
       ]
     >([
       'esri/Map',
