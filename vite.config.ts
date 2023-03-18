@@ -24,11 +24,11 @@ export default defineConfig((): UserConfig => {
         },
         {
           find: /^\@arcgis\/core\//,
-          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.25/@arcgis/core/',
+          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.26/@arcgis/core/',
         },
         {
           find: /^esri\//,
-          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.25/esri/',
+          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.26/esri/',
         },
       ],
     },
@@ -39,6 +39,7 @@ export default defineConfig((): UserConfig => {
       hmr: {
         overlay: true,
       },
+      host: true,
     },
     plugins: [
       vue({
@@ -112,9 +113,9 @@ export default defineConfig((): UserConfig => {
           entryFileNames: 'js/[name]-[hash].js',
           assetFileNames: '[ext]/[name]-[hash].[ext]',
           manualChunks(id) {
-            if (id.includes('node_modules')) {
+            if (id.includes('.pnpm')) {
               // 超大静态资源拆分
-              return id.toString().split('node_modules/')[1].split('/')[0].toString()
+              return id.toString().split('.pnpm/')[1].split('/')[0].toString()
             }
           },
         },
@@ -137,7 +138,8 @@ export default defineConfig((): UserConfig => {
       },
     },
     optimizeDeps: {
-      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu'],
+      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu', 'moment'],
+      exclude: ['@arcgis/core'],
     },
   }
 })
