@@ -1,4 +1,4 @@
-import { getMovieTypes, postMovieType } from '@/api/modules/movieTypes'
+import { getMovieTypes, postMovieType } from '@/api/modules/movie/movieTypes'
 
 export const useTypes = () => {
   const newType = ref<string>('')

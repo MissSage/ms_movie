@@ -1,4 +1,4 @@
-import request from '../axios'
+import request from '../../axios'
 export const getMoviePlatForms = (params?: IQueryParams) => {
   return request({
     url: '/api/movieplatforms',

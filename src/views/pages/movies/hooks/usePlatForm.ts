@@ -1,4 +1,4 @@
-import { getMoviePlatForms, postMoviePlatForm } from '@/api/modules/moviePlatForms'
+import { getMoviePlatForms, postMoviePlatForm } from '@/api/modules/movie/moviePlatForms'
 
 export const usePlatForms = () => {
   const newPlatForm = ref<string>('')

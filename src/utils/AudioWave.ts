@@ -34,84 +34,210 @@ const bufferToAudio = (
 }
 export class AudioWave {
   constructor(
-    url: string,
+    /**
+     * canvas元素
+     */
     el: HTMLCanvasElement,
     properties?: {
-      onended?: (e: Event) => any
+      /**
+       * 播放结束的回调
+       * @param e
+       * @returns
+       */
+      onEnded?: (e: Event) => any
+      /**
+       * 指定柱状图的渐变色
+       */
+      colorStops?: {
+        /**
+         * colorstop,从0-1的数字
+         */
+        colorStop: number
+        /**
+         * 颜色
+         */
+        color: string
+      }[]
     },
   ) {
-    this._url = url
     this._el = el
-    this._WIDTH = el.width
-    this._HEIGHT = el.height
-    properties?.onended && (this._onended = properties?.onended)
-  }
-  private _onended: ((e: Event) => any) | null = null
-  private _url: string
-  private _el: HTMLCanvasElement
-  private _audioContext: AudioContext = new AudioContext()
-  private _canvasCtx: CanvasRenderingContext2D | null = null
-  private _analyser: AnalyserNode | undefined
-  private _dataArray: Uint8Array = new Uint8Array()
-  private _bufferLength = 0
-  private _WIDTH = 0
-  private _HEIGHT = 0
-  private _color1: CanvasGradient | undefined
-  private _color2: CanvasGradient | undefined
-  private _drawID = 0
-  private _audioBufferSourceNode: AudioBufferSourceNode | undefined = undefined
-  async init() {
-    // 创建音频播放节点
-    this._audioBufferSourceNode = this._audioContext.createBufferSource()
-    this._audioBufferSourceNode.connect(this._audioContext.destination) // 连接到AudioContext对象
+    properties?.colorStops && (this._colorStops = properties?.colorStops)
+    this._onEnded = properties?.onEnded
+    this._audioContext = new AudioContext()
     // 创建音频分析节点，连接音频分析器
     this._analyser = this._audioContext.createAnalyser()
-    this._audioBufferSourceNode.connect(this._analyser)
-    // 绑定事件
-    this._audioBufferSourceNode.onended = this._onended
     // 单次数据的长度，只能是2的n次方
-    this._analyser.fftSize = 256
+    this._analyser.fftSize = 2048
 
     // 设置好fftSize之后可以拿到frequencyBinCount
     this._bufferLength = this._analyser.frequencyBinCount
 
     // 使用frequencyBinCount来创建一个Uint8Array，用于装数据
     this._dataArray = new Uint8Array(this._bufferLength)
-    // 播放声音
-    const arrayBuffer = await loadSound(this._url)
-    const audioBuffer = await bufferToAudio(this._audioContext, arrayBuffer)
-    this._audioBufferSourceNode.buffer = audioBuffer
+  }
+  /**
+   * 当前canvas元素
+   */
+  private _el: HTMLCanvasElement
+  /**
+   * 音频接口上下文
+   */
+  private _audioContext: AudioContext
+  /**
+   * 当前canvas的上下文
+   */
+  private _canvasCtx: CanvasRenderingContext2D | null = null
+  /**
+   * 音乐分析器，通过getByteFrequencyData方法给传的数据填充数据，用来获取柱状图所需的数组
+   */
+  private _analyser: AnalyserNode
+  /**
+   * 当前帧用于绘制柱状图的数据
+   */
+  private _dataArray: Uint8Array
+  /**
+   * buffer长度
+   */
+  private _bufferLength = 0
+  /**
+   * canvas的width属性
+   */
+  private _WIDTH = 0
+  /**
+   * canvas的height属性
+   */
+  private _HEIGHT = 0
+  /**
+   * 柱状图的渐变色
+   */
+  private _color1: CanvasGradient | undefined
+  /**
+   * 当前帧id
+   */
+  private _drawID = 0
+  /**
+   * 经过推算的当前歌曲的起始点时间
+   */
+  private _startTime = 0
+  /**
+   * 播放速度,默认1
+   */
+  private _rate = 1
+  /**
+   * 音频的时长
+   */
+  public duration = 0
+  /**
+   * 已播放时长
+   */
+  public currentTime = 0
+  /**
+   * 缓存的当前整首歌的buffer数据
+   */
+  public _chchedBuffer: AudioBuffer | null = null
+  /**
+   * 播放结束的回调
+   */
+  private _onEnded?: (...args: any[]) => any
+  /**
+   * 音频源节点，是本功能的核心，作用：连接终端、连接音频分析器、控制播放速度、播放进度
+   */
+  private _audioBufferSourceNode?: AudioBufferSourceNode
+  private _colorStops: { colorStop: number; color: string }[] = [
+    { colorStop: 0, color: '#1E90FF' },
+    { colorStop: 0.25, color: '#FF7F50' },
+    { colorStop: 0.5, color: '#8A2BE2' },
+    { colorStop: 0.75, color: '#4169E1' },
+    { colorStop: 1, color: '#00FFFF' },
+  ]
+  /**
+   * 配置柱状图渐变色
+   * @param _canvasCtx 当前canvas上下文
+   */
+  private _setColors(_canvasCtx: CanvasRenderingContext2D | null) {
+    this._color1 = _canvasCtx?.createLinearGradient(0, this._HEIGHT, 0, 0)
+    this._colorStops.map((item) => {
+      this._color1?.addColorStop(item.colorStop, item.color)
+    })
+    // this._color1?.addColorStop(0, '#1E90FF')
+    // this._color1?.addColorStop(0.25, '#FF7F50')
+    // this._color1?.addColorStop(0.5, '#8A2BE2')
+    // this._color1?.addColorStop(0.75, '#4169E1')
+    // this._color1?.addColorStop(1, '#00FFFF')
+  }
+  async init(url: string, offset = 0) {
+    this._recordTime(offset)
+    this._initCanves()
+    await this._initBuffer(url)
+    this._initAudioBufferSourceNode()
+  }
+  /**
+   * 记录歌曲开始的时间
+   * @param offset
+   */
+  private _recordTime(offset = 0) {
+    this.currentTime = offset
+    this._startTime = this._audioContext.currentTime - offset
+  }
+  /**
+   * 整理canvas相关的信息
+   */
+  private _initCanves() {
+    this._el.width = this._el.clientWidth
+    this._el.height = this._el.clientHeight
+    this._WIDTH = this._el.width
+    this._HEIGHT = this._el.height
     this._canvasCtx = this._el.getContext('2d')
-    this._color1 = this._canvasCtx?.createLinearGradient(
-      this._WIDTH / 2,
-      this._HEIGHT / 2,
-      this._WIDTH / 2,
-      0,
-    )
-    this._color2 = this._canvasCtx?.createLinearGradient(
-      this._WIDTH / 2,
-      this._HEIGHT / 2,
-      this._WIDTH / 2,
-      this._HEIGHT,
-    )
-    this._color1?.addColorStop(0, '#1E90FF')
-    this._color1?.addColorStop(0.25, '#FF7F50')
-    this._color1?.addColorStop(0.5, '#8A2BE2')
-    this._color1?.addColorStop(0.75, '#4169E1')
-    this._color1?.addColorStop(1, '#00FFFF')
-    this._color2?.addColorStop(0, '#1E90FF')
-    this._color2?.addColorStop(0.25, '#FFD700')
-    this._color2?.addColorStop(0.5, '#8A2BE2')
-    this._color2?.addColorStop(0.75, '#4169E1')
-    this._color2?.addColorStop(1, '#FF0000')
-    this._audioBufferSourceNode.start()
-    this._audioContext.suspend()
+    this._setColors(this._canvasCtx)
+  }
+  /**
+   * 获取buffer数据，不改变this.url则不用重复调用
+   * @param url
+   */
+  private async _initBuffer(url: string) {
+    // 播放声音
+    const arrayBuffer = await loadSound(url)
+    const audioBuffer = await bufferToAudio(this._audioContext, arrayBuffer)
+    this._chchedBuffer = audioBuffer
+    this.duration = audioBuffer?.duration || 0
+  }
+  /**
+   * 生成AudioBufferSourceNode，需要先获取buffer数据
+   */
+  private _initAudioBufferSourceNode(offset = 0) {
+    // 清除旧的AudioBufferSourceNode
+    if (this._audioBufferSourceNode) {
+      this._audioBufferSourceNode.buffer = null
+      this._audioBufferSourceNode.disconnect(this._analyser)
+    }
+    // 创建音频播放节点
+    this._audioBufferSourceNode = this._audioContext.createBufferSource()
+    this._audioBufferSourceNode.connect(this._audioContext.destination) // 连接到AudioContext对象
+    this._audioBufferSourceNode.connect(this._analyser)
+    // 绑定事件
+    this._onEnded && (this._audioBufferSourceNode.onended = this._onEnded)
+    this._audioBufferSourceNode.buffer = this._chchedBuffer
+    this._audioBufferSourceNode.playbackRate.value = this._rate
+    this._audioBufferSourceNode?.start(0, offset)
+  }
+  setProgress(offset: number) {
+    this._recordTime(offset)
+    this._initAudioBufferSourceNode(offset)
+  }
+  setRate(rate = 1) {
+    this._rate = rate
+    if (!this._audioBufferSourceNode) return
+    this._audioBufferSourceNode.playbackRate.value = rate
   }
   /**
    * 绘制柱状图
    * @returns void
    */
   private _draw() {
+    const deltaTime = this._audioContext.currentTime - this._startTime - this.currentTime
+    const ratedDelta = deltaTime * this._rate
+    const curTime = this.currentTime + ratedDelta
+    this._recordTime(curTime)
     const that = this
     if (that === undefined) return
     if (!that._canvasCtx || !that._el || !that._analyser) return
@@ -119,58 +245,30 @@ export class AudioWave {
     that._dataArray
     // 自定义获取数组里边数据的频步
     that._canvasCtx.clearRect(0, 0, that._WIDTH, that._HEIGHT)
-    const sliceWidth = 12
+    const sliceWidth = 6
     const barWdith = 2
     this._analyser?.getByteFrequencyData(this._dataArray) // 将当前数据填充在that._dataArray中
     for (let i = 0; i < that._bufferLength; i++) {
       const barHeight = that._dataArray[i]
       // 绘制向上的线条
       that._canvasCtx.fillStyle = that._color1 || 'rgb(0, 0, 0)'
-      that._canvasCtx.fillRect(
-        that._WIDTH / 2 + i * sliceWidth,
-        that._HEIGHT / 2,
-        barWdith,
-        -barHeight,
-      )
-      that._canvasCtx.fillRect(
-        that._WIDTH / 2 - i * sliceWidth,
-        that._HEIGHT / 2,
-        barWdith,
-        -barHeight,
-      )
-      // 绘制向下的线条
-      that._canvasCtx.fillStyle = that._color2 || 'rgb(0, 0, 0)'
-      that._canvasCtx.fillRect(
-        that._WIDTH / 2 + i * sliceWidth,
-        that._HEIGHT / 2,
-        barWdith,
-        barHeight,
-      )
-      that._canvasCtx.fillRect(
-        that._WIDTH / 2 - i * sliceWidth,
-        that._HEIGHT / 2,
-        barWdith,
-        barHeight,
-      )
+      that._canvasCtx.fillRect(i * sliceWidth, that._HEIGHT, barWdith, -barHeight)
     }
   }
-  start() {
-    this._audioContext.resume()
-    this._draw()
-  }
   async toggle(flag: boolean) {
-    if (!flag) {
-      await this._audioContext.suspend()
-      cancelAnimationFrame(this._drawID)
-    } else {
+    await this._audioContext.suspend()
+    cancelAnimationFrame(this._drawID)
+    if (flag) {
       await this._audioContext?.resume()
       this._draw()
     }
   }
   destroy() {
     cancelAnimationFrame(this._drawID)
-    this._audioBufferSourceNode?.disconnect()
-    this._audioBufferSourceNode = undefined
-    this._audioContext.close()
+    if (this._audioBufferSourceNode) {
+      this._audioBufferSourceNode.buffer = null
+      this._audioBufferSourceNode.disconnect(this._analyser)
+      this._audioContext.close()
+    }
   }
 }

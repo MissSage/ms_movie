@@ -1,4 +1,4 @@
-import { getMovieStarrings, postMovieStarring } from '@/api/modules/movieStarrings'
+import { getMovieStarrings, postMovieStarring } from '@/api/modules/movie/movieStarrings'
 
 export const useStarrings = () => {
   const newStarring = ref<string>('')

@@ -105,7 +105,6 @@ const refreshData = (append?: boolean) => {
 }
 onMounted(() => {
   refreshData()
-  refEdit.value?.movie?.types.getTypeList()
 })
 </script>
 <style lang="scss" scoped>

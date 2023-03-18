@@ -7,7 +7,7 @@ const routes: RouteRecordRaw[] = [
       icon: 'mdi:movie-roll',
     },
     path: '/movie',
-    redirect: '/movieIndex',
+    redirect: '/movie/index',
     children: [
       {
         meta: {
@@ -15,7 +15,7 @@ const routes: RouteRecordRaw[] = [
           icon: 'mdi:movie-roll',
         },
         name: 'movieIndex',
-        path: '/movieIndex',
+        path: '/movie/index',
         component: () => import('@/views/pages/movies/movies.vue'),
       },
     ],

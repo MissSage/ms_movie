@@ -1,5 +1,2 @@
-export * from './modules/movie'
-export * from './modules/pictures'
-export * from './modules/favours'
-export * from './modules/movieTags'
-export * from './modules/music'
+export * from './modules/movie/movie'
+export * from './modules/music/music'

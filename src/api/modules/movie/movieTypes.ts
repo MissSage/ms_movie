@@ -1,4 +1,4 @@
-import request from '../axios'
+import request from '../../axios'
 export const getMovieTypes = (params?: IQueryParams) => {
   return request({
     url: '/api/movietypes',

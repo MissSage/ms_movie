@@ -58,9 +58,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { editMovie, postMovieImg, getFavour, toggleFavourMovie } from '@/api'
+import { editMovie, postMovieImg, getMovieFavorite, toggleMovieFavorite } from '@/api'
 import { ElMessage } from 'element-plus'
-import { DateFormtter } from '@/utils/Formatter'
+import { DateFormtter, formateDuration } from '@/utils/Formatter'
 import { Icon } from '@iconify/vue'
 const props = defineProps<{
   movie?: Record<string, any>
@@ -98,31 +98,16 @@ watch(
     addViewTimes()
   },
 )
-const formateDuration = (duration = 0) => {
-  if (!duration) return '--'
-  if (duration < 60) return Math.floor(duration) + '秒'
-  else if (duration < 3600)
-    return Math.floor(duration / 60) + '分' + Math.floor(duration % 60) + '秒'
-  else {
-    return (
-      Math.floor(duration / 3600) +
-      '时' +
-      Math.floor((duration % 3600) / 60) +
-      '分' +
-      Math.floor(duration % 60) +
-      '秒'
-    )
-  }
-}
+
 const checkFavour = async () => {
   if (!props.movie) return
-  const res = await getFavour(props.movie._id)
+  const res = await getMovieFavorite(props.movie._id)
   isFavoured.value = res.data.data.length > 0
 }
 const toggleFavour = async () => {
   if (!props.movie) return
   try {
-    const res = await toggleFavourMovie(props.movie._id)
+    const res = await toggleMovieFavorite(props.movie._id)
     ElMessage.success(res.data.message)
     isFavoured.value = !isFavoured.value
   } catch (error: any) {

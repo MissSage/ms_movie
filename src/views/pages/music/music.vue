@@ -22,7 +22,7 @@
     <MusicDetail
       v-if="refMusicList"
       :pagination="refMusicList?.TableConfig.pagination"
-      :movie="refMusicList?.TableConfig.currentRow"
+      :music="refMusicList?.TableConfig.currentRow"
       :next="refMusicList?.TableConfig.nextRow"
       :prev="refMusicList?.TableConfig.previewRow"
       @next="handleNext"

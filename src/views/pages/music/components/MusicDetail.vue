@@ -1,30 +1,17 @@
 <template>
   <div class="detail">
-    <el-row :gutter="0">
-      <el-col>
-        <div class="audio">
-          <AudioWave
-            :url="movie?.url"
-            @error="handleError"
-            @ended="playEnd"
-            @next="emit('next')"
-          ></AudioWave>
-          <!-- <video
-            ref="refVideo"
-            style="max-width: 100%; height: 600px"
-            autoplay
-            controls
-            :src="movie?.url"
-            @ended="playEnd"
-            @error="handleError"
-          ></video> -->
-        </div>
-      </el-col>
-    </el-row>
+    <div class="audio">
+      <AudioWave
+        :url="music?.url"
+        :img="music?.img"
+        @error="handleError"
+        @ended="playEnd"
+        @next="emit('next')"
+        @prev="emit('prev')"
+      ></AudioWave>
+    </div>
     <div class="footer">
-      <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
-      <span class="footer-item">{{ DateFormtter(props.movie?.createTime) }}</span>
-      <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
+      <span class="footer-item">观看{{ props.music?.viewTimes || 0 }}次</span>
       <span
         class="footer-item favour"
         :class="[isFavoured === true ? 'favoured' : '']"
@@ -63,25 +50,25 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { editMusic } from '@/api'
-import { DateFormtter } from '@/utils/Formatter'
+import { editMusic, getMusicFavorite } from '@/api'
 import { Icon } from '@iconify/vue'
-import AudioWave from './AudioWave.vue'
+import AudioWave from '@/components/AudioWave.vue'
+import { toggleMusicFavorite } from '@/api/modules/music/musicFavorite'
+import { ElMessage } from 'element-plus'
 const props = defineProps<{
-  movie?: Record<string, any>
+  music?: Record<string, any>
   prev?: Record<string, any>
   next?: Record<string, any>
   pagination: IPagination
 }>()
 
 const emit = defineEmits(['next', 'prev', 'update-img', 'addViewTimes'])
-const autoPlay = ref<boolean>(true)
 
 let timer: any = undefined
 const handleError = () => {
   timer && clearTimeout(timer)
   timer = setTimeout(() => {
-    autoPlay.value && playNext()
+    playNext()
   }, 1000)
 }
 const isFavoured = ref<boolean>(false)
@@ -89,14 +76,14 @@ let viewTimesTimer: any = undefined
 const addViewTimes = () => {
   if (viewTimesTimer) clearTimeout(viewTimesTimer)
   viewTimesTimer = setTimeout(() => {
-    if (!props.movie?._id) return
-    let times = props.movie?.viewTimes || 0
-    editMusic(props.movie._id, { viewTimes: ++times })
+    if (!props.music?._id) return
+    let times = props.music?.viewTimes || 0
+    editMusic(props.music._id, { viewTimes: ++times })
     emit('addViewTimes')
   }, 1000 * 10)
 }
 watch(
-  () => props.movie,
+  () => props.music,
   () => {
     checkFavour()
     // 观看10s则播放次数+1
@@ -104,15 +91,15 @@ watch(
   },
 )
 const checkFavour = async () => {
-  if (!props.movie) return
-  // const res = await getFavour(props.movie._id)
-  // isFavoured.value = res.data.data.length > 0
+  if (!props.music) return
+  const res = await getMusicFavorite(props.music._id)
+  isFavoured.value = res.data.data.length > 0
 }
 const toggleFavour = async () => {
-  if (!props.movie) return
+  if (!props.music) return
   try {
-    // const res = await toggleFavourMovie(props.movie._id)
-    // ElMessage.success(res.data.message)
+    const res = await toggleMusicFavorite(props.music._id)
+    ElMessage.success(res.data.message)
     isFavoured.value = !isFavoured.value
   } catch (error: any) {
     isFavoured.value = false
@@ -127,42 +114,9 @@ const playPrev = () => {
   emit('prev')
 }
 const playEnd = async () => {
-  autoPlay.value && playNext()
+  playNext()
 }
-const getVideoBase64 = () => {
-  // const url = props.movie?.url
-  // const id = props.movie?._id
-  // if (!url) return
-  // let video = document.createElement('video')
-  // video.setAttribute('crossOrigin', 'anonymous') //处理跨域
-  // video.setAttribute('src', url)
-  // const width = refVideo.value?.clientWidth || 150
-  // const height = refVideo.value?.clientHeight || 220
-  // video.setAttribute('width', width + 'px')
-  // video.setAttribute('height', height + 'px')
-  // video.setAttribute('preload', 'auto')
-  // video.addEventListener('loadeddata', function () {
-  //   const canvas = document.createElement('canvas')
-  //   const width = video.width //canvas的尺寸和图片一样
-  //   const height = video.height
-  //   canvas.width = width
-  //   canvas.height = height
-  //   canvas.getContext('2d')?.drawImage(video, 0, 0, width, height) //绘制canvas
-  //   const dataURL = canvas.toDataURL('image/jpeg') //转换为base64
-  //   postMovieImg(id, {
-  //     data: dataURL,
-  //   }).then((res) => {
-  //     console.log(res)
-  //     emit('update-img')
-  //     ElMessage.success('已自动生成封面图片')
-  //   })
-  // })
-}
-const refVideo = ref<HTMLVideoElement>()
 onMounted(() => {
-  refVideo.value?.addEventListener('loadeddata', () => {
-    !props.movie?.img && getVideoBase64()
-  })
   checkFavour()
 })
 </script>
@@ -175,7 +129,7 @@ onMounted(() => {
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 400px;
+    height: 600px;
   }
 
   .comment {

@@ -1,49 +1,51 @@
-import request from '../axios'
-export const getMovies = (params?: IQueryParams) => {
+import request from '../../axios'
+export * from './musicFavorite'
+export * from './musicStarrings'
+export const getMusics = (params?: IQueryParams) => {
   return request({
-    url: '/api/movie',
+    url: '/api/music',
     method: 'get',
     params,
   })
 }
-export const postMovie = (params: any) => {
+export const postMusic = (params: any) => {
   return request({
-    url: '/api/movie',
+    url: '/api/music',
     method: 'post',
     data: params,
   })
 }
 
-export const getMovie = (id: string) => {
+export const getMusic = (id: string) => {
   return request({
-    url: '/api/movie/' + id,
+    url: '/api/music/' + id,
     method: 'get',
   })
 }
-export const editMovie = (id: string, params: any) => {
+export const editMusic = (id: string, params: any) => {
   return request({
-    url: '/api/movie/' + id,
+    url: '/api/music/' + id,
     method: 'put',
     data: params,
   })
 }
-export const importMovies = (params: { path: string; replacePath: string; tags: string }) => {
+export const importMusics = (params: { path: string; replacePath: string; tags: string }) => {
   return request({
-    url: '/api/movie/import',
+    url: '/api/music/import',
     method: 'post',
     data: params,
   })
 }
-export const removeMovies = (ids: string[]) => {
+export const removeMusics = (ids: string[]) => {
   return request({
-    url: '/api/movie',
+    url: '/api/music',
     method: 'delete',
     data: { ids },
   })
 }
-export const patchMovies = (ids: string[], params: Record<string, any>) => {
+export const patchMusics = (ids: string[], params: Record<string, any>) => {
   return request({
-    url: '/api/movie',
+    url: '/api/music',
     method: 'patch',
     data: {
       ids,
@@ -57,7 +59,7 @@ export const patchMovies = (ids: string[], params: Record<string, any>) => {
  * @param params {data：封面图片base64，rootPath: 要上传到哪个路径下（默认是：http://localhost/封面图/)}
  * @returns
  */
-export const postMovieImg = (
+export const postMusicImg = (
   id: string,
   params: {
     data: string
@@ -65,7 +67,7 @@ export const postMovieImg = (
   },
 ) => {
   return request({
-    url: '/api/movie/imgs/' + id,
+    url: '/api/music/imgs/' + id,
     method: 'post',
     data: params,
   })

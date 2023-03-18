@@ -1,4 +1,4 @@
-import { getMovieTags, postMovieTag } from '@/api/modules/movieTags'
+import { getMovieTags, postMovieTag } from '@/api/modules/movie/movieTags'
 
 export const useTags = () => {
   const newTag = ref<string>('')
