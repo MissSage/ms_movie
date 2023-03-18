@@ -22,14 +22,6 @@ export default defineConfig((): UserConfig => {
           find: /^\@\//,
           replacement: pathResolve('src') + '/',
         },
-        {
-          find: /^\@arcgis\/core\//,
-          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.26/@arcgis/core/',
-        },
-        {
-          find: /^esri\//,
-          replacement: 'http://localhost:8999/arcgis_js_api/javascript/4.26/esri/',
-        },
       ],
     },
     esbuild: {
@@ -138,8 +130,7 @@ export default defineConfig((): UserConfig => {
       },
     },
     optimizeDeps: {
-      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu', 'moment'],
-      exclude: ['@arcgis/core'],
+      include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu'],
     },
   }
 })
