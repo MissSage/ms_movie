@@ -143,6 +143,9 @@ export class AudioWave {
    * 音频源节点，是本功能的核心，作用：连接终端、连接音频分析器、控制播放速度、播放进度
    */
   private _audioBufferSourceNode?: AudioBufferSourceNode
+  /**
+   * 颜色渐变节点
+   */
   private _colorStops: { colorStop: number; color: string }[] = [
     { colorStop: 0, color: '#1E90FF' },
     { colorStop: 0.25, color: '#FF7F50' },
@@ -220,10 +223,19 @@ export class AudioWave {
     this._audioBufferSourceNode.playbackRate.value = this._rate
     this._audioBufferSourceNode?.start(0, offset)
   }
+  /**
+   * 设置播放进度
+   * @param offset
+   */
   setProgress(offset: number) {
     this._recordTime(offset)
     this._initAudioBufferSourceNode(offset)
   }
+  /**
+   * 设置播放速度默认1
+   * @param rate
+   * @returns
+   */
   setRate(rate = 1) {
     this._rate = rate
     if (!this._audioBufferSourceNode) return
@@ -255,6 +267,10 @@ export class AudioWave {
       that._canvasCtx.fillRect(i * sliceWidth, that._HEIGHT, barWdith, -barHeight)
     }
   }
+  /**
+   * 暂停/播放
+   * @param flag
+   */
   async toggle(flag: boolean) {
     await this._audioContext.suspend()
     cancelAnimationFrame(this._drawID)
@@ -263,6 +279,9 @@ export class AudioWave {
       this._draw()
     }
   }
+  /**
+   * 释放
+   */
   destroy() {
     cancelAnimationFrame(this._drawID)
     if (this._audioBufferSourceNode) {

@@ -8,9 +8,9 @@ export class MapApp {
     this.sdk = sdk
   }
   private modules: {
-    Map?: __esri.MapConstructor
-    MapView?: __esri.MapViewConstructor
-    BaseTileLayer?: __esri.BaseTileLayerConstructor
+    Map?: typeof __esri.Map
+    MapView?: typeof __esri.MapView
+    BaseTileLayer?: typeof __esri.BaseTileLayer
     MapImageLayer?: typeof __esri.MapImageLayer
     request?: typeof __esri.request
   } = {}
@@ -25,9 +25,9 @@ export class MapApp {
   async loadModules() {
     const [Map, MapView, BaseTileLayer, MapImageLayer, request] = await loadModules<
       [
-        __esri.MapConstructor,
-        __esri.MapViewConstructor,
-        __esri.BaseTileLayerConstructor,
+        typeof __esri.Map,
+        typeof __esri.MapView,
+        typeof __esri.BaseTileLayer,
         typeof __esri.MapImageLayer,
         typeof __esri.request,
       ]
@@ -47,6 +47,7 @@ export class MapApp {
     }
   }
   async initMap(container: string | HTMLDivElement | undefined, baseMap?: 'tdt' | 'gd') {
+    debugger
     await this.loadModules()
     const TintLayer = initTintLayer(this.modules.BaseTileLayer!, this.modules.request!)
     const tiledLayer =

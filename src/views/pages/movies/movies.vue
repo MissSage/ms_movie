@@ -86,6 +86,18 @@ const handleAppend = () => {
   refList.value.TableConfig.pagination.page = (refList.value.TableConfig.pagination.page ?? 1) + 1
   refreshData(true)
 }
+const handleNextPage = () => {
+  if (!refList.value) return
+  refList.value.TableConfig.pagination.page = (refList.value.TableConfig.pagination.page ?? 1) + 1
+  refreshData()
+}
+const handlePrevPage = () => {
+  if (!refList.value) return
+  const oldPage = refList.value.TableConfig.pagination.page ?? 1
+  if (oldPage <= 1) return
+  refList.value.TableConfig.pagination.page = oldPage - 1
+  refreshData()
+}
 const params = computed<any>(() => ({
   sortField: '_id',
   sortType: 'asc',
@@ -105,6 +117,27 @@ const refreshData = (append?: boolean) => {
 }
 onMounted(() => {
   refreshData()
+  document.onkeydown = (e) => {
+    console.log(e.key)
+    if (e.altKey === true) {
+      switch (e.key) {
+        case 'ArrowLeft':
+          handlePrev()
+          break
+        case 'ArrowRight':
+          handleNext()
+          break
+        case 'PageDown':
+          handleNextPage()
+          break
+        case 'PageUp':
+          handlePrevPage()
+          break
+        default:
+          break
+      }
+    }
+  }
 })
 </script>
 <style lang="scss" scoped>
