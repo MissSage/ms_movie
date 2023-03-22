@@ -18,6 +18,15 @@ const routes: RouteRecordRaw[] = [
         path: '/arcgis',
         component: () => import('@/views/pages/arcgis/ArcgisMap.vue'),
       },
+      {
+        meta: {
+          title: 'webgl',
+          icon: 'mdi:cross-bolnisi',
+        },
+        name: 'webgl',
+        path: '/webgl3D',
+        component: () => import('@/views/pages/webgl/index.vue'),
+      },
     ],
   },
 ]

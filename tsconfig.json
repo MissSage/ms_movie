@@ -16,7 +16,8 @@
     // ↓模块名到基于 baseUrl的路径映射的列表。查看 模块解析文档了解详情。
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "types": ["element-plus/global", "@types/arcgis-js-api"]
   },
   // ↓指定一个匹配列表（属于自动指定该路径下的所有ts相关文件）
   "include": [
