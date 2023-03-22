@@ -1,5 +1,5 @@
 <template>
-  <div class="waterfall">
+  <div v-loading="state.loading" class="waterfall">
     <Pagination :config="TableConfig.pagination" style="padding: 0 0 20px"></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
@@ -47,6 +47,7 @@ const state = reactive<{
   colHeights: number[] //存放瀑布流各个列的高度
   isMobile: boolean
   mobileImgWidth: number
+  loading: boolean
 }>({
   data: [], //存放计算好的数据
   imgWidth: 200, //每一列的宽度
@@ -57,6 +58,7 @@ const state = reactive<{
   colHeights: [], //存放瀑布流各个列的高度
   isMobile: false,
   mobileImgWidth: 400,
+  loading: false,
 })
 const imageWidth = computed(() => {
   return state.isMobile ? state.mobileImgWidth : state.imgWidth
@@ -169,29 +171,35 @@ const remove = (row?: any) => {
 }
 
 const refresh = async (append?: boolean) => {
+  state.loading = true
   await nextTick()
   const params = {
     ...(props.params || { page: 1, size: 20 }),
   }
-  delete params.daterange
-  const res = await getMovies(params)
-  const data =
-    res.data.data?.map((item: any) => {
-      item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.movieBase)
-      item.img = item.img?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.imgBase)
-      return item
-    }) || []
-  if (append) {
-    let tData = TableConfig.data
-    if (TableConfig.data.length > 200 && TableConfig.data.length > data.length) {
-      tData = TableConfig.data.slice(data.length)
+  try {
+    delete params.daterange
+    const res = await getMovies(params)
+    const data =
+      res.data.data?.map((item: any) => {
+        item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.movieBase)
+        item.img = item.img?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.imgBase)
+        return item
+      }) || []
+    if (append) {
+      let tData = TableConfig.data
+      if (TableConfig.data.length > 200 && TableConfig.data.length > data.length) {
+        tData = TableConfig.data.slice(data.length)
+      }
+      TableConfig.data = [...tData, ...data]
+    } else {
+      TableConfig.data = data
     }
-    TableConfig.data = [...tData, ...data]
-  } else {
-    TableConfig.data = data
+    TableConfig.pagination.total = res.data.total || 0
+    togglePrevOrNext()
+  } catch (error) {
+    console.log(error)
   }
-  TableConfig.pagination.total = res.data.total || 0
-  togglePrevOrNext()
+  state.loading = false
 }
 const togglePrevOrNext = async (offset = 0) => {
   const length = TableConfig.data.length

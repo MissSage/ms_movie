@@ -42,11 +42,11 @@
   </div>
 </template>
 <script lang="ts" setup>
-import Banner from './components/banner.vue'
-import Detail from './components/detail.vue'
-import Add from './components/add.vue'
-import Edit from './components/edit.vue'
-import List from './components/list.vue'
+import Banner from './components/MovieBanner.vue'
+import Detail from './components/MovieDetail.vue'
+import Add from './components/AddMovie.vue'
+import Edit from './components/EditMovie.vue'
+import List from './components/MovieList.vue'
 import SearchMovie from './components/SearchMovie.vue'
 const refSearch = ref<InstanceType<typeof SearchMovie>>()
 const aouFlag = ref<'edit' | 'upload'>('edit')

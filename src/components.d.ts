@@ -42,4 +42,7 @@ declare module '@vue/runtime-core' {
     Search: typeof import('./components/Search.vue')['default']
     Table: typeof import('./components/Table.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }
