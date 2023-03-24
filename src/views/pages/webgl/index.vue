@@ -55,7 +55,6 @@ const Apps = [
 ]
 
 function runApplication(index: number): void {
-  debugger
   if (!refCanvas.value) return
   const appConstructor = Apps[index]
   const app = new appConstructor(refCanvas.value)

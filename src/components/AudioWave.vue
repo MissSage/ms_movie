@@ -105,7 +105,7 @@ const format = () => {
   return formateDuration(currentTime.value) + ' / ' + formateDuration(duration.value)
 }
 let changeTimer: any
-const handleChange = (value: number) => {
+const handleChange = (value: any) => {
   changeTimer && clearTimeout(changeTimer)
   if (!props.url) return
   audioWave?.setProgress(value)
