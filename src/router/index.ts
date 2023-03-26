@@ -12,6 +12,7 @@ import webComponents from './modules/webComponents'
 import music from './modules/music'
 import webgl from './modules/webgl'
 import NotFound from '@/views/404.vue'
+import games from './modules/games'
 export const routes: RouteRecordRaw[] = [
   {
     meta: {
@@ -38,6 +39,7 @@ export const routes: RouteRecordRaw[] = [
       ...doodle,
       ...music,
       ...webgl,
+      ...games,
       { path: '/:pathMatch(.*)*', meta: { notMenu: true }, name: 'NotFound', component: NotFound },
     ],
   },

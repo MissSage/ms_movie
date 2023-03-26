@@ -188,7 +188,7 @@ onMounted(() => {
     height: 40px;
     position: absolute;
     bottom: 0;
-    opacity: 0;
+    opacity: 1;
     display: flex;
     justify-content: center;
     align-items: center;

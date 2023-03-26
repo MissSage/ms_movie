@@ -118,17 +118,6 @@ export default defineConfig((): UserConfig => {
       __VUE_I18N_FULL_INSTALL__: false,
       __INTLIFY_PROD_DEVTOOLS__: false,
     },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          charset: false,
-          additionalData: `
-          @import "@/assets/styles/globalVariables.scss";
-          `,
-          javascriptEnabled: true,
-        },
-      },
-    },
     optimizeDeps: {
       include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu'],
     },

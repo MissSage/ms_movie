@@ -17,7 +17,6 @@
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "devDependencies": {
-    "@iconify/vue": "^4.0.2",
     "@ls-lint/ls-lint": "^1.11.2",
     "@types/arcgis-js-api": "^4.26.0",
     "@types/lodash-es": "^4.17.7",
@@ -26,27 +25,16 @@
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "@vitejs/plugin-vue": "^4.0.0",
-    "@vueuse/core": "^9.13.0",
-    "axios": "^1.2.1",
-    "css-doodle": "^0.32.2",
     "cz-git": "^1.5.3",
-    "element-plus": "^2.3.0",
     "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.7.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.9.0",
-    "esri-loader": "^3.7.0",
-    "fancy-components": "^0.0.23",
     "husky": "^8.0.3",
-    "lodash-es": "^4.17.21",
-    "moment": "^2.29.4",
-    "nprogress": "^0.2.0",
-    "pinia": "^2.0.28",
     "prettier": "^2.8.4",
     "rimraf": "^4.4.0",
     "rollup-plugin-visualizer": "^5.9.0",
-    "sass": "^1.56.2",
     "typescript": "^4.9.3",
     "unplugin-auto-import": "^0.15.1",
     "unplugin-element-plus": "^0.7.0",
@@ -54,7 +42,6 @@
     "vite": "^4.0.0",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-imagemin": "^0.6.1",
-    "vue": "^3.2.45",
     "vue-eslint-parser": "^9.1.0",
     "vue-router": "4",
     "vue-tsc": "^1.0.11"
@@ -66,5 +53,20 @@
     "commitizen": {
       "path": "node_modules/cz-git"
     }
+  },
+  "dependencies": {
+    "@iconify/vue": "^4.0.2",
+    "@vueuse/core": "^9.13.0",
+    "axios": "^1.2.1",
+    "css-doodle": "^0.32.2",
+    "element-plus": "^2.3.1",
+    "esri-loader": "^3.7.0",
+    "fancy-components": "^0.0.23",
+    "lodash-es": "^4.17.21",
+    "moment": "^2.29.4",
+    "nprogress": "^0.2.0",
+    "pinia": "^2.0.28",
+    "sass": "^1.56.2",
+    "vue": "^3.2.45"
   }
 }
