@@ -31,7 +31,7 @@ import { MD5SkinedMeshApplication } from '@/utils/webgl/demo/MD5SkinedMeshApplic
 import { AsyncLoadTestApplication } from '@/utils/webgl/demo/AsyncLoadTestApplication'
 
 const refCanvas = ref<HTMLCanvasElement>()
-const curAppName = ref<number>(0)
+const curAppName = ref<number>(1)
 let appNames: string[] = [
   '第3章：RotatingCubeApplication',
   '第3章：AsyncLoadTestApplication',

@@ -351,7 +351,7 @@ export class Application implements EventListenerObject {
   private viewportToCanvasCoordinate(evt: MouseEvent): vec2 {
     // 切记，很重要一点：
     // getBoundingClientRect方法返回的ClientRect
-    const rect: ClientRect = this.getMouseCanvas().getBoundingClientRect()
+    const rect: DOMRect = this.getMouseCanvas().getBoundingClientRect()
 
     // 获取触发鼠标事件的target元素，这里总是HTMLCanvasElement
     if (evt.target) {

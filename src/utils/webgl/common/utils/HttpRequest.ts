@@ -30,18 +30,12 @@ export class HttpRequest {
 
   //这个函数要起作用，必须要在tsconfig.json中将default的es5改成ES2015
   public static loadImageAsyncSafe(url: string, name: string = url): Promise<ImageInfo | null> {
-    return new Promise((resolve, reject): void => {
+    return new Promise((resolve): void => {
       const image: HTMLImageElement = new Image()
       image.onload = function () {
         const info: ImageInfo = new ImageInfo(name, image)
         resolve(info)
       }
-
-      image.onerror = function () {
-        // resolve(null)
-        reject(new Error('未能加载：' + url))
-      }
-
       image.src = url
     })
   }

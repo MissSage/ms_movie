@@ -120,6 +120,7 @@ export default defineConfig((): UserConfig => {
     },
     optimizeDeps: {
       include: ['moment/dist/locale/zh-cn', 'moment/dist/locale/eu'],
+      exclude: ['@arcgis/core'],
     },
   }
 })
