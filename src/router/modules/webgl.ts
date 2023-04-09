@@ -27,6 +27,15 @@ const routes: RouteRecordRaw[] = [
         path: '/webgl3D',
         component: () => import('@/views/pages/webgl/index.vue'),
       },
+      {
+        meta: {
+          title: 'ThreeJS',
+          icon: 'mdi:cross-bolnisi',
+        },
+        name: 'ThreeJS',
+        path: '/ThreeJS',
+        component: () => import('@/views/pages/ThreeJS/index.vue'),
+      },
     ],
   },
 ]

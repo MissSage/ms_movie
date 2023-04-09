@@ -29,7 +29,7 @@
     <el-sub-menu v-else :index="menu.path">
       <template #title>
         <el-icon>
-          <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon"></Icon>
+          <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon?.toString()"></Icon>
         </el-icon>
         <span>
           {{ menu.meta?.title }}
@@ -42,7 +42,7 @@
   </template>
   <el-menu-item v-else-if="!menu.meta?.hidden" :index="menu.path">
     <el-icon>
-      <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon"></Icon>
+      <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon?.toString()"></Icon>
     </el-icon>
     <template #title>
       <span>
