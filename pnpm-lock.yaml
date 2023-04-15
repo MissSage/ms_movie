@@ -19,6 +19,9 @@ dependencies:
   css-doodle:
     specifier: ^0.34.8
     version: 0.34.8
+  dat.gui:
+    specifier: ^0.7.9
+    version: 0.7.9
   element-plus:
     specifier: ^2.3.3
     version: 2.3.3(vue@3.2.47)
@@ -28,6 +31,9 @@ dependencies:
   fancy-components:
     specifier: ^0.0.23
     version: 0.0.23
+  gsap:
+    specifier: ^3.11.5
+    version: 3.11.5
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -57,6 +63,9 @@ devDependencies:
   '@types/arcgis-js-api':
     specifier: ^4.26.0
     version: 4.26.0
+  '@types/dat.gui':
+    specifier: ^0.7.9
+    version: 0.7.9
   '@types/lodash-es':
     specifier: ^4.17.7
     version: 4.17.7
@@ -536,6 +545,10 @@ packages:
 
   /@types/arcgis-js-api@4.26.0:
     resolution: {integrity: sha512-rQSgYUy2FqPTFu47h2ibXhh5RdoQ/dgIXNdUcLTwebJ8OeXFvuzF5+hHmzKr2aLfX8w34W08ZIhUwiE4m+vBLQ==}
+    dev: true
+
+  /@types/dat.gui@0.7.9:
+    resolution: {integrity: sha512-UiqZasQIask5cUwWOO6BgOjP1dNj9ChYtmeAb4WTKs5IJ7ha3ATRTeXY7/TzlmEZznh40lS6Ov5BdNA+tU+fWQ==}
     dev: true
 
   /@types/estree@1.0.0:
@@ -1439,6 +1452,10 @@ packages:
   /cz-git@1.6.1:
     resolution: {integrity: sha512-+ohk/MFETERw4o/WpN3hUk7GM8oAwnaQI/uDuREGm4/B+G3DghGvNZQ/0MbFqZHWgKWvMzNZI6eKmPo0uPCu1A==}
     dev: true
+
+  /dat.gui@0.7.9:
+    resolution: {integrity: sha512-sCNc1OHobc+Erc1HqiswYgHdVNpSJUlk/Hz8vzOCsER7rl+oF/4+v8GXFUyCgtXpoCX6+bnmg07DedLvBLwYKQ==}
+    dev: false
 
   /dayjs@1.11.7:
     resolution: {integrity: sha512-+Yw9U6YO5TQohxLcIkrXBeY73WP3ejHWVvx8XCk3gxvQDCTEmS48ZrSZCKciI7Bhl/uCMyxYtE9UqRILmFphkQ==}
@@ -2790,6 +2807,10 @@ packages:
   /grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
+
+  /gsap@3.11.5:
+    resolution: {integrity: sha512-Q89nKCLgoX5xUjznh9LcaIUkz54k1voNucT1Rpf9SJNFIQznBwFqt5qUUQbeVInFyN/n18OUJkpeI6CNEDt74w==}
+    dev: false
 
   /has-ansi@2.0.0:
     resolution: {integrity: sha512-C8vBJ8DwUCx19vhm7urhTuUsr4/IyP6l4VzNQDv+ryHQObW3TTTp9yB68WpYgRe2bbaGuZ/se74IqFeVnMnLZg==}

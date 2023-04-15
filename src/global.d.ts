@@ -65,11 +65,18 @@ interface ISearch {
 }
 interface Window {
   SITE_CONFIG: {
+    apiBase: string
     movieConfig: {
-      apiBase: string
       audioBase: string
       imgBase: string
       movieBase: string
+    }
+    musicConfig: {
+      audioBase: string
+      imgBase: string
+    }
+    imageConfig: {
+      imageBase: string
     }
     gisConfig: {
       tdtToken: string

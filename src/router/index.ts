@@ -7,9 +7,8 @@
 import { createRouter, createWebHistory, RouteRecordRaw, RouterOptions } from 'vue-router'
 import NProgress from 'nprogress'
 import doodle from './modules/doodle'
-import movies from './modules/movie'
 import webComponents from './modules/webComponents'
-import music from './modules/music'
+import media from './modules/media'
 import webgl from './modules/webgl'
 import NotFound from '@/views/404.vue'
 import games from './modules/games'
@@ -34,10 +33,9 @@ export const routes: RouteRecordRaw[] = [
         component: () => import('@/views/pages/home.vue'),
       },
 
-      ...movies,
+      ...media,
       ...webComponents,
       ...doodle,
-      ...music,
       ...webgl,
       ...games,
       { path: '/:pathMatch(.*)*', meta: { notMenu: true }, name: 'NotFound', component: NotFound },

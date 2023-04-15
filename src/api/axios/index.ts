@@ -5,7 +5,7 @@ let timer: any
 // 创建实例
 const service: AxiosInstance = axios.create({
   // 前缀
-  baseURL: window.SITE_CONFIG.movieConfig.apiBase,
+  baseURL: window.SITE_CONFIG.apiBase,
   // 超时
   timeout: 1000 * 60 * 30,
   // 请求头
