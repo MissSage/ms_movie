@@ -1,5 +1,5 @@
 <template>
-  <div v-loading="state.loading" class="waterfall">
+  <div class="waterfall">
     <Pagination :config="TableConfig.pagination" style="padding: 0 0 20px"></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
@@ -30,7 +30,9 @@
       </div>
     </div>
     <div class="more">
-      <el-button style="width: 100%" @click="emit('append')">加载更多...</el-button>
+      <el-button style="width: 100%" :loading="state.loading" @click="emit('append')"
+        >加载更多...</el-button
+      >
     </div>
     <Pagination :config="TableConfig.pagination"></Pagination>
   </div>
@@ -68,7 +70,7 @@ const state = reactive<{
   loading: false,
 })
 const previewList = computed(() => {
-  return TableConfig.data.map((item) => item.url)
+  return state.data.map((item) => item.url)
 })
 const imageWidth = computed(() => {
   return state.isMobile ? state.mobileImgWidth : state.imgWidth
