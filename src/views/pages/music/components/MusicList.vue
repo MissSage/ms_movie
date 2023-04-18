@@ -177,8 +177,8 @@ const refresh = async (append?: boolean) => {
   const res = await getMusics(params)
   const data =
     res.data.data?.map((item: any) => {
-      item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.movieBase)
-      item.img = item.img?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.imgBase)
+      item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.audioConfig.audioBase)
+      item.img = item.img?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.audioConfig.imgBase)
       return item
     }) || []
   if (append) {

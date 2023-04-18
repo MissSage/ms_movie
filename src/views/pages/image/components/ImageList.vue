@@ -22,6 +22,7 @@
             :src="img.url"
             :alt="img.title"
             style="width: 100%"
+            :hide-on-click-modal="true"
           />
           <div :title="img.title" class="footer">
             <span class="title">{{ img.title }}</span>

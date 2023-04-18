@@ -10,6 +10,10 @@ const SITE_CONFIG = {
   },
   imageConfig: {
     imageBase: 'http://localhost:8082'
+  },
+  audioConfig:{
+    audioBase: 'http://localhost:8083',
+    imgBase: 'http://localhost:8083'
   }
 }
 window.SITE_CONFIG = SITE_CONFIG

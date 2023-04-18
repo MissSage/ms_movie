@@ -71,7 +71,7 @@ interface Window {
       imgBase: string
       movieBase: string
     }
-    musicConfig: {
+    audioConfig: {
       audioBase: string
       imgBase: string
     }
