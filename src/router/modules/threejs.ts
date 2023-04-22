@@ -7,9 +7,19 @@ export const threejsRoutes: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/Materia',
+  redirect: '/Points',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
+    {
+      meta: {
+        title: '球与粒子',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Points',
+      path: '/Points',
+      component: () => import('@/views/pages/ThreeJS/Particles/Points.vue'),
+    },
     {
       meta: {
         notMenu: true,
