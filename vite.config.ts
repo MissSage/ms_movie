@@ -4,7 +4,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
 // import ImageMin from 'vite-plugin-imagemin'
-import Compression from 'vite-plugin-compression'
+// import Compression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 function pathResolve(dir: string) {
@@ -94,7 +94,7 @@ export default defineConfig((): UserConfig => {
       //     ],
       //   },
       // }),
-      Compression(),
+      // Compression(),
       visualizer(),
     ],
     build: {
