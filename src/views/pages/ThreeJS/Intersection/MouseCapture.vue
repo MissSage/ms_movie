@@ -1,5 +1,5 @@
 <!-- 
-漫天雪花
+鼠标悬浮切换物体样式
  -->
 <template>
   <div ref="refDiv" class="viewDiv"></div>
@@ -12,47 +12,40 @@ const refDiv = ref<HTMLDivElement>()
 // 场景
 const scene = new THREE.Scene()
 // 相机
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 40)
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 30)
 // 通过设置position来进行移动
-camera.position.set(0, 0, 80)
+camera.position.set(0, 0, 10)
 // 渲染器
 const renderer = new THREE.WebGLRenderer()
 renderer.shadowMap.enabled = true
+// 载入纹理
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load(snow)
 // 几何
-const createPoints = (url: string, size = 0.5) => {
-  const geometry = new THREE.BufferGeometry()
-  // 几何顶点位置
-  const count = 10000
-  const positions = new Float32Array(count * 3)
-  const colors = new Float32Array(count * 3)
-  for (let i = 0; i < count * 3; i++) {
-    positions[i] = (Math.random() - 0.5) * 200
-    colors[i] = Math.random()
+const geometry = new THREE.BoxGeometry(1, 1, 1)
+const material = new THREE.MeshBasicMaterial({
+  wireframe: true,
+})
+const redMaterial = new THREE.MeshBasicMaterial({
+  color: '#ff0000',
+})
+const cubeArr: THREE.Mesh<THREE.BoxGeometry>[] = []
+for (let i = -5; i < 5; i++) {
+  for (let j = -5; j < 5; j++) {
+    for (let k = -5; k < 5; k++) {
+      const cube = new THREE.Mesh(geometry, material)
+      cube.position.set(i, j, k)
+      scene.add(cube)
+      cubeArr.push(cube)
+    }
   }
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
-  // 载入纹理
-  const textureLoader = new THREE.TextureLoader()
-  const texture = textureLoader.load(url)
-  // 材质
-  const material = new THREE.PointsMaterial({
-    map: texture,
-    alphaMap: texture,
-    depthWrite: false,
-    transparent: true,
-    blending: THREE.AdditiveBlending,
-    size: size,
-    sizeAttenuation: true,
-    // 启用顶点设置
-    vertexColors: true,
-  })
-  geometry.deleteAttribute('uv')
-  // 点要素
-  const points = new THREE.Points(geometry, material)
-
-  scene.add(points)
-  return points
 }
+
+// 配置鼠标悬浮高亮
+// 镭射对象
+const raycaster = new THREE.Raycaster()
+// 鼠标的位置对象
+const mouse = new THREE.Vector2()
 
 // 坐标轴
 const controls = new OrbitControls(camera, renderer.domElement)
@@ -60,20 +53,12 @@ const controls = new OrbitControls(camera, renderer.domElement)
 controls.enableDamping = true
 const axisHelper = new THREE.AxesHelper(5)
 scene.add(axisHelper)
-const points = createPoints(snow, 0.5)
-const points1 = createPoints(snow, 0.5)
-const points2 = createPoints(snow, 1.5)
 // 更新动画
 let requestId = -1
-const clock = new THREE.Clock()
+// const clock = new THREE.Clock()
 const run = () => {
   requestId = requestAnimationFrame(run)
-  let time = clock.getElapsedTime()
-  points.rotation.x = time * 0.3
-  points1.rotation.x = time * 0.3
-  points1.rotation.y = time * 0.2
-  points2.rotation.x = time * 0.2
-  points2.rotation.y = time * 0.1
+  // let time = clock.getElapsedTime()
   // 设置enableDamping需要调用update方法
   controls.update()
   renderer.render(scene, camera)
@@ -106,12 +91,27 @@ onMounted(() => {
   init()
   window.addEventListener('resize', resizeDiv)
   window.addEventListener('dblclick', requestFullscreen)
+  refDiv.value?.addEventListener('click', (event) => {
+    console.log(event)
+    if (!refDiv.value) return
+    //  转换鼠标坐标到画布
+    mouse.x = (event.offsetX / refDiv.value?.clientWidth) * 2 - 1
+    mouse.y = -((event.offsetY / refDiv.value.clientHeight) * 2 - 1)
+    raycaster.setFromCamera(mouse, camera)
+    const result = raycaster.intersectObjects(cubeArr)
+    if (!result.length) {
+    } else {
+      result.map((item: any) => {
+        item.object.material = redMaterial
+      })
+    }
+  })
 })
 onBeforeUnmount(() => {
   cancelAnimationFrame(requestId)
   window.removeEventListener('resize', resizeDiv)
   window.removeEventListener('dblclick', requestFullscreen)
-  scene.remove(points)
+  // scene.remove(points)
   scene.remove(axisHelper)
   axisHelper.dispose()
   controls.dispose()

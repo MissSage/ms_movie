@@ -7,19 +7,9 @@ export const threejsRoutes: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/Points',
+  redirect: '/MouseCapture',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
-    {
-      meta: {
-        title: '球与粒子',
-        notMenu: true,
-        icon: 'mdi:cross-bolnisi',
-      },
-      name: 'Points',
-      path: '/Points',
-      component: () => import('@/views/pages/ThreeJS/Particles/Points.vue'),
-    },
     {
       meta: {
         notMenu: true,
@@ -49,6 +39,36 @@ export const threejsRoutes: RouteRecordRaw = {
       name: 'AmbientLight',
       path: '/AmbientLight',
       component: () => import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
+    },
+    {
+      meta: {
+        title: '漫天雪花',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Points',
+      path: '/Points',
+      component: () => import('@/views/pages/ThreeJS/Particles/Points.vue'),
+    },
+    {
+      meta: {
+        title: '银河',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Galaxy',
+      path: '/Galaxy',
+      component: () => import('@/views/pages/ThreeJS/Particles/Galaxy.vue'),
+    },
+    {
+      meta: {
+        title: '鼠标交互',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'MouseCapture',
+      path: '/MouseCapture',
+      component: () => import('@/views/pages/ThreeJS/Intersection/MouseCapture.vue'),
     },
   ],
 }
