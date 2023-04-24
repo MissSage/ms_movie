@@ -4,7 +4,7 @@
 import { initTintLayer } from '@/utils/arcgis/TintLayer'
 import { loadModules, loadScript } from 'esri-loader'
 export class MapApp {
-  constructor(sdk = 'http://localhost:8999/arcgis_js_api/javascript/4.26') {
+  constructor(sdk = window.SITE_CONFIG.gisConfig.arcgisJsApi) {
     this.sdk = sdk
   }
   private modules: {
@@ -90,7 +90,7 @@ export class MapApp {
   }
   async addPipe() {
     const pipeLayer = new this.modules.MapImageLayer!({
-      url: 'http://111.229.240.180:6080/arcgis/rest/services/ANQING/PIPE_QY_ANQING/MapServer',
+      url: window.SITE_CONFIG.gisConfig.pipeService,
     })
     this.mapView?.map.add(pipeLayer)
     await pipeLayer.when()

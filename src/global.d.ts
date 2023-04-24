@@ -80,6 +80,8 @@ interface Window {
     }
     gisConfig: {
       tdtToken: string
+      arcgisJsApi: string
+      pipeService: string
     }
   }
 }

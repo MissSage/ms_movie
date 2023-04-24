@@ -1,6 +1,9 @@
 const SITE_CONFIG = {
   gisConfig: {
-    tdtToken:'be4a83d8298d7aa84cb5e0ff3e1dad58'
+    tdtToken:'be4a83d8298d7aa84cb5e0ff3e1dad58',
+    // arcgisJsApi: 'http://localhost:8999/arcgis_js_api/javascript/4.26',
+    arcgisJsApi: 'http://111.229.240.180:8003/arcgis_js_api/javascript/4.26',
+    pipeService: 'http://111.229.240.180:6080/arcgis/rest/services/ANQING/PIPE_QY_ANQING/MapServer'
   },
   apiBase: 'http://localhost:3000',
   movieConfig: {

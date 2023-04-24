@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver, VueUseComponentsResolver } from 'unplugin-vue-components/resolvers'
+
 import ImageMin from 'vite-plugin-imagemin'
 import Compression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
