@@ -2,7 +2,7 @@
 银河
  -->
 <template>
-  <div class="my-home">
+  <div ref="refDiv" class="my-home">
     <div class="page page1">
       <h1>THREE.BufferGeometry</h1>
       <h3>应用打造酷炫的三角形</h3>
@@ -16,22 +16,21 @@
       <h3>应用打造酷炫的三角形</h3>
     </div>
   </div>
-  <div ref="refDiv" class="viewDiv"></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
-import { OrbitControls } from '@three-ts/orbit-controls'
+// import { OrbitControls } from '@three-ts/orbit-controls'
 import snow from '../icons/snow.svg'
 const refDiv = ref<HTMLDivElement>()
 // 场景
 const scene = new THREE.Scene()
 // 相机
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 40)
+const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 300)
 // 通过设置position来进行移动
-camera.position.set(0, 0, 10)
+camera.position.set(0, 0, 15)
 // 渲染器
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
+const renderer = new THREE.WebGLRenderer({ alpha: true })
+// renderer.shadowMap.enabled = true
 // 载入纹理
 const textureLoader = new THREE.TextureLoader()
 const texture = textureLoader.load(snow)
@@ -101,11 +100,11 @@ const createPoints = () => {
 }
 
 // 坐标轴
-const controls = new OrbitControls(camera, renderer.domElement)
+// const controls = new OrbitControls(camera, renderer.domElement)
 // 允许拖动后再滑动一段
-controls.enableDamping = true
-const axisHelper = new THREE.AxesHelper(5)
-scene.add(axisHelper)
+// controls.enableDamping = true
+// const axisHelper = new THREE.AxesHelper(5)
+// scene.add(axisHelper)
 createPoints()
 createPoints()
 createPoints()
@@ -116,7 +115,7 @@ const run = () => {
   requestId = requestAnimationFrame(run)
   // let time = clock.getElapsedTime()
   // 设置enableDamping需要调用update方法
-  controls.update()
+  // controls.update()
   renderer.render(scene, camera)
 }
 // 重置画布大小
@@ -127,7 +126,7 @@ const resizeDiv = () => {
   // 更新摄像头的投影矩阵
   camera.updateProjectionMatrix()
   // 更新渲染器宽高
-  renderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
+  renderer.setSize(window.innerWidth, window.innerHeight)
   // 更新渲染器像素比
   renderer.setPixelRatio(window.devicePixelRatio)
 }
@@ -153,18 +152,31 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', resizeDiv)
   window.removeEventListener('dblclick', requestFullscreen)
   scene.remove(points)
-  scene.remove(axisHelper)
-  axisHelper.dispose()
-  controls.dispose()
+  // scene.remove(axisHelper)
+  // axisHelper.dispose()
+  // controls.dispose()
   camera.clear()
   renderer.dispose()
   scene.clear()
 })
 </script>
 <style lang="scss" scoped>
-.viewDiv {
-  width: 100%;
-  height: 100%;
-  position: relative;
+.my-home {
+  background-color: rgb(31, 102, 164);
+  .page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1,
+  h3 {
+    margin: 0;
+  }
+  canvas {
+    position: fixed;
+    left: 0;
+    top: 0;
+  }
 }
 </style>

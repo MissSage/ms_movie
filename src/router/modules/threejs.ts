@@ -7,7 +7,7 @@ export const threejsRoutes: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/MouseCapture',
+  redirect: '/MyHome',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -69,6 +69,16 @@ export const threejsRoutes: RouteRecordRaw = {
       name: 'MouseCapture',
       path: '/MouseCapture',
       component: () => import('@/views/pages/ThreeJS/Intersection/MouseCapture.vue'),
+    },
+    {
+      meta: {
+        title: '我的3D首页',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'MyHome',
+      path: '/MyHome',
+      component: () => import('@/views/pages/ThreeJS/ScrollPages/MyHome.vue'),
     },
   ],
 }
