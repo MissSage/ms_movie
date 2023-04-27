@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 
-export const threejsRoutes: RouteRecordRaw = {
+export const RoutesThree: RouteRecordRaw = {
   meta: {
     title: 'ThreeJS',
     icon: 'mdi:cross-bolnisi',
@@ -79,6 +79,16 @@ export const threejsRoutes: RouteRecordRaw = {
       name: 'MyHome',
       path: '/MyHome',
       component: () => import('@/views/pages/ThreeJS/ScrollPages/MyHome.vue'),
+    },
+    {
+      meta: {
+        title: 'canno',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'canno',
+      path: '/canno',
+      component: () => import('@/views/pages/ThreeJS/Engine/canno.vue'),
     },
   ],
 }

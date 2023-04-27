@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { threejsRoutes } from './threejs'
+import { RoutesThree } from './threejs'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -28,7 +28,7 @@ const routes: RouteRecordRaw[] = [
         path: '/webgl3D',
         component: () => import('@/views/pages/webgl/index.vue'),
       },
-      threejsRoutes,
+      RoutesThree,
     ],
   },
 ]

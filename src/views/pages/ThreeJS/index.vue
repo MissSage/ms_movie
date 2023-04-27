@@ -17,10 +17,10 @@
 </template>
 <script lang="ts" setup>
 import DashBoard from './components/DashBoard.vue'
-import { threejsRoutes } from '@/router/modules/threejs'
+import { RoutesThree } from '@/router/modules/threejs'
 import { Icon } from '@iconify/vue'
 const list = computed(() => {
-  return threejsRoutes.children
+  return RoutesThree.children
 })
 </script>
 <style lang="scss" scoped>
