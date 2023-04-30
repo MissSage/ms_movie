@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import * as THREE from 'three'
 import { OrbitControls } from '@three-ts/orbit-controls'
-import snow from '../icons/snow.svg'
+// import snow from '../icons/snow.svg'
 const refDiv = ref<HTMLDivElement>()
 // 场景
 const scene = new THREE.Scene()
@@ -19,8 +19,8 @@ camera.position.set(0, 0, 10)
 const renderer = new THREE.WebGLRenderer()
 renderer.shadowMap.enabled = true
 // 载入纹理
-const textureLoader = new THREE.TextureLoader()
-const texture = textureLoader.load(snow)
+// const textureLoader = new THREE.TextureLoader()
+// const texture = textureLoader.load(snow)
 // 几何
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({

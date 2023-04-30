@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/MyHome',
+  redirect: '/CannonRotate',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -82,13 +82,23 @@ export const RoutesThree: RouteRecordRaw = {
     },
     {
       meta: {
-        title: 'canno',
+        title: '金属球体碰撞桌面',
         notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
-      name: 'canno',
-      path: '/canno',
-      component: () => import('@/views/pages/ThreeJS/Engine/canno.vue'),
+      name: 'CannonContact',
+      path: '/CannonContact',
+      component: () => import('@/views/pages/ThreeJS/Engine/CannonContact.vue'),
+    },
+    {
+      meta: {
+        title: '金属广场碰撞旋转',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'CannonRotate',
+      path: '/CannonRotate',
+      component: () => import('@/views/pages/ThreeJS/Engine/CannonRotate.vue'),
     },
   ],
 }

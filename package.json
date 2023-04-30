@@ -61,6 +61,7 @@
     "@three-ts/orbit-controls": "^1.4.7",
     "@vueuse/core": "^9.13.0",
     "axios": "^1.4.0",
+    "cannon-es": "^0.20.0",
     "css-doodle": "^0.34.9",
     "dat.gui": "^0.7.9",
     "element-plus": "^2.3.4",
