@@ -119,10 +119,10 @@ const hitEvent = (e: any) => {
   const contact: CANNON.ContactEquation = e.contact
   const impactStength = contact.getImpactVelocityAlongNormal()
   // 处理播放声音阀值
-  if (impactStength < 2.7) return
+  if (impactStength < 3) return
   // 创建击打声音
   const hitSound = new Audio(hit_iron)
-  hitSound.currentTime = 0.5
+  hitSound.currentTime = 0.6
   hitSound.volume = impactStength / 20
   hitSound.play()
 }

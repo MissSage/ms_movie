@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/CannonRotate',
+  redirect: '/WebglShader',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -18,7 +18,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'Materia',
       path: '/Materia',
-      component: () => import('@/views/pages/ThreeJS/MaterialAndTexture/index.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/MaterialAndTexture/index.vue'),
     },
     {
       meta: {
@@ -28,7 +29,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'DirectionalLight',
       path: '/DirectionalLight',
-      component: () => import('@/views/pages/ThreeJS/LightAndShadow/DirectionalLight.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/LightAndShadow/DirectionalLight.vue'),
     },
     {
       meta: {
@@ -38,7 +40,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'AmbientLight',
       path: '/AmbientLight',
-      component: () => import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
     },
     {
       meta: {
@@ -68,7 +71,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'MouseCapture',
       path: '/MouseCapture',
-      component: () => import('@/views/pages/ThreeJS/Intersection/MouseCapture.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/Intersection/MouseCapture.vue'),
     },
     {
       meta: {
@@ -99,6 +103,26 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'CannonRotate',
       path: '/CannonRotate',
       component: () => import('@/views/pages/ThreeJS/Engine/CannonRotate.vue'),
+    },
+    {
+      meta: {
+        title: '基于webgl的三角形',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'WebglTriangle',
+      path: '/WebglTriangle',
+      component: () => import('@/views/pages/ThreeJS/Engine/WebglTriangle.vue'),
+    },
+    {
+      meta: {
+        title: '着色器编程',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'WebglShader',
+      path: '/WebglShader',
+      component: () => import('@/views/pages/ThreeJS/Engine/WebglShader.vue'),
     },
   ],
 }

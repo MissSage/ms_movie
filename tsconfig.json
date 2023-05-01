@@ -24,7 +24,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "./auto-imports.d.ts",
-    "./components.d.ts"
+    "./components.d.ts",
+    "src/**/*.glsl"
   ],
   "exclude": ["./dist", "src/assets"]
 }
