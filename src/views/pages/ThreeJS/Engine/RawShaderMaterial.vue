@@ -5,8 +5,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from '@three-ts/orbit-controls'
 // 顶点着色器
-import basicVertexShader from '../shader/basic/vertex.glsl?raw'
-import basicFragmentShader from '../shader/basic/fragment.glsl?raw'
+import rawVertexShader from '../shader/raw/vertex.glsl?raw'
+import rawFragmentShader from '../shader/raw/fragment.glsl?raw'
 
 const refDiv = ref<HTMLDivElement>()
 
@@ -44,7 +44,7 @@ scene.add(axisHelper)
 const floorGeometry = new THREE.PlaneGeometry(1, 1)
 // 设置平面材质
 // const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
-// 自己编写着色器材质,
+// 创建原始着色器材质,
 // 1. 至少要设置顶点着色器（vertexShader）和片元着色器（fragmentShader）
 // 2. 位置需要经过转换才能与坐标同步移动
 //    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0)
@@ -54,9 +54,9 @@ const floorGeometry = new THREE.PlaneGeometry(1, 1)
 //    物体本身拥有的坐标系，叫本地坐标系，要想把物体放到世界坐标系中，就需要模型矩阵，即可拥有绽放、平移、旋转的能力，此时物体即具有了世界坐标系
 //    再结合视图矩阵，就有了视点坐标，观察点坐标和上方向
 //    然后就是投影矩阵，使物体进行呈现
-const floorMaterial = new THREE.ShaderMaterial({
-  vertexShader: basicVertexShader,
-  fragmentShader: basicFragmentShader,
+const floorMaterial = new THREE.RawShaderMaterial({
+  vertexShader: rawVertexShader,
+  fragmentShader: rawFragmentShader,
 })
 
 const floor = new THREE.Mesh(floorGeometry, floorMaterial)

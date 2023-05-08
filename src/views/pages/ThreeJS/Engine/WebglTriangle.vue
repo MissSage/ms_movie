@@ -115,8 +115,11 @@ onMounted(() => {
       0.0, 0.0, scale, 0.0, 
       0.0, 0.0, 0.0, 1.0,
     ])
+    // 拿到程序的uMat变量
     const u_Mat = gl.getUniformLocation(program, 'u_Mat')
+    // 把mat作为u_Mat这个参数传给程序
     gl.uniformMatrix4fv(u_Mat, false, mat)
+    // 绘制三角形
     gl.drawArrays(gl.TRIANGLES, 0, 3)
     requestId = requestAnimationFrame(animate)
   }

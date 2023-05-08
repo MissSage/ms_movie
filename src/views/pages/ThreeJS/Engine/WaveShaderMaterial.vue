@@ -4,9 +4,10 @@
 <script lang="ts" setup>
 import * as THREE from 'three'
 import { OrbitControls } from '@three-ts/orbit-controls'
-// 顶点着色器
-import basicVertexShader from '../shader/basic/vertex.glsl?raw'
-import basicFragmentShader from '../shader/basic/fragment.glsl?raw'
+// 控制顶点打造波纹效果
+import vertexShader from '../shader/wave/vertex.glsl?raw'
+import fragmentShader from '../shader/wave/fragment.glsl?raw'
+import image_404 from '@/assets/images/404.png'
 
 const refDiv = ref<HTMLDivElement>()
 
@@ -40,11 +41,14 @@ controls.enableDamping = true
 const axisHelper = new THREE.AxesHelper(5)
 scene.add(axisHelper)
 
+// 加载纹理
+const textureLoader = new THREE.TextureLoader()
+const texture = textureLoader.load(image_404)
 // 平面
-const floorGeometry = new THREE.PlaneGeometry(1, 1)
+const floorGeometry = new THREE.PlaneGeometry(1, 1, 64, 64)
 // 设置平面材质
 // const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 })
-// 自己编写着色器材质,
+// 创建原始着色器材质,
 // 1. 至少要设置顶点着色器（vertexShader）和片元着色器（fragmentShader）
 // 2. 位置需要经过转换才能与坐标同步移动
 //    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0)
@@ -55,8 +59,17 @@ const floorGeometry = new THREE.PlaneGeometry(1, 1)
 //    再结合视图矩阵，就有了视点坐标，观察点坐标和上方向
 //    然后就是投影矩阵，使物体进行呈现
 const floorMaterial = new THREE.ShaderMaterial({
-  vertexShader: basicVertexShader,
-  fragmentShader: basicFragmentShader,
+  vertexShader: vertexShader,
+  fragmentShader: fragmentShader,
+  side: THREE.DoubleSide,
+  uniforms: {
+    uTime: {
+      value: 0,
+    },
+    uTexture: {
+      value: texture
+    }
+  },
 })
 
 const floor = new THREE.Mesh(floorGeometry, floorMaterial)
@@ -64,15 +77,17 @@ floor.position.set(0, 0, 0)
 // floor.rotation.x = -Math.PI / 2
 floor.receiveShadow = true
 scene.add(floor)
-
+const clock = new THREE.Clock()
 let requestId = -1
 /**
  * 更新动画
  */
 const run = () => {
   requestId = requestAnimationFrame(run)
-  // let time = clock.getElapsedTime()
+  let time = clock.getElapsedTime()
 
+  // 给材质传递时间参数，让材质动起来
+  floorMaterial.uniforms.uTime.value = time
   // 设置enableDamping需要调用update方法
   controls.update()
   renderer.render(scene, camera)
