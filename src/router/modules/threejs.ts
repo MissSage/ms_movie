@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/ShaderDeepStudy',
+  redirect: '/Water',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -153,6 +153,16 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'ShaderDeepStudy',
       path: '/ShaderDeepStudy',
       component: () => import('@/views/pages/ThreeJS/Engine/ShaderDeepStudy.vue'),
+    },
+    {
+      meta: {
+        title: '水波',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Water',
+      path: '/Water',
+      component: () => import('@/views/pages/ThreeJS/Engine/Water.vue'),
     },
   ],
 }
