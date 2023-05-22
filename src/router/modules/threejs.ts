@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/WebglShader',
+  redirect: '/Water',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -123,6 +123,46 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'WebglShader',
       path: '/WebglShader',
       component: () => import('@/views/pages/ThreeJS/Engine/WebglShader.vue'),
+    },
+    {
+      meta: {
+        title: '原始着色器',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'RawShaderMaterial',
+      path: '/RawShaderMaterial',
+      component: () => import('@/views/pages/ThreeJS/Engine/RawShaderMaterial.vue'),
+    },
+    {
+      meta: {
+        title: '波纹效果',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'WaveShaderMaterial',
+      path: '/WaveShaderMaterial',
+      component: () => import('@/views/pages/ThreeJS/Engine/WaveShaderMaterial.vue'),
+    },
+    {
+      meta: {
+        title: '效果与函数',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'ShaderDeepStudy',
+      path: '/ShaderDeepStudy',
+      component: () => import('@/views/pages/ThreeJS/Engine/ShaderDeepStudy.vue'),
+    },
+    {
+      meta: {
+        title: '水波',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Water',
+      path: '/Water',
+      component: () => import('@/views/pages/ThreeJS/Engine/Water.vue'),
     },
   ],
 }
