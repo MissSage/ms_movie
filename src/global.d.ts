@@ -64,6 +64,8 @@ interface ISearch {
   submit?: (params: any) => any
 }
 interface Window {
+  CESIUM_BASE_URL: string
+  CESIUM_VIEWER?: import('cesium').Viewer
   SITE_CONFIG: {
     apiBase: string
     movieConfig: {

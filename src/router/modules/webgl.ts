@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RoutesThree } from './threejs'
-
+import { RoutesCesium } from './cesium'
 const routes: RouteRecordRaw[] = [
   {
     meta: {
@@ -29,6 +29,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/pages/webgl/index.vue'),
       },
       RoutesThree,
+      RoutesCesium,
     ],
   },
 ]
