@@ -5,6 +5,8 @@
 import { Viewer } from 'cesium'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 import {
+  addAirPlane,
+  addBuildings,
   addPoint,
   addPrimitive,
   addTower,
@@ -24,9 +26,11 @@ const initViewer = async () => {
 
   // testDegreeTransform()
   // setMapInteractions(viewer)
-  addTower(window.CESIUM_VIEWER)
-  addPoint(window.CESIUM_VIEWER)
-  addPrimitive(window.CESIUM_VIEWER)
+  // await addTower(window.CESIUM_VIEWER, false)
+  // addPoint(window.CESIUM_VIEWER)
+  // addPrimitive(window.CESIUM_VIEWER)
+  // await addAirPlane(window.CESIUM_VIEWER,true)
+  // addBuildings(window.CESIUM_VIEWER)
 }
 onMounted(async () => {
   initViewer()

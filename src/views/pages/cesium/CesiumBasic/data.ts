@@ -226,8 +226,8 @@ export const addPoint = (viewer: Cesium.Viewer) => {
  * @param viewer
  * @returns
  */
-export const addTower = (viewer: Cesium.Viewer) => {
-  const position = Cesium.Cartesian3.fromDegrees(113.3191, 23.109)
+export const addTower = (viewer: Cesium.Viewer, goto?: boolean) => {
+  const position = Cesium.Cartesian3.fromDegrees(113.3191, 23.109, 1000)
   const label = new Cesium.Entity({
     position: position,
     label: {
@@ -256,43 +256,33 @@ export const addTower = (viewer: Cesium.Viewer) => {
     },
   })
   viewer.entities.add(label)
-  // return new Promise((resolve, reject) =>
-  //   viewer.camera.flyTo({
-  //     destination: position,
-  //     orientation: {
-  //       // 绕z旋转，左右,右正,左负,360度和0度是一样的
-  //       heading: Cesium.Math.toRadians(0),
-  //       // 绕y旋转，上下，上正，下负
-  //       pitch: Cesium.Math.toRadians(-20),
-  //       // 绕x旋转，顺时针逆时针，顺正，逆负
-  //       roll: 0,
-  //     },
-  //     complete: () => {
-  //       resolve(undefined)
-  //     },
-  //     cancel: () => {
-  //       reject()
-  //     },
-  //   }),
-  // )
+  return new Promise((resolve, reject) => {
+    ;(goto &&
+      viewer.camera.flyTo({
+        destination: position,
+        orientation: {
+          // 绕z旋转，左右,右正,左负,360度和0度是一样的
+          heading: Cesium.Math.toRadians(0),
+          // 绕y旋转，上下，上正，下负
+          pitch: Cesium.Math.toRadians(-20),
+          // 绕x旋转，顺时针逆时针，顺正，逆负
+          roll: 0,
+        },
+        complete: () => {
+          resolve(undefined)
+        },
+        cancel: () => {
+          reject()
+        },
+      })) ||
+      resolve(undefined)
+  })
 }
 /**
  * 添加一个primitive元素
  * @param viewer
  */
 export const addPrimitive = (viewer: Cesium.Viewer) => {
-  // 添加3D建筑
-  // viewer.scene.primitives.add(Cesium.createOsmBuildings({
-  //   style: new Cesium.Cesium3DTileStyle({
-  //     color: {
-  //       conditions: [
-  //         ["${feature['building']} === 'hospital'", "color('#0000FF')"],
-  //         ["${feature['building']} === 'school'", "color('#00FF00')"],
-  //         [true, "color('#ffffff')"]
-  //       ]
-  //     }
-  //   })
-  // }))
   // 使用entity创建矩形
   // 添加3D建筑
   // const osmBuildings = viewer.scene.primitives.add(
@@ -502,4 +492,65 @@ export const addPrimitive = (viewer: Cesium.Viewer) => {
   //     )
   //   }
   // }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
+}
+/**
+ * 添加飞机
+ * @param viewer
+ */
+export const addAirPlane = (viewer: Cesium.Viewer, goto?: boolean) => {
+  const position = Cesium.Cartesian3.fromDegrees(113.3191, 23.109, 1500)
+  const entity = {
+    name: 'Airplane',
+    position: position,
+    model: {
+      uri: '/model/Air.glb',
+      // 设置飞机的最小像素
+      minimumPixelSize: 128,
+      // 设置飞机的轮廓
+      silhouetteSize: 5,
+      // 设置轮廓的颜色
+      silhouetteColor: Cesium.Color.WHITE,
+      // 设置相机距离模型多远的距离显示
+      distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0, 200000),
+    },
+  }
+  // 添加3D模型
+  viewer.entities.add(entity)
+  return new Promise((resolve, reject) => {
+    ;(goto &&
+      viewer.camera.flyTo({
+        destination: position,
+        orientation: {
+          // 绕z旋转，左右,右正,左负,360度和0度是一样的
+          heading: Cesium.Math.toRadians(0),
+          // 绕y旋转，上下，上正，下负
+          pitch: Cesium.Math.toRadians(-20),
+          // 绕x旋转，顺时针逆时针，顺正，逆负
+          roll: 0,
+        },
+        complete: () => {
+          resolve(undefined)
+        },
+        cancel: () => {
+          reject()
+        },
+      })) ||
+      resolve(undefined)
+  })
+}
+export const addBuildings = (viewer: Cesium.Viewer) => {
+  // 添加3D建筑
+  viewer.scene.primitives.add(
+    Cesium.createOsmBuildings({
+      style: new Cesium.Cesium3DTileStyle({
+        color: {
+          conditions: [
+            ["${feature['building']} === 'hospital'", "color('#FF00FF')"],
+            ["${feature['building']} === 'school'", "color('#00FF00')"],
+            [true, "color('#ffffff')"],
+          ],
+        },
+      }),
+    }),
+  )
 }
