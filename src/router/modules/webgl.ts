@@ -1,6 +1,8 @@
 import { RouteRecordRaw } from 'vue-router'
 import { RoutesThree } from './threejs'
 import { RoutesCesium } from './cesium'
+import { RoutesLeaflet } from './leaflet'
+import { RoutesSuperMap } from './supermap'
 const routes: RouteRecordRaw[] = [
   {
     meta: {
@@ -30,6 +32,8 @@ const routes: RouteRecordRaw[] = [
       },
       RoutesThree,
       RoutesCesium,
+      RoutesLeaflet,
+      RoutesSuperMap,
     ],
   },
 ]

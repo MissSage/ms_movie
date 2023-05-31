@@ -1,4 +1,8 @@
-lockfileVersion: '6.0'
+lockfileVersion: '6.1'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
 
 overrides:
   bin-wrapper: npm:bin-wrapper-china
@@ -31,6 +35,9 @@ dependencies:
   element-plus:
     specifier: ^2.3.4
     version: 2.3.4(vue@3.2.47)
+  esri-leaflet:
+    specifier: ^3.0.10
+    version: 3.0.10(leaflet@1.9.4)
   esri-loader:
     specifier: ^3.7.0
     version: 3.7.0
@@ -40,6 +47,12 @@ dependencies:
   gsap:
     specifier: ^3.11.5
     version: 3.11.5
+  leaflet:
+    specifier: ^1.9.4
+    version: 1.9.4
+  leaflet.chinatmsproviders:
+    specifier: ^3.0.6
+    version: 3.0.6
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
@@ -72,6 +85,12 @@ devDependencies:
   '@types/dat.gui':
     specifier: ^0.7.9
     version: 0.7.9
+  '@types/esri-leaflet':
+    specifier: ^2.1.9
+    version: 2.1.9
+  '@types/leaflet':
+    specifier: ^1.9.3
+    version: 1.9.3
   '@types/lodash-es':
     specifier: ^4.17.7
     version: 4.17.7
@@ -596,6 +615,16 @@ packages:
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
     dev: false
 
+  /@terraformer/arcgis@2.1.2:
+    resolution: {integrity: sha512-IvdfqehcNAUtKU1OFMKwPT8EvdKlVFZ7q7ZKzkIF8XzYZIVsZLuXuOS1UBdRh5u/o+X5Gax7jiZhD8U/4TV+Jw==}
+    dependencies:
+      '@terraformer/common': 2.1.2
+    dev: false
+
+  /@terraformer/common@2.1.2:
+    resolution: {integrity: sha512-cwPdTFzIpekZhZRrgDEkqLKNPoqbyCBQHiemaovnGIeUx0Pl336MY/eCxzJ5zXkrQLVo9zPalq/vYW5HnyKevQ==}
+    dev: false
+
   /@three-ts/orbit-controls@1.4.7:
     resolution: {integrity: sha512-1OVZnc2VTHCoHberL50LBbltjnqVpOBhmuJwKPqzn6sThQwvVU1E13cpuJ2SWWOMoMLF+4hE3ICi4KHsZA/CJw==}
     dependencies:
@@ -614,8 +643,18 @@ packages:
     resolution: {integrity: sha512-UiqZasQIask5cUwWOO6BgOjP1dNj9ChYtmeAb4WTKs5IJ7ha3ATRTeXY7/TzlmEZznh40lS6Ov5BdNA+tU+fWQ==}
     dev: true
 
+  /@types/esri-leaflet@2.1.9:
+    resolution: {integrity: sha512-Z3GLyJTepEsEpo2FB3eRqSRxGw1Y2Vohpuu5Qp87tc3MGbXjhSUTRYldoaACZj6JQQJuOnyK9FLMdSziq5C1Ow==}
+    dependencies:
+      '@types/leaflet': 1.9.3
+    dev: true
+
   /@types/estree@1.0.1:
     resolution: {integrity: sha512-LG4opVs2ANWZ1TJoKc937iMmNstM/d0ae1vNbnBvBhqCSezgVUOzcLCqbI5elV8Vy6WKwKjaqR+zO9VKirBBCA==}
+    dev: true
+
+  /@types/geojson@7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==}
     dev: true
 
   /@types/json-schema@7.0.12:
@@ -624,6 +663,12 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/leaflet@1.9.3:
+    resolution: {integrity: sha512-Caa1lYOgKVqDkDZVWkto2Z5JtVo09spEaUt2S69LiugbBpoqQu92HYFMGUbYezZbnBkyOxMNPXHSgRrRY5UyIA==}
+    dependencies:
+      '@types/geojson': 7946.0.10
     dev: true
 
   /@types/lodash-es@4.17.7:
@@ -1712,6 +1757,16 @@ packages:
       estraverse: 5.3.0
     dev: true
 
+  /esri-leaflet@3.0.10(leaflet@1.9.4):
+    resolution: {integrity: sha512-2ma+mMHrJA7oqJFHZDLZrCAMkaXTdFFJRsJqlsh3Z2G+nXKj2SrlzJ2YmN5qgnI9y/X5AkcSfxViBoQTX9rcSw==}
+    peerDependencies:
+      leaflet: ^1.0.0
+    dependencies:
+      '@terraformer/arcgis': 2.1.2
+      leaflet: 1.9.4
+      tiny-binary-search: 1.0.3
+    dev: false
+
   /esri-loader@3.7.0:
     resolution: {integrity: sha512-cB1Sw9EQjtW4mtT7eFBjn/6VaaIWNTjmTd2asnnEyuZk1xVSFRMCfLZSBSjZM7ZarDcVu5WIjOP0t0MYVu4hVQ==}
     dev: false
@@ -2254,6 +2309,14 @@ packages:
 
   /ktx-parse@0.5.0:
     resolution: {integrity: sha512-5IZrv5s1byUeDTIee1jjJQBiD5LPDB0w9pJJ0oT9BCKKJf16Tuj123vm1Ps0GOHSHmeWPgKM0zuViCVuTRpqaA==}
+    dev: false
+
+  /leaflet.chinatmsproviders@3.0.6:
+    resolution: {integrity: sha512-B4UPSn2MT//RkFoyrVjwqQyfKuf4tSmMjJDKQ6nqwCCGgirYKRWHafSH9JmA88WoG5pkuMXBcKQhY32FobxU/g==}
+    dev: false
+
+  /leaflet@1.9.4:
+    resolution: {integrity: sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==}
     dev: false
 
   /lerc@2.0.0:
@@ -2937,6 +3000,10 @@ packages:
 
   /three@0.151.3:
     resolution: {integrity: sha512-+vbuqxFy8kzLeO5MgpBHUvP/EAiecaDwDuOPPDe6SbrZr96kccF0ktLngXc7xA7bzyd3N0t2f6mw3Z9y6JCojQ==}
+    dev: false
+
+  /tiny-binary-search@1.0.3:
+    resolution: {integrity: sha512-STSHX/L5nI9WTLv6wrzJbAPbO7OIISX83KFBh2GVbX1Uz/vgZOU/ANn/8iV6t35yMTpoPzzO+3OQid3mifE0CA==}
     dev: false
 
   /to-fast-properties@2.0.0:

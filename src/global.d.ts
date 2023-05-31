@@ -80,9 +80,10 @@ interface Window {
     imageConfig: {
       imageBase: string
     }
-    gisConfig: {
-      tdtToken: string
-      arcgisJsApi: string
+    GIS_CONFIG: {
+      gisService: string
+      gisTdtToken: string
+      gisSDK: string
       pipeService: string
     }
   }

@@ -13,7 +13,7 @@
   // stylelint校验的文件格式
   "stylelint.validate": ["css", "less", "scss", "vue", "html"],
   "[vue]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
   },
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
