@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/Water',
+  redirect: '/Pool',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -163,6 +163,16 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'Water',
       path: '/Water',
       component: () => import('@/views/pages/ThreeJS/Engine/Water.vue'),
+    },
+    {
+      meta: {
+        title: '水池',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'Pool',
+      path: '/Pool',
+      component: () => import('@/views/pages/ThreeJS/Engine/Pool.vue'),
     },
   ],
 }
