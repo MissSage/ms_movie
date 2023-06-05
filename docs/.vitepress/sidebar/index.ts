@@ -1,8 +1,11 @@
 import guide from './guide'
 import arcgis from './arcgis'
+import components from './components'
 import { DefaultTheme } from 'vitepress'
-const sidebar:DefaultTheme.Sidebar = {
+
+const sidebar: DefaultTheme.Sidebar = {
   ...guide,
-  ...arcgis
+  ...arcgis,
+  ...components,
 }
 export default sidebar

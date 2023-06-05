@@ -1,9 +1,6 @@
 import { defineConfig } from 'vitepress'
 import themeConfig from './themeConfig'
-import {
-  containerPreview,
-  componentPreview,
-} from '@vitepress-demo-preview/plugin'
+import { componentPreview, containerPreview } from '@vitepress-demo-preview/plugin'
 
 export default defineConfig({
   title: 'ms_movie',
@@ -27,6 +24,11 @@ export default defineConfig({
   },
   themeConfig,
   markdown: {
+    theme: {
+      light: 'vitesse-light',
+      dark: 'vitesse-dark'
+    },
+    lineNumbers: true,
     config: (md) => {
       md.use(containerPreview)
       md.use(componentPreview)

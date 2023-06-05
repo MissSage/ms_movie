@@ -25,3 +25,4 @@ dist-ssr
 stats.html
 src/assets/images/ignored
 public/terrains
+docs/.vitepress/cache
