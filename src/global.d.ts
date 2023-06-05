@@ -64,6 +64,8 @@ interface ISearch {
   submit?: (params: any) => any
 }
 interface Window {
+  CESIUM_BASE_URL: string
+  CESIUM_VIEWER?: import('cesium').Viewer
   SITE_CONFIG: {
     apiBase: string
     movieConfig: {
@@ -78,9 +80,10 @@ interface Window {
     imageConfig: {
       imageBase: string
     }
-    gisConfig: {
-      tdtToken: string
-      arcgisJsApi: string
+    GIS_CONFIG: {
+      gisService: string
+      gisTdtToken: string
+      gisSDK: string
       pipeService: string
     }
   }

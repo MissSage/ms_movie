@@ -39,13 +39,13 @@ controls.enableDamping = true
 const axisHelper = new THREE.AxesHelper(5)
 scene.add(axisHelper)
 
-const params = {
-  uFrequency: 14,
-  uScale: 0.03,
-  uXZScale: 1.5,
-  uNoiseFrequency: 10,
-  uNoiseScale: 1.5,
-}
+// const params = {
+//   uFrequency: 14,
+//   uScale: 0.03,
+//   uXZScale: 1.5,
+//   uNoiseFrequency: 10,
+//   uNoiseScale: 1.5,
+// }
 // 水波
 const water = new Water(new THREE.PlaneGeometry(1, 1, 1024, 1024), {
   color: '#ffffff',

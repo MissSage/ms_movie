@@ -4,7 +4,7 @@
 import { initTintLayer } from '@/utils/arcgis/TintLayer'
 import { loadModules, loadScript } from 'esri-loader'
 export class MapApp {
-  constructor(sdk = window.SITE_CONFIG.gisConfig.arcgisJsApi) {
+  constructor(sdk = window.SITE_CONFIG.GIS_CONFIG.gisSDK) {
     this.sdk = sdk
   }
   private modules: {
@@ -54,7 +54,7 @@ export class MapApp {
       baseMap === 'tdt'
         ? [
             new TintLayer({
-              urlTemplate: `http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=${window.SITE_CONFIG.gisConfig.tdtToken}`,
+              urlTemplate: `http://t0.tianditu.gov.cn/vec_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&tk=${window.SITE_CONFIG.GIS_CONFIG.gisTdtToken}`,
               subDomains: ['t0', 't1', 't2', 't3', 't4', 't5', 't6', 't7'],
             }),
           ]
@@ -90,7 +90,7 @@ export class MapApp {
   }
   async addPipe() {
     const pipeLayer = new this.modules.MapImageLayer!({
-      url: window.SITE_CONFIG.gisConfig.pipeService,
+      url: window.SITE_CONFIG.GIS_CONFIG.pipeService,
     })
     this.mapView?.map.add(pipeLayer)
     await pipeLayer.when()
