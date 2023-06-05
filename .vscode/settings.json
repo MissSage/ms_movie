@@ -28,5 +28,8 @@
   "vue.features.codeActions.enable": false,
   "[glsl]": {
     "editor.defaultFormatter": "raczzalan.webgl-glsl-editor"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

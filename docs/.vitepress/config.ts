@@ -1,41 +1,35 @@
 import { defineConfig } from 'vitepress'
+import themeConfig from './themeConfig'
+import {
+  containerPreview,
+  componentPreview,
+} from '@vitepress-demo-preview/plugin'
+
 export default defineConfig({
-  themeConfig: {
-    docFooter: {prev: '上一篇',next: '下一篇'},
-    editLink: {
-      pattern: 'https://github.com/MissSage/ms_movie/edit/master/docs/:path',
-      text: '在Github上编辑此页'
+  title: 'ms_movie',
+  description: '自定义的description',
+  base: '/ms_movie/',
+  locales: {
+    '/': {
+      lang: 'zh-CN',
+      title: '自定义的title',
+      description: '自定义的description',
+      label: '',
+      link: '',
     },
-    nav: [
-      { text: 'Guide', link: '/guide/', activeMatch: '/guide/' },
-      {
-        text: '下拉选择框',
-        items: [
-          { text: 'options-1', link: '/' },
-          { text: 'options-2', link: 'http://www.baidu.com' }
-        ]
-      }
-    ],
-    socialLinks: [
-      {icon: 'github',link: 'https://github.com'}
-    ],
-    sidebar: {
-      '/guide/': [
-        {
-          text: '指南',
-          items: [
-            { text: '快速开始', link: '/guide/getting-started' },
-          ]
-        }
-      ],
-      '/arcgis/': [
-        {
-          text: 'arcgis',
-          items: [
-            {text: '高斯-克吕格投影',link: '/arcgis/高斯-克吕格投影'}
-          ]
-        }
-      ]
-    }
-  }
+    '/en/': {
+      lang: 'en-US',
+      title: 'Custom title',
+      description: 'Custom description',
+      label: '',
+      link: '',
+    },
+  },
+  themeConfig,
+  markdown: {
+    config: (md) => {
+      md.use(containerPreview)
+      md.use(componentPreview)
+    },
+  },
 })
