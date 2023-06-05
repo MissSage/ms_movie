@@ -22,3 +22,4 @@ ignore:
   - .local
   - .husky
   - src/locales/lang
+  - src/assets
