@@ -3,7 +3,7 @@ export default defineConfig({
   themeConfig: {
     docFooter: {prev: '上一篇',next: '下一篇'},
     editLink: {
-      pattern: 'https://github.com/MissSage/MS_MOVIE/edit/master/docs/:path',
+      pattern: 'https://github.com/MissSage/ms_movie/edit/master/docs/:path',
       text: '在Github上编辑此页'
     },
     nav: [
