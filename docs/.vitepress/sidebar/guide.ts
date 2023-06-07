@@ -10,6 +10,10 @@ const sidebar: DefaultTheme.Sidebar = {
           text: 'gh-pages',
           link: '/guide/gh-pages',
         },
+        {
+          text: 'imagemin',
+          link: '/guide/imagemin'
+        }
       ],
     },
   ],

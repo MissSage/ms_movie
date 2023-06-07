@@ -7,5 +7,5 @@ export const RoutesLeaflet: RouteRecordRaw = {
   },
   name: 'Leaflet',
   path: '/Leaflet',
-  component: () => import('@/views/pages/Leaflet/LeafletMap.vue')
+  component: () => import('@/views/pages/LeafletMap/LeafletBasic.vue')
 }

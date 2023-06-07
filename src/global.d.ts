@@ -25,6 +25,7 @@ interface ITableColumn {
   fit?: '' | 'fill' | 'none' | 'contain' | 'cover' | 'scale-down'
   image?: boolean
   minWidth?: string | number
+  subColumns?: ITableColumn[]
   formatter?: (row: any, value: any, field: string) => any
 }
 interface IButton {
