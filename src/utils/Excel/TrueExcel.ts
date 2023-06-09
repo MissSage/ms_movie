@@ -1,4 +1,4 @@
-import Excel, { ImagePosition, ImageRange, Workbook, Worksheet } from 'exceljs'
+import Excel, { ImagePosition, Workbook, Worksheet } from 'exceljs'
 import fileDownload from 'file-saver'
 import { ElTable } from 'element-plus'
 export class TrueExcel {
