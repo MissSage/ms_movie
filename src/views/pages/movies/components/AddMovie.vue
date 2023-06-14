@@ -16,7 +16,7 @@
       <el-input v-model="form.tags" :rows="2" type="textarea" placeholder="请输入" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit" :loading="loading">确定</el-button>
+      <el-button type="primary" :loading="loading" @click="onSubmit">确定</el-button>
       <el-button @click="resetForm">重置</el-button>
     </el-form-item>
   </el-form>
