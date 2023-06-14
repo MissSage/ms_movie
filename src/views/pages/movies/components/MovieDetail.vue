@@ -5,10 +5,11 @@
         <div class="video">
           <video
             ref="refVideo"
-            style="max-width: 100%; height: 600px"
+            style="max-width: 100%; max-height: 1080px"
             autoplay
             controls
             :src="movie?.url"
+            :crossorigin="'anonymous'"
             @ended="playEnd"
             @error="handleError"
           ></video>
@@ -17,9 +18,14 @@
     </el-row>
     <div class="footer">
       <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
-      <span class="footer-item">{{ DateFormtter(props.movie?.createTime) }}</span>
+      <span class="footer-item">{{
+        DateFormtter(props.movie?.createTime)
+      }}</span>
+      <span class="footer-item pointer" @click="savePic">截图</span>
       <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
-      <span class="footer-item">时长：{{ formateDuration(props.movie?.duration) }}</span>
+      <span class="footer-item"
+        >时长：{{ formateDuration(props.movie?.duration) }}</span
+      >
       <span
         class="footer-item favour"
         :class="[isFavoured === true ? 'favoured' : '']"
@@ -58,7 +64,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { editMovie, postMovieImg, getMovieFavorite, toggleMovieFavorite } from '@/api'
+import {
+  editMovie,
+  postMovieImg,
+  getMovieFavorite,
+  toggleMovieFavorite,
+} from '@/api'
 import { ElMessage } from 'element-plus'
 import { DateFormtter, formateDuration } from '@/utils/Formatter'
 import { Icon } from '@iconify/vue'
@@ -125,38 +136,32 @@ const playPrev = () => {
 const playEnd = async () => {
   autoPlay.value && playNext()
 }
-const getVideoBase64 = () => {
-  const url = props.movie?.url
+
+const savePic = () => {
+  if (!refVideo.value) return
+  const scale = 1
+  const video = refVideo.value
   const id = props.movie?._id
-  if (!url) return
-  let video = document.createElement('video')
-  video.setAttribute('crossOrigin', 'anonymous') //处理跨域
-  video.setAttribute('src', url)
-  const width = refVideo.value?.clientWidth || 150
-  const height = refVideo.value?.clientHeight || 220
-  video.setAttribute('width', width + 'px')
-  video.setAttribute('height', height + 'px')
-  video.setAttribute('preload', 'auto')
-  video.addEventListener('loadeddata', function () {
-    const canvas = document.createElement('canvas')
-    const width = video.width //canvas的尺寸和图片一样
-    const height = video.height
-    canvas.width = width
-    canvas.height = height
-    canvas.getContext('2d')?.drawImage(video, 0, 0, width, height) //绘制canvas
-    const dataURL = canvas.toDataURL('image/png') //转换为base64
-    postMovieImg(id, {
-      data: dataURL,
-    })
+  var canvas = document.createElement('canvas')
+  canvas.width = video.videoWidth * scale
+  canvas.height = video.videoHeight * scale
+  canvas.getContext('2d')?.drawImage(video, 0, 0, canvas.width, canvas.height)
+  const dataURL = canvas.toDataURL('image/png')
+  postMovieImg(id, {
+    data: dataURL,
+  }).then(() => {
+    ElMessage.success('生成视频截图成功')
   })
 }
+
 const refVideo = ref<HTMLVideoElement>()
 onMounted(() => {
   refVideo.value?.addEventListener('loadeddata', () => {
-    !props.movie?.img && getVideoBase64()
+    // !props.movie?.img && getVideoBase64()
     editMovie(props.movie?._id, {
       duration: refVideo.value?.duration,
     })
+    !props.movie?.img && savePic()
   })
   checkFavour()
 })
@@ -169,8 +174,6 @@ onMounted(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    height: 600px;
   }
 
   .comment {
@@ -213,5 +216,8 @@ onMounted(() => {
       }
     }
   }
+}
+.pointer{
+  cursor: pointer;
 }
 </style>

@@ -1,6 +1,5 @@
 <template>
   <div v-loading="state.loading" class="waterfall">
-    <Pagination :config="TableConfig.pagination" style="padding: 0 0 20px"></Pagination>
     <div class="waterfall-box">
       <div ref="refContainer" class="waterfall-wrapper">
         <div
@@ -15,7 +14,12 @@
           }"
           @click="TableConfig.rowClick?.(img)"
         >
-          <img fit="contain" :src="img.img" :alt="img.title" style="width: 100%" />
+          <img
+            fit="contain"
+            :src="img.img"
+            :alt="img.title"
+            style="width: 100%"
+          />
           <div :title="img.title" class="footer">
             <span class="title">{{ img.title }}</span>
           </div>
@@ -23,7 +27,9 @@
       </div>
     </div>
     <div class="more">
-      <el-button style="width: 100%" @click="emit('append')">加载更多...</el-button>
+      <el-button style="width: 100%" @click="emit('append')"
+        >加载更多...</el-button
+      >
     </div>
     <Pagination :config="TableConfig.pagination"></Pagination>
   </div>
@@ -37,7 +43,11 @@ import { getImageUrl } from '@/utils/UrlHelper'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 const emit = defineEmits(['img-click', 'append'])
-const props = defineProps<{ params: Record<string, any> }>()
+const props = defineProps<{
+  params: Record<string, any>
+  imgWidth?: number
+  mobileImgWidth?: number
+}>()
 const state = reactive<{
   data: any[] //存放计算好的数据
   imgWidth: number //每一列的宽度
@@ -50,14 +60,14 @@ const state = reactive<{
   loading: boolean
 }>({
   data: [], //存放计算好的数据
-  imgWidth: 200, //每一列的宽度
+  imgWidth: props.imgWidth || 200, //每一列的宽度
 
   waterfallImgCol: 1, //多少列
   imgRightGap: 10, //右边距
   imgBottomGap: 10, //下边距
   colHeights: [], //存放瀑布流各个列的高度
   isMobile: false,
-  mobileImgWidth: 400,
+  mobileImgWidth: props.mobileImgWidth || 400,
   loading: false,
 })
 const imageWidth = computed(() => {
@@ -70,7 +80,9 @@ const calculationWidth = () => {
   if (!domWidth) return
   if (domWidth > state.imgWidth * 2 - state.imgRightGap * 2) {
     state.isMobile = false
-    state.waterfallImgCol = Math.floor(domWidth / (state.imgWidth + state.imgRightGap))
+    state.waterfallImgCol = Math.floor(
+      domWidth / (state.imgWidth + state.imgRightGap),
+    )
   } else {
     state.isMobile = true
     state.waterfallImgCol = 1
@@ -95,7 +107,10 @@ const imgPreloading = () => {
         ...item,
         img: item.img || getImageUrl('404.png'),
         //根据设定的列宽度求出图片的高度
-        height: aImg.width === 0 ? 0 : (state.imgWidth / aImg.width) * aImg.height + 44,
+        height:
+          aImg.width === 0
+            ? 0
+            : (state.imgWidth / aImg.width) * aImg.height + 44,
       }
       state.data.push(imgData)
 
@@ -124,6 +139,7 @@ const TableConfig = reactive<ITable>({
   pagination: {
     page: 1,
     limit: 20,
+    small: true,
     refreshData: ({ page, size }) => {
       TableConfig.pagination.page = page
       TableConfig.pagination.limit = size
@@ -181,13 +197,22 @@ const refresh = async (append?: boolean) => {
     const res = await getMovies(params)
     const data =
       res.data.data?.map((item: any) => {
-        item.url = item.url?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.movieBase)
-        item.img = item.img?.replace(/^http:\/\/[^/]+/, window.SITE_CONFIG.movieConfig.imgBase)
+        item.url = item.url?.replace(
+          /^http:\/\/[^/]+/,
+          window.SITE_CONFIG.movieConfig.movieBase,
+        )
+        item.img = item.img?.replace(
+          /^http:\/\/[^/]+/,
+          window.SITE_CONFIG.movieConfig.imgBase,
+        )
         return item
       }) || []
     if (append) {
       let tData = TableConfig.data
-      if (TableConfig.data.length > 200 && TableConfig.data.length > data.length) {
+      if (
+        TableConfig.data.length > 200 &&
+        TableConfig.data.length > data.length
+      ) {
         tData = TableConfig.data.slice(data.length)
       }
       TableConfig.data = [...tData, ...data]
@@ -204,7 +229,9 @@ const refresh = async (append?: boolean) => {
 const togglePrevOrNext = async (offset = 0) => {
   const length = TableConfig.data.length
   if (!length) return
-  let curIndex = TableConfig.data.findIndex((item) => item._id === TableConfig.currentRow?._id)
+  let curIndex = TableConfig.data.findIndex(
+    (item) => item._id === TableConfig.currentRow?._id,
+  )
   // 处理没有的情况
   if (curIndex < 0) {
     curIndex = 0
@@ -303,6 +330,7 @@ defineExpose({
     align-items: center;
     width: 100%;
     height: 44px;
+    overflow: hidden;
     background-color: antiquewhite;
 
     .title {
@@ -313,7 +341,7 @@ defineExpose({
       font-size: 12px;
       text-overflow: ellipsis;
       color: rgb(98 110 110);
-      line-height: 1.5em;
+      line-height: 20px;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       word-break: break-all;

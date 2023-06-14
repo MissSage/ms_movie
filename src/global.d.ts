@@ -18,6 +18,7 @@ interface IPagination {
   /** 操作按钮布局 默认total,sizes, prev, pager, next, jumper */
   layout?: string // 分布布局
   pageSize?: number[]
+  small?: boolean
 }
 interface ITableColumn {
   label: string

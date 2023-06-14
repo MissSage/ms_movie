@@ -15,7 +15,7 @@
    当前采取配置镜像的办法解决问题：
 
    ```cmd
-   nnpm config set sharp_binary_host "https://npmmirror.com/mirrors/sharp"
-   nnpm config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-libvips"
-   nnpm install sharp -D
+   pnpm config set sharp_binary_host "https://npmmirror.com/mirrors/sharp"
+   pnpm config set sharp_libvips_binary_host "https://npmmirror.com/mirrors/sharp-libvips"
+   pnpm install sharp -D
    ```

@@ -16,7 +16,7 @@
       <el-input v-model="form.tags" :rows="2" type="textarea" placeholder="请输入" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="onSubmit">确定</el-button>
+      <el-button type="primary" @click="onSubmit" :loading="loading">确定</el-button>
       <el-button @click="resetForm">重置</el-button>
     </el-form-item>
   </el-form>
@@ -37,9 +37,10 @@ const importedFiles = ref([])
 const form = ref({
   ...defaultValue,
 })
-
+const loading = ref<boolean>(false)
 const onSubmit = async () => {
   try {
+    loading.value = true
     const res = await refForm.value?.validate()
     if (res) {
       const submitForm = {
@@ -53,6 +54,7 @@ const onSubmit = async () => {
   } catch (error) {
     ElMessage.error('保存失败')
   }
+  loading.value = false
 }
 const resetForm = () => {
   form.value = {

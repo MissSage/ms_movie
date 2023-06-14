@@ -7,6 +7,7 @@
     :class="config.align || 'left'"
     :layout="config.layout || 'total,sizes, prev, pager, next, jumper'"
     :total="config.total || 0"
+    :small="config.small"
     :page-sizes="config.pageSize || [20, 40, 100, 200, 500]"
     @update:page-size="handleSize"
     @update:current-page="handlePage"

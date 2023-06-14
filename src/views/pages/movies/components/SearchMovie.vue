@@ -8,10 +8,25 @@ const refSearch = ref<InstanceType<typeof Search>>()
 const SearchConfig = reactive<ISearch>({
   labelWidth: 51,
   filters: [
-    { type: 'input', label: '搜索', field: 'title', onChange: () => emit('search') },
-    { type: 'input', label: '标签', field: 'tags', onChange: () => emit('search') },
-    { type: 'input', label: '路径', field: 'direct', onChange: () => emit('search') },
-    { type: 'input', label: '姓名', field: 'starring', onChange: () => emit('search') },
+    {
+      type: 'input',
+      label: '标题 ',
+      field: 'title',
+      onChange: () => emit('search'),
+    },
+    {
+      type: 'input',
+      label: '标签',
+      field: 'tags',
+      onChange: () => emit('search'),
+    },
+    // { type: 'input', label: '路径', field: 'direct', onChange: () => emit('search') },
+    {
+      type: 'input',
+      label: '主演',
+      field: 'starring',
+      onChange: () => emit('search'),
+    },
   ],
   defaultQuery: {},
   operations: [

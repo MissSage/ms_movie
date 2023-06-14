@@ -8,7 +8,6 @@ const SITE_CONFIG = {
   },
   apiBase: 'http://localhost:3000',
   movieConfig: {
-    audioBase: 'http://localhost:3000',
     imgBase: 'http://localhost:8081',
     movieBase: 'http://localhost:8081',
   },
