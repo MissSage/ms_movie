@@ -47,8 +47,8 @@ onMounted(() => {
   display: flex;
   flex-wrap: wrap;
   .el-check-tag {
-    line-height: 1.5em;
     font-size: 14px;
+    margin: 4px;
   }
 }
 .pointer {

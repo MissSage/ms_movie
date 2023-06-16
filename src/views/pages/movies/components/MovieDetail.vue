@@ -21,7 +21,9 @@
       <span class="footer-item">{{
         DateFormtter(props.movie?.createTime)
       }}</span>
-      <span class="footer-item pointer" @click="savePic">截图</span>
+      <span class="footer-item pointer" title="按alt+l截图" @click="savePic"
+        >截图</span
+      >
       <span class="footer-item">观看{{ props.movie?.viewTimes || 0 }}次</span>
       <span class="footer-item"
         >时长：{{ formateDuration(props.movie?.duration) }}</span
@@ -165,6 +167,9 @@ onMounted(() => {
   })
   checkFavour()
 })
+defineExpose({
+  savePic,
+})
 </script>
 <style lang="scss" scoped>
 .detail {
@@ -217,7 +222,7 @@ onMounted(() => {
     }
   }
 }
-.pointer{
+.pointer {
   cursor: pointer;
 }
 </style>

@@ -41,6 +41,7 @@
         ></Add>
         <Detail
           v-if="refList"
+          ref="refDetail"
           :pagination="refList?.TableConfig.pagination"
           :movie="refList?.TableConfig.currentRow"
           :next="refList?.TableConfig.nextRow"
@@ -75,6 +76,7 @@ const aouFlag = ref<'edit' | 'upload'>('edit')
 const refEdit = ref<InstanceType<typeof Edit>>()
 const refList = ref<InstanceType<typeof List>>()
 const refTags = ref<InstanceType<typeof MovieTags>>()
+const refDetail = ref<InstanceType<typeof Detail>>()
 const handleAddViewTimes = () => {
   if (!refList.value?.TableConfig.currentRow) return
   refList.value.TableConfig.currentRow.viewTimes =
@@ -83,16 +85,6 @@ const handleAddViewTimes = () => {
 const handleDirectClick = (direct: string) => {
   if (!refSearch.value?.refSearch) return
   refTags.value?.handleDirectCheck(direct, true)
-}
-const handleTypeChange = (type: string, flag: boolean) => {
-  if (refEdit.value?.movie) {
-    if (!flag) {
-      refEdit.value.movie.types.newType.value = ''
-    } else {
-      refEdit.value.movie.types.newType.value = type
-    }
-    refreshData()
-  }
 }
 const handleNext = async () => {
   aouFlag.value = 'edit'
@@ -142,7 +134,6 @@ const refreshData = (append?: boolean) => {
 onMounted(() => {
   refreshData()
   document.onkeydown = (e) => {
-    console.log(e.key)
     if (e.altKey === true) {
       switch (e.key) {
         case 'ArrowLeft':
@@ -157,9 +148,12 @@ onMounted(() => {
         case 'PageUp':
           handlePrevPage()
           break
+        case 'l':
+          refDetail.value?.savePic()
         default:
           break
       }
+      return false
     }
   }
 })
@@ -184,7 +178,6 @@ onMounted(() => {
   width: 100%;
   .left {
     width: 300px;
-    
   }
   .main {
     max-width: 100%;
