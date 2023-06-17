@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import Search from '@/components/Search.vue'
-const emit = defineEmits(['remove', 'search'])
+const emit = defineEmits(['remove', 'search', 'edit'])
 const refSearch = ref<InstanceType<typeof Search>>()
 const SearchConfig = reactive<ISearch>({
   labelWidth: 51,
@@ -32,6 +32,8 @@ const SearchConfig = reactive<ISearch>({
   operations: [
     { text: '搜索', click: () => emit('search') },
     { text: '删除', click: () => emit('remove') },
+    { text: '编辑', click: () => emit('edit', 'edit') },
+    { text: '上传', click: () => emit('edit', 'upload') },
   ],
 })
 defineExpose({

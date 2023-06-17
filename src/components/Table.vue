@@ -5,6 +5,7 @@
       :data="config.data"
       style="width: 100%"
       :height="config.height"
+      :highlight-current-row="config.highlightCurrentRow"
       @selection-change="config.handleSelectChange"
       @row-click="config.rowClick"
     >

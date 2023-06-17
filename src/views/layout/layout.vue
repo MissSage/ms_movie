@@ -52,6 +52,7 @@ import { Icon } from '@iconify/vue'
 
 .el-main {
   padding: 0;
+  height: calc(100% - 40px);
 }
 
 .el-header {

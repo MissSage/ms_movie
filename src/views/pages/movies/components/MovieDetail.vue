@@ -1,21 +1,16 @@
 <template>
   <div class="detail">
-    <el-row :gutter="0">
-      <el-col>
-        <div class="video">
-          <video
-            ref="refVideo"
-            style="max-width: 100%; max-height: 1080px"
-            autoplay
-            controls
-            :src="movie?.url"
-            :crossorigin="'anonymous'"
-            @ended="playEnd"
-            @error="handleError"
-          ></video>
-        </div>
-      </el-col>
-    </el-row>
+    <div class="video">
+      <video
+        ref="refVideo"
+        autoplay
+        controls
+        :src="movie?.url"
+        :crossorigin="'anonymous'"
+        @ended="playEnd"
+        @error="handleError"
+      ></video>
+    </div>
     <div class="footer">
       <el-checkbox v-model="autoPlay">自动播放下一部</el-checkbox>
       <span class="footer-item">{{
@@ -35,6 +30,8 @@
       >
         <Icon icon="mdi:heart"></Icon>收藏
       </span>
+    </div>
+    <div class="footer">
       <div class="footer-item pager">
         <span class="footer-item" style="margin-left: 0">上一部:</span>
         <span
@@ -58,11 +55,11 @@
         <span v-else class="footer-item">没有了</span>
       </div>
     </div>
-    <pagination
+    <Pagination
+      v-if="pagination"
       :config="pagination"
       style="display: flex; justify-content: flex-end; padding: 12px 0 20px"
-    ></pagination>
-    <div class="comment">这里是评论区</div>
+    ></Pagination>
   </div>
 </template>
 <script lang="ts" setup>
@@ -79,7 +76,7 @@ const props = defineProps<{
   movie?: Record<string, any>
   prev?: Record<string, any>
   next?: Record<string, any>
-  pagination: IPagination
+  pagination?: IPagination
 }>()
 
 const emit = defineEmits(['next', 'prev', 'update-img', 'addViewTimes'])
@@ -174,17 +171,19 @@ defineExpose({
 <style lang="scss" scoped>
 .detail {
   padding: 20px;
+  height: 100%;
 
   .video {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-
-  .comment {
-    display: grid;
-    max-height: 560px;
-    place-items: center;
+    height: calc(100% - 100px);
+    min-height: 240px;
+    min-width: 320px;
+    video {
+      max-width: 100%;
+      max-height: 100%;
+    }
   }
 
   .footer {

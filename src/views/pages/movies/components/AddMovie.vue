@@ -9,14 +9,30 @@
     <el-form-item label="替换路径">
       <el-input v-model="form.replacePath" placeholder="请输入" />
     </el-form-item>
+    <el-form-item label="文件类型">
+      <el-checkbox-group v-model="form.types">
+        <el-checkbox
+          v-for="(tag, i) in supportedFormats"
+          :key="i"
+          :label="tag"
+        />
+      </el-checkbox-group>
+    </el-form-item>
     <el-form-item label="封面">
       <el-input v-model="form.img" placeholder="请输入" />
     </el-form-item>
     <el-form-item label="标签">
-      <el-input v-model="form.tags" :rows="2" type="textarea" placeholder="请输入" />
+      <el-input
+        v-model="form.tags"
+        :rows="2"
+        type="textarea"
+        placeholder="请输入"
+      />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" :loading="loading" @click="onSubmit">确定</el-button>
+      <el-button type="primary" :loading="loading" @click="onSubmit"
+        >确定</el-button
+      >
       <el-button @click="resetForm">重置</el-button>
     </el-form-item>
   </el-form>
@@ -32,7 +48,9 @@ const defaultValue = {
   tags: '',
   title: '',
   img: '',
+  types: ['mp4', 'mov'],
 }
+const supportedFormats = ['mp4',  'mov']
 const importedFiles = ref([])
 const form = ref({
   ...defaultValue,

@@ -5,7 +5,7 @@ import { useStarrings } from './useStarrings'
 import { useTags } from './useTag'
 import { useTypes } from './useType'
 export const useMovie = () => {
-  const movie = ref<Record<string, any> | undefined>()
+  const movie = ref<Record<string, any>>({})
   const tags = useTags()
   const types = useTypes()
   const starrings = useStarrings()

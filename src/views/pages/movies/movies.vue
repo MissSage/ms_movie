@@ -4,44 +4,38 @@
       ref="refSearch"
       @search="refreshData"
       @remove="refList?.remove"
+      @edit="toggleEdit"
     ></SearchMovie>
-
-    <div class="content">
-      <div class="left">
+    <el-row>
+      <el-col :xs="24" :lg="6">
         <List
           ref="refList"
           :params="params"
-          :img-width="90"
-          :mobile-img-width="400"
-          @append="handleAppend"
-          @refresh-data="refreshData"
+          :img-width="100"
+          :show-type="'table'"
         ></List>
-      </div>
-      <div class="main">
-        <!-- <div class="type-search">
-          <el-check-tag
-            v-for="(item, i) in refEdit?.movie?.types.typeList.value"
-            :key="i"
-            :checked="refEdit?.movie?.types.newType.value === item.name"
-            @change="(flag:boolean) =>handleTypeChange(item.name,flag)"
-          >
-            {{ item.name }}
-          </el-check-tag>
-        </div> -->
+      </el-col>
+      <el-col :xs="24" :lg="12">
         <Banner
           :title="refList?.TableConfig.currentRow?.title"
           :directs="refList?.TableConfig.currentRow?.directs"
-          @upload="aouFlag = 'upload'"
-          @direct-click="handleDirectClick"
+          @click="handleDirectClick"
         ></Banner>
         <Add
           v-if="aouFlag === 'upload'"
           :movie="refList?.TableConfig.currentRow"
           @success="refreshData"
         ></Add>
+        <Edit
+          v-if="aouFlag === 'edit'"
+          ref="refEdit"
+          :row="refList?.TableConfig.currentRow"
+          @success="refreshData"
+        ></Edit>
         <Detail
-          v-if="refList"
+          v-if="aouFlag === ''"
           ref="refDetail"
+          class="mocie-detail"
           :pagination="refList?.TableConfig.pagination"
           :movie="refList?.TableConfig.currentRow"
           :next="refList?.TableConfig.nextRow"
@@ -50,17 +44,11 @@
           @prev="handlePrev"
           @add-view-times="handleAddViewTimes"
         ></Detail>
-        <Edit
-          v-if="aouFlag === 'edit'"
-          ref="refEdit"
-          :row="refList?.TableConfig.currentRow"
-          @success="refreshData"
-        ></Edit>
-      </div>
-      <div class="right">
+      </el-col>
+      <el-col :xs="24" :lg="6">
         <MovieTags ref="refTags" @check="refreshData"></MovieTags>
-      </div>
-    </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script lang="ts" setup>
@@ -72,7 +60,7 @@ import List from './components/MovieList.vue'
 import SearchMovie from './components/SearchMovie.vue'
 import MovieTags from './components/MovieTags.vue'
 const refSearch = ref<InstanceType<typeof SearchMovie>>()
-const aouFlag = ref<'edit' | 'upload'>('edit')
+const aouFlag = ref<'edit' | 'upload' | ''>('')
 const refEdit = ref<InstanceType<typeof Edit>>()
 const refList = ref<InstanceType<typeof List>>()
 const refTags = ref<InstanceType<typeof MovieTags>>()
@@ -87,19 +75,12 @@ const handleDirectClick = (direct: string) => {
   refTags.value?.handleDirectCheck(direct, true)
 }
 const handleNext = async () => {
-  aouFlag.value = 'edit'
   await refList.value?.togglePrevOrNext(1)
 }
 const handlePrev = async () => {
-  aouFlag.value = 'edit'
   await refList.value?.togglePrevOrNext(-1)
 }
-const handleAppend = () => {
-  if (!refList.value) return
-  refList.value.TableConfig.pagination.page =
-    (refList.value.TableConfig.pagination.page ?? 1) + 1
-  refreshData(true)
-}
+
 const handleNextPage = () => {
   if (!refList.value) return
   refList.value.TableConfig.pagination.page =
@@ -131,6 +112,13 @@ const params = computed<any>(() => ({
 const refreshData = (append?: boolean) => {
   refList.value?.refresh(append)
 }
+const toggleEdit = (flag: 'edit' | 'upload') => {
+  if (!aouFlag.value || aouFlag.value !== flag) {
+    aouFlag.value = flag
+  } else {
+    aouFlag.value = ''
+  }
+}
 onMounted(() => {
   refreshData()
   document.onkeydown = (e) => {
@@ -150,6 +138,10 @@ onMounted(() => {
           break
         case 'l':
           refDetail.value?.savePic()
+          break
+        case 'r':
+          refreshData()
+          break
         default:
           break
       }
@@ -161,8 +153,29 @@ onMounted(() => {
 <style lang="scss" scoped>
 .wrapper {
   padding: 20px;
-  display: flex;
-  flex-wrap: wrap;
+  height: 100%;
+}
+.el-row {
+  height: calc(100% - 50px);
+  .el-col {
+    height: 100%;
+    &.el-col {
+      height: 100%;
+    }
+  }
+}
+.mocie-detail{
+  height: calc(100% - 40px);
+}
+@media only screen and (max-width: 768px) {
+  .el-row {
+    height: calc(100% - 50px);
+    .el-col {
+      &.el-col-xs-24 {
+        height: unset;
+      }
+    }
+  }
 }
 
 .el-tag {
@@ -170,23 +183,6 @@ onMounted(() => {
 
   & + .el-tag {
     margin-left: 8px;
-  }
-}
-.content {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  .left {
-    width: 300px;
-  }
-  .main {
-    max-width: 100%;
-    flex: 1;
-  }
-  .right {
-    width: 300px;
-    height: 1080px;
-    overflow-y: auto;
   }
 }
 </style>

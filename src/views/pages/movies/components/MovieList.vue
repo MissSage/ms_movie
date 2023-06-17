@@ -1,48 +1,48 @@
 <template>
   <div v-loading="state.loading" class="waterfall">
-    <div class="waterfall-box">
-      <div ref="refContainer" class="waterfall-wrapper">
-        <div
-          v-for="img in state.data"
-          :key="img.img"
-          class="waterfall-item"
-          :style="{
-            top: img.top + 'px',
-            left: img.left + 'px',
-            width: imageWidth + 'px',
-            height: img.height + 'px',
-          }"
-          @click="TableConfig.rowClick?.(img)"
-        >
-          <img
-            fit="contain"
-            :src="img.img"
-            :alt="img.title"
-            style="width: 100%"
-          />
-          <div :title="img.title" class="footer">
-            <span class="title">{{ img.title }}</span>
+    <el-tabs type="border-card" @tab-change="handleTabChange">
+      <el-tab-pane label="表格">
+        <Table class="waterfall-table" :config="TableConfig"></Table>
+      </el-tab-pane>
+      <el-tab-pane label="图片">
+        <div class="waterfall-box">
+          <div ref="refContainer" class="waterfall-wrapper">
+            <div
+              v-for="img in state.data"
+              :key="img.img"
+              class="waterfall-item"
+              :style="{
+                top: img.top + 'px',
+                left: img.left + 'px',
+                width: state.imgWidth + 'px',
+                height: img.height + 'px',
+              }"
+              @click="TableConfig.rowClick?.(img)"
+            >
+              <img
+                fit="contain"
+                :src="img.img"
+                :alt="img.title"
+                style="width: 100%"
+              />
+              <div :title="img.title" class="footer">
+                <span class="title">{{ img.title }}</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="more">
-      <el-button style="width: 100%" @click="emit('append')"
-        >加载更多...</el-button
-      >
-    </div>
-    <Pagination :config="TableConfig.pagination"></Pagination>
+        <Pagination :config="TableConfig.pagination"></Pagination>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
 import { getMovies, removeMovies } from '@/api'
-import Pagination from '@/components/Pagination.vue'
 import { DateFormtter } from '@/utils/Formatter'
 import { getImageUrl } from '@/utils/UrlHelper'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { computed, onMounted, reactive, ref, watch } from 'vue'
-const emit = defineEmits(['img-click', 'append'])
+import { onMounted, reactive, ref, watch } from 'vue'
 const props = defineProps<{
   params: Record<string, any>
   imgWidth?: number
@@ -56,39 +56,38 @@ const state = reactive<{
   imgBottomGap: number //下边距
   colHeights: number[] //存放瀑布流各个列的高度
   isMobile: boolean
-  mobileImgWidth: number
   loading: boolean
 }>({
   data: [], //存放计算好的数据
-  imgWidth: props.imgWidth || 200, //每一列的宽度
+  imgWidth: 110, //每一列的宽度
 
   waterfallImgCol: 1, //多少列
   imgRightGap: 10, //右边距
   imgBottomGap: 10, //下边距
   colHeights: [], //存放瀑布流各个列的高度
   isMobile: false,
-  mobileImgWidth: props.mobileImgWidth || 400,
   loading: false,
-})
-const imageWidth = computed(() => {
-  return state.isMobile ? state.mobileImgWidth : state.imgWidth
 })
 const refContainer = ref<HTMLDivElement>()
 //计算每个图片的宽度或者是列数
 const calculationWidth = () => {
   const domWidth = refContainer.value?.clientWidth
   if (!domWidth) return
-  if (domWidth > state.imgWidth * 2 - state.imgRightGap * 2) {
-    state.isMobile = false
-    state.waterfallImgCol = Math.floor(
-      domWidth / (state.imgWidth + state.imgRightGap),
-    )
-  } else {
+  const imgWidth = props.imgWidth || state.imgWidth
+  state.waterfallImgCol = Math.floor(domWidth / (imgWidth + state.imgRightGap))
+  if (
+    (props.mobileImgWidth && domWidth <= props.mobileImgWidth) ||
+    state.waterfallImgCol < 2
+  ) {
     state.isMobile = true
-    state.waterfallImgCol = 1
-    state.mobileImgWidth = domWidth
   }
-
+  if (state.isMobile) {
+    state.imgWidth = props.mobileImgWidth || domWidth
+    state.imgRightGap = 0
+  } else {
+    state.imgWidth = props.imgWidth || 190
+    state.imgRightGap = 10
+  }
   //初始化偏移高度数组
   state.colHeights = new Array(state.waterfallImgCol)
   state.colHeights = Array.from({
@@ -133,12 +132,18 @@ const rankImg = (imgData: any) => {
   const maxHeight = Math.max(...colHeights)
   refContainer.value && (refContainer.value.style.height = maxHeight + 'px')
 }
-
+const handleTabChange = async (index: number | string) => {
+  debugger
+  if (index === '1') {
+    await nextTick()
+    calculationWidth()
+  }
+}
 const TableConfig = reactive<ITable>({
   data: [],
   pagination: {
     page: 1,
-    limit: 20,
+    limit: 40,
     small: true,
     refreshData: ({ page, size }) => {
       TableConfig.pagination.page = page
@@ -166,7 +171,11 @@ const detail = (row: any) => {
   togglePrevOrNext()
 }
 const remove = (row?: any) => {
-  const rows = TableConfig.selected || []
+  const rows = row ? [row] : TableConfig.selected || []
+  if (!rows.length) {
+    ElMessage.warning('请先选择要删除的数据')
+    return
+  }
   ElMessageBox.confirm('确定删除?', '提示信息')
     .then(async () => {
       try {
@@ -272,25 +281,29 @@ defineExpose({
 .waterfall {
   display: flex;
   flex-direction: column;
-
-  .more {
-    padding: 20px;
+  height: 100%;
+}
+:deep(.el-tabs) {
+  height: 100%;
+  .el-tabs__content {
+    height: calc(100% - 40px);
+    .el-tab-pane {
+      height: 100%;
+    }
   }
 }
-
+.waterfall-box {
+  height: calc(100% - 70px);
+  overflow-y: auto;
+}
 .waterfall-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
-
-  &::after {
-    content: '';
-    display: block;
-    clear: both;
-    height: 0;
-  }
 }
-
+.waterfall-table {
+  height: 100%;
+}
 .waterfall-item {
   position: absolute;
   float: left;
@@ -321,7 +334,6 @@ defineExpose({
       clear: both;
     }
   }
-
   .footer {
     position: absolute;
     bottom: 0;

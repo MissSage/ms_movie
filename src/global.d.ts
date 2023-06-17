@@ -44,6 +44,7 @@ interface ITable {
   selected?: any[]
   nextRow?: any
   previewRow?: any
+  highlightCurrentRow?: boolean
   rowClick?: (row: any) => void
   handleSelectChange?: (selected: any) => void
 }

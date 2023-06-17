@@ -6,28 +6,22 @@
         <span
           class="direct"
           :title="'点击查询相关：' + direct"
-          @click="emit('directClick', direct)"
+          @click="emit('click', direct)"
         >
           {{ direct }}
         </span>
         <span v-if="i < directs.length - 1" class="divider">/</span>
       </template>
     </div>
-    <div class="right">
-      <el-button @click="uploadFiles">上传</el-button>
-    </div>
   </div>
 </template>
 <script lang="ts" setup>
-const emit = defineEmits(['upload', 'directClick', 'toggleAuto'])
+const emit = defineEmits(['click'])
 defineProps<{
   title?: string
   selected?: any[]
   directs?: any[]
 }>()
-const uploadFiles = () => {
-  emit('upload')
-}
 </script>
 <style lang="scss" scoped>
 .banner-wrapper {
