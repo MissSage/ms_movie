@@ -53,10 +53,9 @@ onMounted(() => {
     font-size: 14px;
     margin: 4px;
     line-height: 1.5;
+    display: inline-flex;
   }
   .tasgs-scroll {
-    display: flex;
-    flex-wrap: wrap;
     overflow-y: auto;
     height: calc(100% - 60px);
     min-height: 100px;

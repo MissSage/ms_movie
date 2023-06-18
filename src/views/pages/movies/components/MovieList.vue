@@ -1,9 +1,6 @@
 <template>
   <div v-loading="state.loading" class="waterfall">
     <el-tabs type="border-card" @tab-change="handleTabChange">
-      <el-tab-pane label="表格">
-        <Table class="waterfall-table" :config="TableConfig"></Table>
-      </el-tab-pane>
       <el-tab-pane label="图片">
         <div class="waterfall-box">
           <div ref="refContainer" class="waterfall-wrapper">
@@ -33,14 +30,18 @@
         </div>
         <Pagination :config="TableConfig.pagination"></Pagination>
       </el-tab-pane>
+
+      <el-tab-pane label="表格">
+        <Table class="waterfall-table" :config="TableConfig"></Table>
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
-import { getMovies, removeMovies } from '@/api'
+import { getMovies, postMovieImg, removeMovies } from '@/api'
 import { DateFormtter } from '@/utils/Formatter'
-import { getImageUrl } from '@/utils/UrlHelper'
+import { generateImageFromVideo, getImageUrl } from '@/utils/UrlHelper'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { onMounted, reactive, ref, watch } from 'vue'
 const props = defineProps<{
@@ -59,7 +60,7 @@ const state = reactive<{
   loading: boolean
 }>({
   data: [], //存放计算好的数据
-  imgWidth: 110, //每一列的宽度
+  imgWidth: 150, //每一列的宽度
 
   waterfallImgCol: 1, //多少列
   imgRightGap: 10, //右边距
@@ -73,7 +74,7 @@ const refContainer = ref<HTMLDivElement>()
 const calculationWidth = () => {
   const domWidth = refContainer.value?.clientWidth
   if (!domWidth) return
-  const imgWidth = props.imgWidth || state.imgWidth
+  const imgWidth = props.imgWidth || 150
   state.waterfallImgCol = Math.floor(domWidth / (imgWidth + state.imgRightGap))
   if (
     (props.mobileImgWidth && domWidth <= props.mobileImgWidth) ||
@@ -133,7 +134,6 @@ const rankImg = (imgData: any) => {
   refContainer.value && (refContainer.value.style.height = maxHeight + 'px')
 }
 const handleTabChange = async (index: number | string) => {
-  debugger
   if (index === '1') {
     await nextTick()
     calculationWidth()
@@ -214,6 +214,17 @@ const refresh = async (append?: boolean) => {
           /^http:\/\/[^/]+/,
           window.SITE_CONFIG.movieConfig.imgBase,
         )
+        if (!item.img) {
+          generateImageFromVideo(item.url, item).then(
+            ({ dataURL, extraData }) => {
+              postMovieImg(extraData._id, {
+                data: dataURL,
+              }).then(() => {
+                ElMessage.success('生成视频截图成功')
+              })
+            },
+          )
+        }
         return item
       }) || []
     if (append) {

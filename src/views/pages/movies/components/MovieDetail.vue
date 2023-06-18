@@ -135,7 +135,9 @@ const playPrev = () => {
 const playEnd = async () => {
   autoPlay.value && playNext()
 }
-
+/**
+ * 生成当前视频截图并保存并更新到数据库
+ */
 const savePic = () => {
   if (!refVideo.value) return
   const scale = 1
@@ -160,7 +162,7 @@ onMounted(() => {
     editMovie(props.movie?._id, {
       duration: refVideo.value?.duration,
     })
-    !props.movie?.img && savePic()
+    // !props.movie?.img && savePic()
   })
   checkFavour()
 })
