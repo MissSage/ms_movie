@@ -5,11 +5,11 @@
 import { Viewer } from 'cesium'
 import 'cesium/Build/Cesium/Widgets/widgets.css'
 import {
-  addAirPlane,
-  addBuildings,
-  addPoint,
-  addPrimitive,
-  addTower,
+  // addAirPlane,
+  // addBuildings,
+  // addPoint,
+  // addPrimitive,
+  // addTower,
   basicSettingForCesium,
   viewerConstructorOptions,
 } from './data'

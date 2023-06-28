@@ -417,17 +417,17 @@ export const addPrimitive = (viewer: Cesium.Viewer) => {
   // });
 
   // type disffuseMap
-  const material2 = Cesium.Material.fromType('DiffuseMap', {
-    image: './texture/logo.png',
-  })
+  // const material2 = Cesium.Material.fromType('DiffuseMap', {
+  //   image: './texture/logo.png',
+  // })
 
-  // type grid
-  const material3 = Cesium.Material.fromType('Grid', {
-    color: Cesium.Color.AQUA.withAlpha(0.5),
-    cellAlpha: 0.2,
-    lineCount: new Cesium.Cartesian2(4, 4),
-    lineThickness: new Cesium.Cartesian2(4.0, 4.0),
-  })
+  // // type grid
+  // const material3 = Cesium.Material.fromType('Grid', {
+  //   color: Cesium.Color.AQUA.withAlpha(0.5),
+  //   cellAlpha: 0.2,
+  //   lineCount: new Cesium.Cartesian2(4, 4),
+  //   lineThickness: new Cesium.Cartesian2(4.0, 4.0),
+  // })
 
   // type water
   const material4 = Cesium.Material.fromType('Water', {
@@ -437,15 +437,15 @@ export const addPrimitive = (viewer: Cesium.Viewer) => {
   })
 
   // type image
-  const material5 = Cesium.Material.fromType('Image', {
-    image: './texture/logo.png',
-    repeat: new Cesium.Cartesian2(2.0, 2.0),
-  })
+  // const material5 = Cesium.Material.fromType('Image', {
+  //   image: './texture/logo.png',
+  //   repeat: new Cesium.Cartesian2(2.0, 2.0),
+  // })
 
   // type color
-  const material6 = Cesium.Material.fromType('Color', {
-    color: Cesium.Color.AQUA.withAlpha(0.5),
-  })
+  // const material6 = Cesium.Material.fromType('Color', {
+  //   color: Cesium.Color.AQUA.withAlpha(0.5),
+  // })
   // 设定几何体都是与地球的椭球体平行
   //假定几何体与地球椭球体平行，就可以在计算大量顶点属性的时候节省内存
   const appearance = new Cesium.EllipsoidSurfaceAppearance({
