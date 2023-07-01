@@ -3,7 +3,7 @@
 </template>
 <script lang="ts" setup>
 import { Viewer } from 'cesium'
-import 'cesium/Build/Cesium/Widgets/widgets.css'
+// import 'cesium/Build/Cesium/Widgets/widgets.css'
 import {
   // addAirPlane,
   // addBuildings,
