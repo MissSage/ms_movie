@@ -8,3 +8,7 @@ declare module '*.json' {
   const src: any
   export default src
 }
+declare module '*.glsl' {
+  const src: any
+  export default src
+}

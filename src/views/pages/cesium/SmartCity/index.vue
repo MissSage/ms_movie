@@ -42,21 +42,21 @@ onMounted(() => {
   // 修改建筑的颜色
   modifyBuild(viewer)
   // 添加动态的光锥特效
-  let lightCone = new LightCone(viewer)
+  new LightCone(viewer)
   // 创建区域上升流光飞线
-  let rectFlyLight = new RectFlyLight(viewer)
+  new RectFlyLight(viewer)
   // 创建道路飞线
-  let roadLightLine = new RoadLightLine(viewer)
+  new RoadLightLine(viewer)
   // 创建雷达
-  let radarLight = new RadarLight(viewer)
+  new RadarLight(viewer)
   // 6边形光波扩散特效
-  let lightSpread = new LightSpread(viewer)
+  new LightSpread(viewer)
   // 创建光墙
-  let lightWall = new LightWall(viewer)
+  new LightWall(viewer)
   // particleLight,创建烟花粒子
-  let particleLight = new ParticleLight(viewer, Cesium.Color.RED)
-  let particleLight1 = new ParticleLight(viewer, Cesium.Color.AQUA)
-  let particleLight2 = new ParticleLight(viewer, Cesium.Color.GREEN)
+  new ParticleLight(viewer, Cesium.Color.RED)
+  new ParticleLight(viewer, Cesium.Color.AQUA)
+  new ParticleLight(viewer, Cesium.Color.GREEN)
 })
 </script>
 

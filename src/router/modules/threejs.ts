@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/Pool',
+  redirect: '/ThreeSmartCity',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
@@ -132,7 +132,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'RawShaderMaterial',
       path: '/RawShaderMaterial',
-      component: () => import('@/views/pages/ThreeJS/Engine/RawShaderMaterial.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/Engine/RawShaderMaterial.vue'),
     },
     {
       meta: {
@@ -142,7 +143,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'WaveShaderMaterial',
       path: '/WaveShaderMaterial',
-      component: () => import('@/views/pages/ThreeJS/Engine/WaveShaderMaterial.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/Engine/WaveShaderMaterial.vue'),
     },
     {
       meta: {
@@ -152,7 +154,8 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'ShaderDeepStudy',
       path: '/ShaderDeepStudy',
-      component: () => import('@/views/pages/ThreeJS/Engine/ShaderDeepStudy.vue'),
+      component: () =>
+        import('@/views/pages/ThreeJS/Engine/ShaderDeepStudy.vue'),
     },
     {
       meta: {
@@ -173,6 +176,26 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'Pool',
       path: '/Pool',
       component: () => import('@/views/pages/ThreeJS/Engine/Pool.vue'),
+    },
+    {
+      meta: {
+        title: '三维地图',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'ThreeMap3D',
+      path: '/ThreeMap3D',
+      component: () => import('@/views/pages/ThreeJS/ThreeDivision/Map3D.vue'),
+    },
+    {
+      meta: {
+        title: '智慧城市',
+        notMenu: true,
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'ThreeSmartCity',
+      path: '/ThreeSmartCity',
+      component: () => import('@/views/pages/ThreeJS/SmartCity/index.vue'),
     },
   ],
 }
