@@ -162,22 +162,22 @@ onMounted(async () => {
     scene.add(res)
   })
   // 生成流动线条
-  // dealLineData(
-  //   '/ThreeJS/geojson/gansu_lines.geojson',
-  //   lineTexture,
-  //   props.height,
-  // ).then((res) => {
-  //   scene.add(res)
-  // })
+  dealLineData(
+    '/ThreeJS/geojson/gansu_lines.geojson',
+    lineTexture,
+    props.height,
+  ).then((res) => {
+    scene.add(res)
+  })
 
-  // // 生成标点
-  // const { map, textMap, features } = await dealPointData(
-  //   '/ThreeJS/geojson/gansu_points.geojson',
-  //   props.height,
-  // )
-  // scene.add(map)
-  // scene.add(textMap)
-  // pointFeatures = features
+  // 生成标点
+  const { map, textMap, features } = await dealPointData(
+    '/ThreeJS/geojson/gansu_points.geojson',
+    props.height,
+  )
+  scene.add(map)
+  scene.add(textMap)
+  pointFeatures = features
 })
 </script>
 <style lang="scss" scoped>
