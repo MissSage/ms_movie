@@ -7,7 +7,7 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/ThreeSmartCity',
+  redirect: '/ThreeMap3D',
   component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {

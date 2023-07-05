@@ -9,7 +9,10 @@ export const DateFormtter = (date: number, placeHolder?: string) => {
  * @param duration
  * @returns
  */
-export const formateDuration = (duration = 0, seperator: 'text' | 'colon' = 'colon') => {
+export const formateDuration = (
+  duration = 0,
+  seperator: 'text' | 'colon' = 'colon',
+) => {
   if (!duration) return '--'
   const secondUnit = seperator === 'colon' ? '' : '秒'
   const miniteUnit = seperator === 'colon' ? ':' : '分'
@@ -24,4 +27,19 @@ export const formateDuration = (duration = 0, seperator: 'text' | 'colon' = 'col
   const second = Math.floor(duration % 60)
   str += padStart(second.toString(), 2, '0') + secondUnit
   return str
+}
+/**
+ * 大数字转换 将数字分段显示，每三位用逗号隔开
+ * @param value 数字值
+ * @param errorOutput 转换失败时的显示内容，默认是''
+ */
+export function toCommaNumber(
+  value: string | number,
+  errorOutput?: string | number,
+) {
+  const pa = Number(value)
+  if (isNaN(pa)) {
+    return errorOutput || ''
+  }
+  return pa.toLocaleString('en-US')
 }

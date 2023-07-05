@@ -1,8 +1,8 @@
 import camera from './camera'
 import renderer from './renderer'
-const init = () => {
+const init = (container: HTMLElement) => {
   // 更新摄像头
-  camera.aspect = window.innerWidth / window.innerHeight
+  camera.aspect = container.clientWidth / container.clientHeight
   //   更新摄像机的投影矩阵
   camera.updateProjectionMatrix()
 
@@ -10,15 +10,16 @@ const init = () => {
   window.addEventListener('resize', () => {
     //   console.log("resize");
     // 更新摄像头
-    camera.aspect = window.innerWidth / window.innerHeight
+    camera.aspect = container.clientWidth / container.clientHeight
     //   更新摄像机的投影矩阵
     camera.updateProjectionMatrix()
 
     //   更新渲染器
-    renderer.setSize(window.innerWidth, window.innerHeight)
+    renderer.setSize(container.clientWidth, container.clientHeight)
     //   设置渲染器的像素比例
     renderer.setPixelRatio(window.devicePixelRatio)
   })
+  return { camera, renderer }
 }
 
 export default init

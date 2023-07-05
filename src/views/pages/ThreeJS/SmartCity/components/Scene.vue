@@ -25,7 +25,7 @@ const emit = defineEmits(['spriteClick'])
 const props = defineProps<{ eventList: any[] }>()
 // 场景元素div
 let sceneDiv = ref<HTMLElement>(document.createElement('div'))
-init()
+
 // 添加相机
 scene.add(camera)
 // 添加辅助坐标轴
@@ -34,6 +34,7 @@ scene.add(camera)
 createMesh()
 
 onMounted(() => {
+  init(sceneDiv.value)
   sceneDiv.value.appendChild(renderer.domElement)
   animate()
 })
@@ -121,10 +122,9 @@ defineExpose({
 
 <style>
 .scene {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  z-index: 100;
+  width: 100%;
+  height: 100%;
+  position: absolute;
   left: 0;
   top: 0;
 }
