@@ -8,11 +8,21 @@ export const RoutesThree: RouteRecordRaw = {
   name: 'ThreeJS',
   path: '/ThreeJS',
   redirect: '/ThreeMap3D',
-  component: () => import('@/views/pages/ThreeJS/index.vue'),
   children: [
     {
       meta: {
-        notMenu: true,
+        // notMenu: true,
+        title: '第一个ThreeJS页面',
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'QuickStart',
+      path: '/QuickStart',
+      component: () =>
+        import('@/views/pages/ThreeJS/QuickStart/index.vue'),
+    },
+    {
+      meta: {
+        // notMenu: true,
         title: '材质和纹理',
         icon: 'mdi:cross-bolnisi',
       },
@@ -23,30 +33,52 @@ export const RoutesThree: RouteRecordRaw = {
     },
     {
       meta: {
-        notMenu: true,
-        title: '平行光',
+        // notMenu: true,
+        title: '光源',
         icon: 'mdi:cross-bolnisi',
       },
-      name: 'DirectionalLight',
-      path: '/DirectionalLight',
-      component: () =>
-        import('@/views/pages/ThreeJS/LightAndShadow/DirectionalLight.vue'),
-    },
-    {
-      meta: {
-        notMenu: true,
-        title: '聚光灯',
-        icon: 'mdi:cross-bolnisi',
-      },
-      name: 'AmbientLight',
-      path: '/AmbientLight',
-      component: () =>
-        import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
+      name: 'Light',
+      path: '/Light',
+      children: [
+        {
+          meta: {
+            // notMenu: true,
+            title: '平行光',
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: 'DirectionalLight',
+          path: '/DirectionalLight',
+          component: () =>
+            import('@/views/pages/ThreeJS/LightAndShadow/DirectionalLight.vue'),
+        },
+        {
+          meta: {
+            // notMenu: true,
+            title: '聚光灯',
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: 'AmbientLight',
+          path: '/AmbientLight',
+          component: () =>
+            import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
+        },
+        {
+          meta: {
+            // notMenu: true,
+            title: '跳动的光源',
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: 'JumpingBall',
+          path: '/JumpingBall',
+          component: () =>
+            import('@/views/pages/ThreeJS/LightAndShadow/JumpingBall.vue'),
+        },
+      ],
     },
     {
       meta: {
         title: '漫天雪花',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'Points',
@@ -56,7 +88,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '银河',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'Galaxy',
@@ -66,7 +98,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '鼠标交互',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'MouseCapture',
@@ -77,7 +109,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '我的3D首页',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'MyHome',
@@ -87,7 +119,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '金属球体碰撞桌面',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'CannonContact',
@@ -97,7 +129,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '金属广场碰撞旋转',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'CannonRotate',
@@ -107,7 +139,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '基于webgl的三角形',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'WebglTriangle',
@@ -117,7 +149,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '着色器编程',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'WebglShader',
@@ -127,7 +159,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '原始着色器',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'RawShaderMaterial',
@@ -138,7 +170,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '波纹效果',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'WaveShaderMaterial',
@@ -149,7 +181,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '效果与函数',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'ShaderDeepStudy',
@@ -160,7 +192,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '水波',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'Water',
@@ -170,7 +202,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '水池',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'Pool',
@@ -180,7 +212,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '三维地图',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'ThreeMap3D',
@@ -190,7 +222,7 @@ export const RoutesThree: RouteRecordRaw = {
     {
       meta: {
         title: '智慧城市',
-        notMenu: true,
+        // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'ThreeSmartCity',

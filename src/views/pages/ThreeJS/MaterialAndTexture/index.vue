@@ -17,7 +17,12 @@ import gsap from 'gsap'
 import { useGUI } from '@/hooks/gui/useGUI'
 const refDiv = ref<HTMLDivElement>()
 const scene = new Scene()
-const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
+const camera = new PerspectiveCamera(
+  75,
+  window.innerWidth / window.innerHeight,
+  0.1,
+  1000,
+)
 const renderer = new WebGLRenderer()
 const geometry = new BoxGeometry(1, 1, 1)
 // 纹理
