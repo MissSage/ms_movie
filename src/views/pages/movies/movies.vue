@@ -25,15 +25,17 @@
           v-if="aouFlag === 'upload'"
           :movie="refList?.TableConfig.currentRow"
           @success="refreshData"
+          @cancel="aouFlag = ''"
         ></Add>
         <Edit
           v-if="aouFlag === 'edit'"
           ref="refEdit"
           :row="refList?.TableConfig.currentRow"
           @success="refreshData"
+          @cancel="aouFlag = ''"
         ></Edit>
         <Detail
-          v-if="aouFlag === ''"
+          v-show="aouFlag === ''"
           ref="refDetail"
           class="mocie-detail"
           :pagination="refList?.TableConfig.pagination"

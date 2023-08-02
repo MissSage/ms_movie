@@ -34,13 +34,14 @@
         >确定</el-button
       >
       <el-button @click="resetForm">重置</el-button>
+      <el-button @click="onCancel">取消</el-button>
     </el-form-item>
   </el-form>
 </template>
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import { importMovies } from '@/api'
-const emit = defineEmits(['success'])
+const emit = defineEmits(['success', 'cancel'])
 const refForm = ref()
 const defaultValue = {
   path: '',
@@ -50,12 +51,15 @@ const defaultValue = {
   img: '',
   types: ['mp4', 'mov'],
 }
-const supportedFormats = ['mp4',  'mov']
+const supportedFormats = ['mp4', 'mov']
 const importedFiles = ref([])
 const form = ref({
   ...defaultValue,
 })
 const loading = ref<boolean>(false)
+const onCancel = () => {
+  emit('cancel')
+}
 const onSubmit = async () => {
   try {
     loading.value = true
