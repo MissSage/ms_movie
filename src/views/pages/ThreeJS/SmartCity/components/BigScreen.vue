@@ -8,7 +8,7 @@
             <span>{{ item.name }}</span>
           </h3>
           <h1>
-            <img src="../assets/bg/bar.svg" class="icon" />
+            <img :src="'@/assets/images/bg/bar.svg'" class="icon" />
             <span>{{ toFixInt(item.number) }}（{{ item.unit }}）</span>
           </h1>
           <div class="footerBoder"></div>
@@ -47,9 +47,9 @@ import { ref } from 'vue'
 const emit = defineEmits(['eventToggle'])
 const props = defineProps<{ dataInfo: any; eventList: any }>()
 const imgs: Record<string, string> = {
-  电力: '/ThreeJS/Texures/bg/dianli.svg',
-  火警: '/ThreeJS/Texures/bg/fire.svg',
-  治安: '/ThreeJS/Texures/bg/jingcha.svg',
+  电力: '/ThreeJS/Texures/images/bg/dianli.svg',
+  火警: '/ThreeJS/Texures/images/bg/fire.svg',
+  治安: '/ThreeJS/Texures/images/bg/jingcha.svg',
 }
 
 const toFixInt = (num: number) => {
@@ -87,7 +87,7 @@ defineExpose({
 
   width: 19.2rem;
   height: 1rem;
-  background-image: url(@/assets/bg/title.png);
+  background-image: url(@/assets/images/bg/title.png);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -106,7 +106,7 @@ defineExpose({
 .left {
   width: 4rem;
   /* background-color: rgb(255,255,255,0.5); */
-  background-image: url(@/assets/bg/line_img.png);
+  background-image: url(@/assets/images/bg/line_img.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right center;
@@ -119,7 +119,7 @@ defineExpose({
 .right {
   width: 4rem;
   /* background-color: rgb(255,255,255,0.5); */
-  background-image: url(@/assets/bg/line_img.png);
+  background-image: url(@/assets/images/bg/line_img.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: left center;
@@ -134,7 +134,7 @@ defineExpose({
   width: 3.5rem;
   /* height: 3rem; */
   margin-bottom: 0.5rem;
-  background-image: url(@/assets/bg/bg_img03.png);
+  background-image: url(@/assets/images/bg/bg_img03.png);
   background-repeat: repeat;
 }
 
