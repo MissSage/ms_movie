@@ -1,38 +1,26 @@
 <template>
-  <div ref="refDiv" class="viewDiv"></div>
+  <div></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
 import * as CANNON from 'cannon-es'
-import { OrbitControls } from '@three-ts/orbit-controls'
 import hit_iron from '@/assets/audios/hit_iron.mp3'
 
-const refDiv = ref<HTMLDivElement>()
-
 /********************************* 场景 */
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 300)
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
-camera.position.set(0, -4, 10)
-scene.add(camera)
-
+const scene:THREE.Scene|undefined = inject('scene')
+const group = new THREE.Object3D()
+scene?.add(group)
+const camera:THREE.Camera|undefined = inject('camera')
+camera?.position.set(0, -4, 10)
 /******************************* 光源 */
 // 环境光
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-scene.add(ambientLight)
+group.add(ambientLight)
 
 // 平行光
 const dirLight = new THREE.DirectionalLight(0xffffff, 0.5)
 dirLight.castShadow = true
-scene.add(dirLight)
-
-/***************************** 坐标轴 */
-const controls = new OrbitControls(camera, renderer.domElement)
-// 允许拖动后再滑动一段
-controls.enableDamping = true
-const axisHelper = new THREE.AxesHelper(5)
-scene.add(axisHelper)
+group.add(dirLight)
 
 // 存储生成的方块
 const cubeArr: { mesh: THREE.Mesh; body: CANNON.Body }[] = []
@@ -58,7 +46,7 @@ const createCube = () => {
   const cubeGeometry = new THREE.BoxGeometry(1, 1, 1)
   const cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
   cube.castShadow = true
-  scene.add(cube)
+  group.add(cube)
 
   // 创建物理方块
   const cubeShape = new CANNON.Box(new CANNON.Vec3(0.5, 0.5, 0.5))
@@ -93,7 +81,7 @@ const createFloor = (y = -5) => {
   floor.position.set(0, y, 0)
   floor.rotation.x = -Math.PI / 2
   floor.receiveShadow = true
-  scene.add(floor)
+  group.add(floor)
 
   // 物理世界创建地面
   const floorShape = new CANNON.Plane()
@@ -154,58 +142,22 @@ const run = () => {
     // 设置渲染的物体跟随物理物体旋转
     item.mesh.quaternion.copy(item.body.quaternion as any)
   })
-  // 设置enableDamping需要调用update方法
-  controls.update()
-  renderer.render(scene, camera)
 }
 
-/**
- * 重置画布大小
- */
-const resizeDiv = () => {
-  if (!refDiv.value) return
-  // 更新摄像头
-  camera.aspect = window.innerWidth / window.innerHeight
-  // 更新摄像头的投影矩阵
-  camera.updateProjectionMatrix()
-  // 更新渲染器宽高
-  renderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
-  // 更新渲染器像素比
-  renderer.setPixelRatio(window.devicePixelRatio)
-}
 const init = () => {
-  resizeDiv()
-  refDiv.value?.appendChild(renderer.domElement)
   run()
   createFloor()
   // 点击页面生成方块
   window.addEventListener('click', createCube)
 }
-const requestFullscreen = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
-  } else {
-    refDiv.value?.requestFullscreen()
-  }
-}
 onMounted(() => {
   init()
-  window.addEventListener('resize', resizeDiv)
-  // window.addEventListener('dblclick', requestFullscreen)
 })
 onBeforeUnmount(() => {
   cancelAnimationFrame(requestId)
-  window.removeEventListener('resize', resizeDiv)
-  window.removeEventListener('dblclick', requestFullscreen)
-  scene.remove(axisHelper)
-  scene.remove(camera)
-  scene.remove(ambientLight)
-  scene.remove(dirLight)
-  axisHelper.dispose()
-  controls.dispose()
-  camera.clear()
-  renderer.dispose()
-  scene.clear()
+  window.removeEventListener('click', createCube)
+  scene?.remove(group)
+  group.clear()
   cubeMaterial.dispose()
   floorMaterial.dispose()
   ambientLight.dispose()

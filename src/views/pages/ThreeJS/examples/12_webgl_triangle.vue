@@ -130,6 +130,8 @@ onMounted(() => {
 .canvas-box {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
 }
 canvas {
   width: 100%;

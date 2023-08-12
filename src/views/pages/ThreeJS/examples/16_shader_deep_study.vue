@@ -1,45 +1,30 @@
 <template>
-  <div ref="refDiv" class="viewDiv"></div>
+  <div></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
-import { OrbitControls } from '@three-ts/orbit-controls'
 // 控制顶点打造波纹效果
 import vertexShader from '../shader/deep/vertex.glsl?raw'
 import fragmentShader from '../shader/deep/fragment.glsl?raw'
 import image_404 from '@/assets/images/404.png'
 import { useGUI } from '@/hooks'
 
-const refDiv = ref<HTMLDivElement>()
-
 /********************************* 场景 */
-const scene = new THREE.Scene()
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  300,
-)
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
-camera.position.set(0, 0, 2)
-scene.add(camera)
+const scene:THREE.Scene|undefined = inject('scene')
+const group = new THREE.Object3D()
+scene?.add(group)
+const camera:THREE.Camera|undefined = inject('camera')
+camera?.position.set(0, 0, 10)
+
 /******************************* 光源 */
 // 环境光
 const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
-scene.add(ambientLight)
+group.add(ambientLight)
 
 // 平行光
 const dirLight = new THREE.DirectionalLight(0xffffff, 0.5)
 dirLight.castShadow = true
-scene.add(dirLight)
-
-/***************************** 坐标轴 */
-const controls = new OrbitControls(camera, renderer.domElement)
-// 允许拖动后再滑动一段
-controls.enableDamping = true
-const axisHelper = new THREE.AxesHelper(5)
-scene.add(axisHelper)
+group.add(dirLight)
 
 // 加载纹理
 const textureLoader = new THREE.TextureLoader()
@@ -83,7 +68,7 @@ const floor = new THREE.Mesh(floorGeometry, floorMaterial)
 floor.position.set(0, 0, 0)
 // floor.rotation.x = -Math.PI / 2
 floor.receiveShadow = true
-scene.add(floor)
+group.add(floor)
 
 const { gui } = useGUI()
 gui
@@ -105,57 +90,18 @@ const run = () => {
 
   // 给材质传递时间参数，让材质动起来
   floorMaterial.uniforms.uTime.value = time
-  // 设置enableDamping需要调用update方法
-  controls.update()
-  renderer.render(scene, camera)
 }
 
-/**
- * 重置画布大小
- */
-const resizeDiv = () => {
-  if (!refDiv.value) return
-  // 更新摄像头
-  camera.aspect = window.innerWidth / window.innerHeight
-  // 更新摄像头的投影矩阵
-  camera.updateProjectionMatrix()
-  // 更新渲染器宽高
-  renderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
-  // 更新渲染器像素比
-  renderer.setPixelRatio(window.devicePixelRatio)
-}
-const init = () => {
-  resizeDiv()
-  refDiv.value?.appendChild(renderer.domElement)
-  run()
-}
-const requestFullscreen = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
-  } else {
-    refDiv.value?.requestFullscreen()
-  }
-}
 onMounted(() => {
-  init()
-  window.addEventListener('resize', resizeDiv)
-  // window.addEventListener('dblclick', requestFullscreen)
+  run()
 })
 onBeforeUnmount(() => {
   cancelAnimationFrame(requestId)
-  window.removeEventListener('resize', resizeDiv)
-  window.removeEventListener('dblclick', requestFullscreen)
-  scene.remove(axisHelper)
-  scene.remove(camera)
-  scene.remove(ambientLight)
-  scene.remove(dirLight)
-  axisHelper.dispose()
-  controls.dispose()
-  camera.clear()
-  renderer.dispose()
-  scene.clear()
+  scene?.remove(group)
   floorMaterial.dispose()
+  floorGeometry.dispose()
   ambientLight.dispose()
+  texture.dispose()
   dirLight.dispose()
 })
 </script>

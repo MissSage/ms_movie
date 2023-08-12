@@ -2,22 +2,18 @@
 漫天雪花
  -->
 <template>
-  <div ref="refDiv" class="viewDiv"></div>
+  <div></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
-import { OrbitControls } from '@three-ts/orbit-controls'
 import snow from '../icons/snow.svg'
-const refDiv = ref<HTMLDivElement>()
 // 场景
-const scene = new THREE.Scene()
+const scene:THREE.Scene|undefined = inject('scene')
 // 相机
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 40)
+const camera:THREE.Camera|undefined = inject('camera')
 // 通过设置position来进行移动
-camera.position.set(0, 0, 80)
-// 渲染器
-const renderer = new THREE.WebGLRenderer()
-renderer.shadowMap.enabled = true
+camera?.position.set(0, 0, 80)
+
 // 几何
 const createPoints = (url: string, size = 0.5) => {
   const geometry = new THREE.BufferGeometry()
@@ -50,16 +46,10 @@ const createPoints = (url: string, size = 0.5) => {
   // 点要素
   const points = new THREE.Points(geometry, material)
 
-  scene.add(points)
+  scene?.add(points)
   return points
 }
 
-// 坐标轴
-const controls = new OrbitControls(camera, renderer.domElement)
-// 允许拖动后再滑动一段
-controls.enableDamping = true
-const axisHelper = new THREE.AxesHelper(5)
-scene.add(axisHelper)
 const points = createPoints(snow, 0.5)
 const points1 = createPoints(snow, 0.5)
 const points2 = createPoints(snow, 1.5)
@@ -74,50 +64,18 @@ const run = () => {
   points1.rotation.y = time * 0.2
   points2.rotation.x = time * 0.2
   points2.rotation.y = time * 0.1
-  // 设置enableDamping需要调用update方法
-  controls.update()
-  renderer.render(scene, camera)
-}
-// 重置画布大小
-const resizeDiv = () => {
-  if (!refDiv.value) return
-  // 更新摄像头
-  camera.aspect = window.innerWidth / window.innerHeight
-  // 更新摄像头的投影矩阵
-  camera.updateProjectionMatrix()
-  // 更新渲染器宽高
-  renderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
-  // 更新渲染器像素比
-  renderer.setPixelRatio(window.devicePixelRatio)
-}
-const init = () => {
-  resizeDiv()
-  refDiv.value?.appendChild(renderer.domElement)
-  run()
-}
-const requestFullscreen = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen()
-  } else {
-    refDiv.value?.requestFullscreen()
-  }
 }
 onMounted(() => {
-  init()
-  window.addEventListener('resize', resizeDiv)
-  window.addEventListener('dblclick', requestFullscreen)
+  run()
 })
 onBeforeUnmount(() => {
   cancelAnimationFrame(requestId)
-  window.removeEventListener('resize', resizeDiv)
-  window.removeEventListener('dblclick', requestFullscreen)
-  scene.remove(points)
-  scene.remove(axisHelper)
-  axisHelper.dispose()
-  controls.dispose()
-  camera.clear()
-  renderer.dispose()
-  scene.clear()
+  scene?.remove(points)
+  scene?.remove(points1)
+  scene?.remove(points2)
+  points1.clear()
+  points2.clear()
+  points.clear()
 })
 </script>
 <style lang="scss" scoped>

@@ -223,7 +223,7 @@ h1 span.time {
 
 .cityEvent li > p {
   color: #eee;
-  padding: 0rem 0.3rem 0.3rem;
+  padding: 0 0.3rem 0.3rem;
 }
 .list h1 {
   padding: 0.1rem 0.3rem;

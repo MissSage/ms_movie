@@ -1,17 +1,10 @@
 <template>
-  <div ref="refDiv" class="viewDiv"></div>
+  <div ref="refDiv"></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
-import { OrbitControls } from '@three-ts/orbit-controls'
 import { toCommaNumber } from '@/utils/Formatter'
-import {
-  css2dRenderer,
-  camera,
-  scene,
-  renderer,
-  createLableObj,
-} from '@/utils/three'
+import { css2dRenderer, createLableObj } from '@/utils/three'
 import {
   createMarrineTexture,
   createSpritelineTexure,
@@ -28,21 +21,16 @@ const props = defineProps<{
   center?: [number, number]
 }>()
 const refDiv = ref<HTMLDivElement>()
-
-const controls = new OrbitControls(camera, renderer.domElement)
-controls.enableDamping = true
-
-// 是否开启右键拖拽,好像与浏览器鼠标手势冲突，需要关闭浏览器的鼠标手势
-controls.enablePan = true
-camera.position.set(0, -15, 30)
+const scene: THREE.Scene | undefined = inject('scene')
+const group = new THREE.Object3D()
+scene?.add(group)
+const camera: THREE.Camera | undefined = inject('camera')
+camera?.position.set(0, -15, 30)
 
 // 处理数据
-// 总的数据对象
-const map = new THREE.Object3D()
 // 用来装弹窗的对象
 const popMap = new THREE.Object3D()
-scene.add(popMap)
-scene.add(map)
+group.add(popMap)
 
 const lineTexture = createSpritelineTexure()
 let pointFeatures: any
@@ -56,9 +44,6 @@ const openPop = (
     { label: '压力', value: 0.48, unit: 'MPa' },
     { label: '水质', value: '合格', unit: '', color: '#1CDB96' },
   ]
-  // if(popMap.children.findIndex(item=>item.obj))
-  console.log(intersectResult)
-
   let listStr = ''
   data.map((item) => {
     listStr += `
@@ -71,7 +56,7 @@ const openPop = (
     </div>
     `
   })
-  const stationObj = pointFeatures.find(
+  const stationObj = pointFeatures?.find(
     (item: any) => item.id === intersectResult.object.name,
   )
   const typeName = typeArr.find(
@@ -95,71 +80,60 @@ const openPop = (
   )
   popMap.add(label)
 }
+let requestId = -1
 const run = () => {
-  requestAnimationFrame(run)
-  // 设置enableDamping需要调用update方法
-
+  requestId = requestAnimationFrame(run)
   // 管线贴图动起来
-  if (lineTexture) lineTexture.offset.x -= 0.005
-  controls.update()
-  renderer.render(scene, camera)
-  css2dRenderer.render(scene, camera)
+  lineTexture.offset.x -= 0.005
+  css2dRenderer.setSize(
+    renderer?.domElement.clientWidth || window.innerWidth,
+    renderer?.domElement.clientHeight || window.innerHeight,
+  )
+  scene && camera && css2dRenderer.render(scene, camera)
 }
-const resizeDiv = () => {
-  if (!refDiv.value) return
-  // 更新摄像头
-  // camera.aspect = window.innerWidth / window.innerHeight
-  camera.aspect = refDiv.value.clientWidth / refDiv.value.clientHeight
-  // 更新摄像头的投影矩阵
-  camera.updateProjectionMatrix()
-  renderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
-  renderer.setPixelRatio(window.devicePixelRatio)
+const stop = () => {
+  cancelAnimationFrame(requestId)
 }
+const renderer: THREE.WebGLRenderer | undefined = inject('renderer')
 const init = () => {
-  resizeDiv()
-  refDiv.value?.appendChild(renderer.domElement)
-  if (refDiv.value) {
-    css2dRenderer.setSize(refDiv.value.clientWidth, refDiv.value.clientHeight)
-    refDiv.value.appendChild(css2dRenderer.domElement)
-  }
+  refDiv.value?.appendChild(css2dRenderer.domElement)
   run()
+}
+let pointRes: {
+  map?: THREE.Object3D<THREE.Event>
+  textMap?: THREE.Object3D<THREE.Event>
+  features?: any
+} = {}
+const markClick = (e: MouseEvent) => {
+  if (!renderer?.domElement) return
+  // 获取鼠标的位置
+  const mouse = new THREE.Vector2()
+  mouse.x = (e.offsetX / renderer.domElement.clientWidth) * 2 - 1
+  mouse.y = -(e.offsetY / renderer.domElement.clientHeight) * 2 + 1
+
+  // 获取鼠标点击的位置
+  const rayCaster = new THREE.Raycaster()
+  camera && rayCaster.setFromCamera(mouse, camera)
+  // 获取点击的点
+  if (!pointRes.map) return
+  const intersects = rayCaster.intersectObjects(pointRes.map.children)
+  if (intersects.length) {
+    popMap.clear()
+    openPop(intersects[0])
+  } else {
+    popMap.clear()
+  }
+  return false
 }
 onMounted(async () => {
   init()
-
-  window.addEventListener('resize', () => {
-    // 更新渲染器
-    resizeDiv()
-  })
-
-  controls.addEventListener('change', (e) => console.log(e))
-  window.addEventListener('click', (e) => {
-    if (!refDiv.value) return
-    // 获取鼠标的位置
-    const mouse = new THREE.Vector2()
-    mouse.x = (e.offsetX / refDiv.value.clientWidth) * 2 - 1
-    mouse.y = -(e.offsetY / refDiv.value.clientHeight) * 2 + 1
-
-    // 获取鼠标点击的位置
-    const rayCaster = new THREE.Raycaster()
-    rayCaster.setFromCamera(mouse, camera)
-    // 获取点击的点
-    const intersects = rayCaster.intersectObjects(map.children)
-    if (intersects.length) {
-      popMap.clear()
-      openPop(intersects[0])
-    } else {
-      popMap.clear()
-    }
-    return false
-  })
   // 生成范围形状
   dealBoundaryData(
     '/ThreeJS/geojson/gansu_boundary.geojson',
     createMarrineTexture(),
     props.height,
   ).then((res) => {
-    scene.add(res)
+    group?.add(res)
   })
   // 生成流动线条
   dealLineData(
@@ -167,17 +141,28 @@ onMounted(async () => {
     lineTexture,
     props.height,
   ).then((res) => {
-    scene.add(res)
+    group.add(res)
   })
 
+  renderer?.domElement?.addEventListener('click', markClick)
   // 生成标点
-  const { map, textMap, features } = await dealPointData(
+  pointRes = await dealPointData(
     '/ThreeJS/geojson/gansu_points.geojson',
     props.height,
   )
-  scene.add(map)
-  scene.add(textMap)
-  pointFeatures = features
+  pointRes.map && group.add(pointRes.map)
+  pointRes.textMap && group.add(pointRes.textMap)
+  pointFeatures = pointRes.features
+})
+onBeforeUnmount(() => {
+  stop()
+  renderer?.domElement?.removeEventListener('click', markClick)
+  css2dRenderer.domElement.remove()
+  scene?.remove(group)
+  popMap.clear()
+  pointRes.map?.clear()
+  pointRes.textMap?.clear()
+  group.clear()
 })
 </script>
 <style lang="scss" scoped>
@@ -201,6 +186,7 @@ onMounted(async () => {
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
+  color: #66f5ff;
   background-image: linear-gradient(
       to right,
       rgba(7, 81, 84, 0.8),
@@ -246,7 +232,7 @@ onMounted(async () => {
   animation-name: scaleable;
   animation-duration: 0.2s;
   animation-delay: 0.2;
-  background: url('../img/pop_bg.png') 0 0 /100% 100% no-repeat;
+  background: url('./imgs/pop_bg.png') 0 0 /100% 100% no-repeat;
   &::after {
     content: '';
     width: 2px;

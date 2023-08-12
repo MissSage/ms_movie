@@ -1,0 +1,37 @@
+
+@mixin hideScrollBar {
+
+  /*定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸*/
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px 3px;
+    background-color: transparent;
+  }
+
+  /*定义滚动条轨道 内阴影+圆角*/
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  &::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+  }
+
+  /*定义滑块 内阴影+圆角*/
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 3px transparent;
+    border-radius: 3px;
+    background-color: transparent;
+    border: 1px solid transparent;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &::-webkit-scrollbar-corner {
+    // background-color: #83a6b140;
+    background-color: transparent;
+  }
+}

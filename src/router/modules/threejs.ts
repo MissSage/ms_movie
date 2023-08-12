@@ -7,18 +7,18 @@ export const RoutesThree: RouteRecordRaw = {
   },
   name: 'ThreeJS',
   path: '/ThreeJS',
-  redirect: '/ThreeMap3D',
+  component: () => import('@/views/pages/ThreeJS/components/ThreeBasic.vue'),
   children: [
     {
       meta: {
         // notMenu: true,
-        title: '第一个ThreeJS页面',
+        title: 'Hello Three',
         icon: 'mdi:cross-bolnisi',
       },
       name: 'QuickStart',
       path: '/QuickStart',
       component: () =>
-        import('@/views/pages/ThreeJS/QuickStart/index.vue'),
+        import('@/views/pages/ThreeJS/examples/01_quick_start.vue'),
     },
     {
       meta: {
@@ -29,51 +29,40 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'Materia',
       path: '/Materia',
       component: () =>
-        import('@/views/pages/ThreeJS/MaterialAndTexture/index.vue'),
+        import('@/views/pages/ThreeJS/examples/02_material_texture.vue'),
     },
     {
       meta: {
         // notMenu: true,
-        title: '光源',
+        title: '平行光',
         icon: 'mdi:cross-bolnisi',
       },
-      name: 'Light',
-      path: '/Light',
-      children: [
-        {
-          meta: {
-            // notMenu: true,
-            title: '平行光',
-            icon: 'mdi:cross-bolnisi',
-          },
-          name: 'DirectionalLight',
-          path: '/DirectionalLight',
-          component: () =>
-            import('@/views/pages/ThreeJS/LightAndShadow/DirectionalLight.vue'),
-        },
-        {
-          meta: {
-            // notMenu: true,
-            title: '聚光灯',
-            icon: 'mdi:cross-bolnisi',
-          },
-          name: 'AmbientLight',
-          path: '/AmbientLight',
-          component: () =>
-            import('@/views/pages/ThreeJS/LightAndShadow/AmbientLight.vue'),
-        },
-        {
-          meta: {
-            // notMenu: true,
-            title: '跳动的光源',
-            icon: 'mdi:cross-bolnisi',
-          },
-          name: 'JumpingBall',
-          path: '/JumpingBall',
-          component: () =>
-            import('@/views/pages/ThreeJS/LightAndShadow/JumpingBall.vue'),
-        },
-      ],
+      name: 'DirectionalLight',
+      path: '/DirectionalLight',
+      component: () =>
+        import('@/views/pages/ThreeJS/examples/03_directional_light.vue'),
+    },
+    {
+      meta: {
+        // notMenu: true,
+        title: '聚光灯',
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'AmbientLight',
+      path: '/AmbientLight',
+      component: () =>
+        import('@/views/pages/ThreeJS/examples/04_ambient_light.vue'),
+    },
+    {
+      meta: {
+        // notMenu: true,
+        title: '跳动的小球',
+        icon: 'mdi:cross-bolnisi',
+      },
+      name: 'JumpingBall',
+      path: '/JumpingBall',
+      component: () =>
+        import('@/views/pages/ThreeJS/examples/05_jumping_ball.vue'),
     },
     {
       meta: {
@@ -81,9 +70,9 @@ export const RoutesThree: RouteRecordRaw = {
         // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
-      name: 'Points',
-      path: '/Points',
-      component: () => import('@/views/pages/ThreeJS/Particles/Points.vue'),
+      name: 'Snow',
+      path: '/Snow',
+      component: () => import('@/views/pages/ThreeJS/examples/06_snow.vue'),
     },
     {
       meta: {
@@ -93,7 +82,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'Galaxy',
       path: '/Galaxy',
-      component: () => import('@/views/pages/ThreeJS/Particles/Galaxy.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/07_galaxy.vue'),
     },
     {
       meta: {
@@ -104,17 +93,17 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'MouseCapture',
       path: '/MouseCapture',
       component: () =>
-        import('@/views/pages/ThreeJS/Intersection/MouseCapture.vue'),
+        import('@/views/pages/ThreeJS/examples/08_mouse_capture.vue'),
     },
     {
       meta: {
-        title: '我的3D首页',
+        title: '3D首页',
         // notMenu: true,
         icon: 'mdi:cross-bolnisi',
       },
       name: 'MyHome',
       path: '/MyHome',
-      component: () => import('@/views/pages/ThreeJS/ScrollPages/MyHome.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/09_3d_home_page.vue'),
     },
     {
       meta: {
@@ -124,7 +113,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'CannonContact',
       path: '/CannonContact',
-      component: () => import('@/views/pages/ThreeJS/Engine/CannonContact.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/10_drop_ball.vue'),
     },
     {
       meta: {
@@ -134,7 +123,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'CannonRotate',
       path: '/CannonRotate',
-      component: () => import('@/views/pages/ThreeJS/Engine/CannonRotate.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/11_cannon_rotate.vue'),
     },
     {
       meta: {
@@ -144,7 +133,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'WebglTriangle',
       path: '/WebglTriangle',
-      component: () => import('@/views/pages/ThreeJS/Engine/WebglTriangle.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/12_webgl_triangle.vue'),
     },
     {
       meta: {
@@ -154,7 +143,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'WebglShader',
       path: '/WebglShader',
-      component: () => import('@/views/pages/ThreeJS/Engine/WebglShader.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/13_webgl_shader.vue'),
     },
     {
       meta: {
@@ -165,7 +154,7 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'RawShaderMaterial',
       path: '/RawShaderMaterial',
       component: () =>
-        import('@/views/pages/ThreeJS/Engine/RawShaderMaterial.vue'),
+        import('@/views/pages/ThreeJS/examples/14_raw_shader_material.vue'),
     },
     {
       meta: {
@@ -176,7 +165,7 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'WaveShaderMaterial',
       path: '/WaveShaderMaterial',
       component: () =>
-        import('@/views/pages/ThreeJS/Engine/WaveShaderMaterial.vue'),
+        import('@/views/pages/ThreeJS/examples/15_wave_shader_material.vue'),
     },
     {
       meta: {
@@ -187,7 +176,7 @@ export const RoutesThree: RouteRecordRaw = {
       name: 'ShaderDeepStudy',
       path: '/ShaderDeepStudy',
       component: () =>
-        import('@/views/pages/ThreeJS/Engine/ShaderDeepStudy.vue'),
+        import('@/views/pages/ThreeJS/examples/16_shader_deep_study.vue'),
     },
     {
       meta: {
@@ -197,7 +186,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'Water',
       path: '/Water',
-      component: () => import('@/views/pages/ThreeJS/Engine/Water.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/17_water.vue'),
     },
     {
       meta: {
@@ -207,7 +196,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'Pool',
       path: '/Pool',
-      component: () => import('@/views/pages/ThreeJS/Engine/Pool.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/18_pool.vue'),
     },
     {
       meta: {
@@ -217,7 +206,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'ThreeMap3D',
       path: '/ThreeMap3D',
-      component: () => import('@/views/pages/ThreeJS/ThreeDivision/Map3D.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/3DMap/Map3D.vue'),
     },
     {
       meta: {
@@ -227,7 +216,7 @@ export const RoutesThree: RouteRecordRaw = {
       },
       name: 'ThreeSmartCity',
       path: '/ThreeSmartCity',
-      component: () => import('@/views/pages/ThreeJS/SmartCity/index.vue'),
+      component: () => import('@/views/pages/ThreeJS/examples/SmartCity/index.vue'),
     },
   ],
 }

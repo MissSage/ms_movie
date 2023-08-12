@@ -2,7 +2,7 @@
   <ElContainer>
     <el-menu
       :mode="'vertical'"
-      class="el-menu-vertical-demo"
+      class="menu-aside"
       :collapse="store.layout.collapse"
       :router="true"
       :default-active="router.currentRoute.value.path"
@@ -46,15 +46,24 @@ import { Icon } from '@iconify/vue'
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/styles/mixin.scss';
 .el-container {
   height: 100%;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .el-main {
   padding: 0;
   height: calc(100% - 40px);
 }
-
+.menu-aside{
+  height: 100%;
+  overflow-y: auto;
+  overflow-y: overlay;
+  
+  @include hideScrollBar;
+}
 .el-header {
   --el-header-padding: 0;
   --el-header-height: 40px;

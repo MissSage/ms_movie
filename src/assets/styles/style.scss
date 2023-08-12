@@ -1,3 +1,4 @@
+@import './mixin.scss';
 :root {
   font-size: 16px;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -7,7 +8,6 @@
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-size-adjust: 100%;
 }
 *{
   box-sizing: border-box;
