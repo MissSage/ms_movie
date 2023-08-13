@@ -8,7 +8,7 @@
             <span>{{ item.name }}</span>
           </h3>
           <h1>
-            <img :src="'@/assets/images/bg/bar.svg'" class="icon" />
+            <img :src="barSvg" class="icon" />
             <span>{{ toFixInt(item.number) }}（{{ item.unit }}）</span>
           </h1>
           <div class="footerBoder"></div>
@@ -44,6 +44,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import barSvg from '../imgs/bar.svg'
 const emit = defineEmits(['eventToggle'])
 const props = defineProps<{ dataInfo: any; eventList: any }>()
 const imgs: Record<string, string> = {
@@ -77,70 +78,64 @@ defineExpose({
   left: 0;
   top: 0;
   pointer-events: none;
-  display: flex;
-  flex-direction: column;
 }
 
 .header {
   /* width: 1920px;
         height: 100px; */
 
-  width: 19.2rem;
-  height: 1rem;
-  background-image: url(@/assets/images/bg/title.png);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 70px;
+  background: url(../imgs/title.png) 0 0 / 100% 100% no-repeat;
   text-align: center;
-  color: rgb(226, 226, 255);
-  font-size: 0.4rem;
+  color: rgb(104, 245, 255);
+  font-size: 28px;
 }
 
 .main {
-  flex: 1;
-  width: 19.2rem;
+  width: 100%;
+  height: calc(100% - 70px);
   display: flex;
   justify-content: space-between;
 }
 
 .left {
-  width: 4rem;
+  width: 400px;
   /* background-color: rgb(255,255,255,0.5); */
-  background-image: url(@/assets/images/bg/line_img.png);
+  background-image: url(../imgs/line_img.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.4rem 0;
+  padding: 40px 0;
 }
 
 .right {
-  width: 4rem;
+  width: 400px;
   /* background-color: rgb(255,255,255,0.5); */
-  background-image: url(@/assets/images/bg/line_img.png);
+  background-image: url(../imgs/line_img.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: left center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.4rem 0;
+  padding: 40px 0;
 }
 
 .cityEvent {
   position: relative;
-  width: 3.5rem;
-  /* height: 3rem; */
-  margin-bottom: 0.5rem;
-  background-image: url(@/assets/images/bg/bg_img03.png);
+  width: 350px;
+  margin-bottom: 50px;
+  background-image: url(../imgs/bg_img03.png);
   background-repeat: repeat;
 }
 
 .cityEvent::before {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 40px;
+  height: 40px;
   position: absolute;
   left: 0;
   top: 0;
@@ -151,8 +146,8 @@ defineExpose({
 }
 
 .cityEvent::after {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 40px;
+  height: 40px;
   position: absolute;
   right: 0;
   top: 0;
@@ -165,12 +160,12 @@ defineExpose({
   position: absolute;
   bottom: 0;
   bottom: 0;
-  width: 3.5rem;
-  height: 0.4rem;
+  width: 350px;
+  height: 40px;
 }
 .footerBorder::before {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 40px;
+  height: 40px;
   position: absolute;
   left: 0;
   top: 0;
@@ -181,8 +176,8 @@ defineExpose({
 }
 
 .footerBorder::after {
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 40px;
+  height: 40px;
   position: absolute;
   right: 0;
   top: 0;
@@ -201,15 +196,15 @@ h1 {
   color: #fff;
   display: flex;
   align-items: center;
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 30px 30px;
   justify-content: space-between;
-  font-size: 0.3rem;
+  font-size: 30px;
 }
 h3 {
   color: #fff;
   display: flex;
   align-items: center;
-  padding: 0.3rem 0.3rem;
+  padding: 30px 30px;
 }
 
 h1 > div {
@@ -217,16 +212,16 @@ h1 > div {
   align-items: center;
 }
 h1 span.time {
-  font-size: 0.2rem;
+  font-size: 20px;
   font-weight: normal;
 }
 
 .cityEvent li > p {
   color: #eee;
-  padding: 0 0.3rem 0.3rem;
+  padding: 0 30px 30px;
 }
 .list h1 {
-  padding: 0.1rem 0.3rem;
+  padding: 10px 30px;
 }
 .cityEvent.list ul {
   pointer-events: auto;

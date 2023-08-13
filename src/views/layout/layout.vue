@@ -1,30 +1,8 @@
 <template>
-  <ElContainer>
-    <el-menu
-      :mode="'vertical'"
-      class="menu-aside"
-      :collapse="store.layout.collapse"
-      :router="true"
-      :default-active="router.currentRoute.value.path"
-    >
-      <template v-for="cMenu in routes" :key="cMenu.path">
-        <menu-item v-if="!cMenu.meta?.notMenu" :menu="cMenu"></menu-item>
-      </template>
-    </el-menu>
-    <el-container>
-      <el-header>
-        <css-doodle click-to-update use="var(--container),var(--flowers)"></css-doodle>
-        <div class="header-wrapper">
-          <Icon
-            :title="store.layout.collapse ? '展开菜单' : '折叠菜单'"
-            class="hamburger"
-            :class="{ collapse: store.layout.collapse }"
-            icon="quill:hamburger"
-            @click="store.layout.Toggle_Collapse"
-          >
-          </Icon>
-        </div>
-      </el-header>
+  <div class="layout" :style="state.styleObj">
+    <SideMenu @resize="handleMenuResize"></SideMenu>
+    <el-container class="layout-main">
+      <HeadMenu></HeadMenu>
       <el-main>
         <router-view v-slot="{ Component }">
           <KeepAlive :include="['movie']">
@@ -35,62 +13,38 @@
         </router-view>
       </el-main>
     </el-container>
-  </ElContainer>
+  </div>
 </template>
 <script setup lang="ts">
 import 'css-doodle'
 import { RouterView } from 'vue-router'
-import router, { routes } from '../../router'
-import store from '@/store'
-import { Icon } from '@iconify/vue'
+import SideMenu from './components/SideMenu.vue'
+import HeadMenu from './components/HeadMenu.vue'
+
+const state = reactive<{ styleObj: any }>({
+  styleObj: {
+    '--menu-width': 200,
+  },
+})
+const handleMenuResize = (width: number) => {
+  state.styleObj['--menu-width'] = width + 'px'
+}
 </script>
 
 <style lang="scss" scoped>
-@import '@/assets/styles/mixin.scss';
-.el-container {
+.layout {
+  width: 100%;
   height: 100%;
   -webkit-user-select: none;
   user-select: none;
+  display: flex;
 }
-
+.layout-main {
+  width: calc(100% - var(--menu-width));
+  overflow: auto;
+  overflow: overlay;
+}
 .el-main {
   padding: 0;
-  height: calc(100% - 40px);
-}
-.menu-aside{
-  height: 100%;
-  overflow-y: auto;
-  overflow-y: overlay;
-  
-  @include hideScrollBar;
-}
-.el-header {
-  --el-header-padding: 0;
-  --el-header-height: 40px;
-
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-
-  .header-wrapper {
-    position: absolute;
-    padding: 0 12px;
-  }
-}
-
-.hamburger {
-  cursor: pointer;
-}
-
-.collapse {
-  transform: rotate(90deg);
-}
-
-css-doodle {
-  --container: (: doodle{@grid: 20x1; @size: 100vmax 40px; background: #0a0c27;});
-  --flowers: (
-    @shape: clover 5; background: hsl(calc(360 - @i * 4) 70% 68% / @r.8) ; transform:
-      scale(@r (0.2, 1.5)) translate(@m2. @r (±50%)) ;
-  );
 }
 </style>

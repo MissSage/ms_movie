@@ -147,16 +147,6 @@ export const dealLineData = async (
   )
   return map
 }
-export const createSpritelineTexure = () => {
-  const textureLoader = new THREE.TextureLoader()
-  const lineTexture = textureLoader.load(
-    '/ThreeJS/Textures/SpriteLine/spriteline1.png',
-  )
-  lineTexture.wrapS = lineTexture.wrapT = THREE.RepeatWrapping
-  lineTexture.repeat.set(1, 1)
-  lineTexture.needsUpdate = true
-  return lineTexture
-}
 type IFeature = {
   id: any
   properties: { name: string; type: string }

@@ -1,5 +1,5 @@
 <template>
-  <div ref="refDiv" class="viewDiv"></div>
+  <div></div>
 </template>
 <script lang="ts" setup>
 import * as THREE from 'three'
@@ -33,37 +33,29 @@ const water = new Water(new THREE.PlaneGeometry(1, 1, 1024, 1024), {
 })
 water.rotation.x = -Math.PI / 2
 group.add(water)
-
+let oldBackground: any
+let oldEnv: any
 // 加载场景
 const rgbeLoader = new RGBELoader()
 if (scene) {
   rgbeLoader.loadAsync('/hdrs/satan.hdr').then((texture) => {
     texture.mapping = THREE.EquirectangularReflectionMapping
+    oldBackground = scene.background
+    oldEnv = scene.environment
     scene.background = texture
     scene.environment = texture
   })
 }
-// const clock = new THREE.Clock()
-let requestId = -1
-/**
- * 更新动画
- */
-const run = () => {
-  requestId = requestAnimationFrame(run)
-  // let time = clock.getElapsedTime()
 
-  // 给材质传递时间参数，让材质动起来
-  // floorMaterial.uniforms.uTime.value = time
-}
-
-onMounted(() => {
-  run()
-})
 onBeforeUnmount(() => {
-  cancelAnimationFrame(requestId)
+  group.clear()
   scene?.remove(group)
   ambientLight.dispose()
   dirLight.dispose()
+  if(scene){
+    scene.environment = oldEnv
+    scene.background = oldBackground
+  }
 })
 </script>
 <style lang="scss" scoped>

@@ -29,7 +29,10 @@
     <el-sub-menu v-else :index="menu.path">
       <template #title>
         <el-icon>
-          <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon?.toString()"></Icon>
+          <Icon
+            v-if="menu.meta?.icon"
+            :icon="menu.meta.icon?.toString()"
+          ></Icon>
         </el-icon>
         <span>
           {{ menu.meta?.title }}
@@ -40,12 +43,16 @@
       </template>
     </el-sub-menu>
   </template>
-  <el-menu-item v-else-if="!menu.meta?.hidden" :index="menu.path">
+  <el-menu-item
+    v-else-if="!menu.meta?.hidden"
+    :index="menu.path"
+    :title="menu.meta?.title"
+  >
     <el-icon>
       <Icon v-if="menu.meta?.icon" :icon="menu.meta.icon?.toString()"></Icon>
     </el-icon>
     <template #title>
-      <span>
+      <span class="menu-label">
         {{ menu.meta?.title }}
       </span>
     </template>
@@ -62,3 +69,10 @@ const hasShowedChild = (menu: RouteRecordRaw) => {
   return menu.children.filter((item) => item.meta?.notMenu !== true).length > 0
 }
 </script>
+<style lang="scss" scoped>
+.menu-label {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-wrap: nowrap;
+}
+</style>

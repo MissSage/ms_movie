@@ -4,15 +4,17 @@
 <script lang="ts" setup>
 import * as THREE from 'three'
 import { toCommaNumber } from '@/utils/Formatter'
-import { css2dRenderer, createLableObj } from '@/utils/three'
 import {
   createMarrineTexture,
-  createSpritelineTexure,
   dealBoundaryData,
   dealLineData,
   dealPointData,
   typeArr,
 } from './util'
+import {
+  CSS2DObject,
+  CSS2DRenderer,
+} from 'three/examples/jsm/renderers/CSS2DRenderer'
 const props = defineProps<{
   height?: number
   url?: string
@@ -27,13 +29,45 @@ scene?.add(group)
 const camera: THREE.Camera | undefined = inject('camera')
 camera?.position.set(0, -15, 30)
 
-// 处理数据
-// 用来装弹窗的对象
+// // 处理数据
+
+// 画线
+const textureLoader = new THREE.TextureLoader()
+const lineTexture = textureLoader.load(
+  '/ThreeJS/Textures/SpriteLine/spriteline1.png',
+)
+lineTexture.wrapS = lineTexture.wrapT = THREE.RepeatWrapping
+lineTexture.repeat.set(1, 1)
+lineTexture.needsUpdate = true
+
+// 点
+
+// 气泡弹窗
+const css2dRenderer = new CSS2DRenderer()
+css2dRenderer.domElement.style.position = 'absolute'
+css2dRenderer.domElement.style.top = '0px'
+css2dRenderer.domElement.style.pointerEvents = 'none'
+// // 用来装弹窗的对象
 const popMap = new THREE.Object3D()
 group.add(popMap)
 
-const lineTexture = createSpritelineTexure()
 let pointFeatures: any
+const createLableObj = (
+  text: string,
+  options: {
+    longitude: number
+    latitude: number
+    height: number
+    className?: string
+  },
+) => {
+  const laberDiv = document.createElement('div') // 创建div容器
+  laberDiv.className = options.className || ''
+  laberDiv.innerHTML = text
+  const pointLabel = new CSS2DObject(laberDiv)
+  pointLabel.position.set(options.longitude, -options.latitude, options.height)
+  return pointLabel
+}
 const openPop = (
   intersectResult: THREE.Intersection<THREE.Object3D<THREE.Event>>,
 ) => {
@@ -80,6 +114,7 @@ const openPop = (
   )
   popMap.add(label)
 }
+
 let requestId = -1
 const run = () => {
   requestId = requestAnimationFrame(run)
@@ -154,6 +189,7 @@ onMounted(async () => {
   pointRes.textMap && group.add(pointRes.textMap)
   pointFeatures = pointRes.features
 })
+
 onBeforeUnmount(() => {
   stop()
   renderer?.domElement?.removeEventListener('click', markClick)
