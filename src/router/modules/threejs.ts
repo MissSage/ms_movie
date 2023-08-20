@@ -228,6 +228,39 @@ export const RoutesThree: RouteRecordRaw = {
           component: () =>
             import('@/views/pages/ThreeJS/examples/3DMap/Map3D.vue'),
         },
+        {
+          meta: {
+            title: '几何体顶点与索引',
+            // notMenu: true,
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: '19_geometry_vertices_indexes',
+          path: '/19_geometry_vertices_indexes',
+          component: () =>
+            import('@/views/pages/ThreeJS/examples/19_geometry_vertices_indexes.vue'),
+        },
+        {
+          meta: {
+            title: '几何体顶点分组与材质',
+            // notMenu: true,
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: '20_geometry_vertices_materials',
+          path: '/20_geometry_vertices_materials',
+          component: () =>
+            import('@/views/pages/ThreeJS/examples/20_geometry_vertices_materials.vue'),
+        },
+        {
+          meta: {
+            title: '基础材质纹理贴图使用',
+            // notMenu: true,
+            icon: 'mdi:cross-bolnisi',
+          },
+          name: '21_basic_material_texture',
+          path: '/21_basic_material_texture',
+          component: () =>
+            import('@/views/pages/ThreeJS/examples/21_basic_material_texture.vue'),
+        },
       ],
     },
     {

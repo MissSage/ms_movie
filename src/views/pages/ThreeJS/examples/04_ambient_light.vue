@@ -4,6 +4,7 @@
 <script lang="ts" setup>
 import * as THREE from 'three'
 import { useGUI } from '@/hooks/gui/useGUI'
+import { GUI } from 'dat.gui'
 const scene: THREE.Scene | undefined = inject('scene')
 const group = new THREE.Object3D()
 scene?.add(group)
@@ -50,11 +51,11 @@ spotLight.shadow.mapSize.set(4096, 4096)
 group?.add(spotLight)
 
 // 添加gui属性调节器
-const gui = useGUI()
-const folder1 = gui.gui.addFolder('调整光源')
-folder1.open()
+const gui: GUI | undefined = inject('gui')
+const folder1 = gui?.addFolder('调整光源')
+folder1?.open()
 folder1
-  .add(spotLight.position as any, 'x')
+  ?.add(spotLight.position as any, 'x')
   .min(-20)
   .max(20)
   .step(0.1)
@@ -62,7 +63,7 @@ folder1
     spotLight.shadow.camera.updateProjectionMatrix()
   })
 folder1
-  .add(spotLight.position as any, 'y')
+  ?.add(spotLight.position as any, 'y')
   .min(-20)
   .max(20)
   .step(0.1)
@@ -70,7 +71,7 @@ folder1
     spotLight.shadow.camera.updateProjectionMatrix()
   })
 folder1
-  .add(spotLight.position as any, 'z')
+  ?.add(spotLight.position as any, 'z')
   .min(-20)
   .max(20)
   .step(0.1)
@@ -78,39 +79,39 @@ folder1
     spotLight.shadow.camera.updateProjectionMatrix()
   })
 folder1
-  .add(spotLight as any, 'angle')
+  ?.add(spotLight as any, 'angle')
   .min(0)
   .max(Math.PI / 2)
   .step(0.01)
 folder1
-  .add(spotLight as any, 'distance')
+  ?.add(spotLight as any, 'distance')
   .min(0)
   .max(10)
   .step(0.01)
 folder1
-  .add(spotLight as any, 'penumbra')
+  ?.add(spotLight as any, 'penumbra')
   .min(0)
   .max(1)
   .step(0.01)
 folder1
-  .add(spotLight as any, 'decay')
+  ?.add(spotLight as any, 'decay')
   .min(0)
   .max(5)
   .step(0.01)
-const folder2 = gui.gui.addFolder('设置小球')
-folder2.open()
+const folder2 = gui?.addFolder('设置小球')
+folder2?.open()
 folder2
-  .add(sphere.position as any, 'x')
+  ?.add(sphere.position as any, 'x')
   .min(-10)
   .max(10)
   .step(0.1)
-  folder2
-  .add(sphere.position as any, 'y')
+folder2
+  ?.add(sphere.position as any, 'y')
   .min(-10)
   .max(10)
   .step(0.1)
-  folder2
-  .add(sphere.position as any, 'z')
+folder2
+  ?.add(sphere.position as any, 'z')
   .min(-10)
   .max(10)
   .step(0.1)
@@ -123,6 +124,8 @@ onBeforeUnmount(() => {
   material.dispose()
   sphereGeometry.dispose()
   planeGeometry.dispose()
+  folder1 && gui?.removeFolder(folder1)
+  folder2 && gui?.removeFolder(folder2)
 })
 </script>
 <style lang="scss" scoped>

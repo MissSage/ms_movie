@@ -89,5 +89,8 @@ interface Window {
       gisSDK: string
       pipeService: string
     }
+    urls: {
+      files: string
+    }
   }
 }

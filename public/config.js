@@ -17,6 +17,9 @@ const SITE_CONFIG = {
   audioConfig:{
     audioBase: 'http://localhost:8083',
     imgBase: 'http://localhost:8083'
+  },
+  urls: {
+    files: 'http://www.piaoerbe.com/files'
   }
 }
 window.SITE_CONFIG = SITE_CONFIG

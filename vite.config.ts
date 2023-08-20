@@ -42,7 +42,13 @@ export default defineConfig(({mode}): UserConfig => {
         overlay: true,
       },
       host: true,
-      port: 5000
+      port: 5000,
+      proxy: {
+        '/files/': {
+          target: 'http://www.piaoerbe.com/',
+          changeOrigin: true
+        }
+      }
     },
     plugins: [
       vue({

@@ -8,6 +8,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { useGUI } from '@/hooks'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 const refDiv = ref<HTMLDivElement>(document.createElement('div'))
@@ -81,11 +82,23 @@ const requestFullscreen = () => {
     refDiv.value?.requestFullscreen()
   }
 }
+let eventObj = {
+  Fullscreen: requestFullscreen
+};
 
+const { gui } = useGUI()
+
+const folder = gui.addFolder('布局属性')
+folder.open()
+folder.add(camera.position,'x').name('cameraX').min(-20).max(20).step(1)
+folder.add(camera.position,'y').name('cameraY').min(-20).max(20).step(1)
+folder.add(camera.position,'z').name('cameraZ').min(-20).max(20).step(1)
+folder.add(eventObj,'Fullscreen').name('全屏')
 provide('scene', scene)
 provide('camera', camera)
 provide('renderer', renderer)
 provide('controls', controls)
+provide('gui', gui)
 const observer = new ResizeObserver(resizeDiv)
 onMounted(() => {
   init()

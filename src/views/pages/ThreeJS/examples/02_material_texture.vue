@@ -5,7 +5,8 @@
 import * as THREE from 'three'
 import gsap from 'gsap'
 import { useGUI } from '@/hooks/gui/useGUI'
-const scene: THREE.Scene|undefined = inject('scene')
+import { GUI } from 'dat.gui'
+const scene: THREE.Scene | undefined = inject('scene')
 
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 // 纹理
@@ -15,13 +16,13 @@ const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, map: pic })
 const cube = new THREE.Mesh(geometry, material)
 scene?.add(cube)
 
-const { gui } = useGUI()
+const gui: GUI | undefined = inject('gui')
 
 // 添加文件夹
-const folder = gui.addFolder('设置立方体')
+const folder = gui?.addFolder('设置立方体')
 // 添加x属性修改
 folder
-  .add(cube.position as any, 'x')
+  ?.add(cube.position as any, 'x')
   .min(0)
   .max(5)
   .step(0.01)
@@ -30,7 +31,7 @@ folder
     console.log(value)
   })
 // 添加颜色选择器
-folder.addColor({ color: '#00ff00' }, 'color').onChange((value) => {
+folder?.addColor({ color: '#00ff00' }, 'color').onChange((value) => {
   cube.material.color.set(value)
 })
 
@@ -51,10 +52,10 @@ const rotateX = gsap.to(cube.rotation, {
 })
 
 // 控制显隐
-folder.add(cube as any, 'visible').name('是否显示')
-folder.add(cube.material as any, 'wireframe').name('显示线框')
+folder?.add(cube as any, 'visible').name('是否显示')
+folder?.add(cube.material as any, 'wireframe').name('显示线框')
 folder
-  .add(
+  ?.add(
     {
       fn: () => {
         moveX.play()
@@ -65,7 +66,7 @@ folder
   )
   .name('开始动画')
 folder
-  .add(
+  ?.add(
     {
       fn: () => {
         moveX.pause()
@@ -80,5 +81,6 @@ onBeforeUnmount(() => {
   geometry.dispose()
   material.dispose()
   pic.dispose()
+  folder && gui?.removeFolder(folder)
 })
 </script>

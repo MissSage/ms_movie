@@ -8,12 +8,13 @@ import vertexShader from '../shader/water/vertex.glsl?raw'
 import fragmentShader from '../shader/water/fragment.glsl?raw'
 import image_404 from '@/assets/images/404.png'
 import { useGUI } from '@/hooks'
+import { GUI } from 'dat.gui'
 
 /********************************* 场景 */
-const scene:THREE.Scene|undefined = inject('scene')
+const scene: THREE.Scene | undefined = inject('scene')
 const group = new THREE.Object3D()
 scene?.add(group)
-const camera:THREE.Camera|undefined = inject('camera')
+const camera: THREE.Camera | undefined = inject('camera')
 camera?.position.set(0, 0, 2)
 
 /******************************* 光源 */
@@ -98,17 +99,18 @@ const run = () => {
   floorMaterial.uniforms.uTime.value = time
 }
 
-const { gui } = useGUI()
-gui
-  .add(params, 'uFrequency')
+const gui: GUI | undefined = inject('gui')
+const folder = gui?.addFolder('参数设置')
+folder
+  ?.add(params, 'uFrequency')
   .min(0)
   .max(100)
   .step(1)
   .onChange((value) => {
     floorMaterial.uniforms.uFrequency.value = value
   })
-gui
-  .add(params, 'uScale')
+folder
+  ?.add(params, 'uScale')
   .min(0)
   .max(0.2)
   .step(0.001)
@@ -116,24 +118,24 @@ gui
     floorMaterial.uniforms.uScale.value = value
   })
 
-gui
-  .add(params, 'uNoiseFrequency')
+folder
+  ?.add(params, 'uNoiseFrequency')
   .min(0)
   .max(100)
   .step(0.1)
   .onChange((value) => {
     floorMaterial.uniforms.uNoiseFrequency.value = value
   })
-gui
-  .add(params, 'uNoiseScale')
+folder
+  ?.add(params, 'uNoiseScale')
   .min(0)
   .max(5)
   .step(0.001)
   .onChange((value) => {
     floorMaterial.uniforms.uNoiseScale.value = value
   })
-gui
-  .add(params, 'uXZScale')
+folder
+  ?.add(params, 'uXZScale')
   .min(0)
   .max(5)
   .step(0.1)
@@ -151,6 +153,7 @@ onBeforeUnmount(() => {
   texture.dispose()
   ambientLight.dispose()
   dirLight.dispose()
+  folder && gui?.removeFolder(folder)
 })
 </script>
 <style lang="scss" scoped>

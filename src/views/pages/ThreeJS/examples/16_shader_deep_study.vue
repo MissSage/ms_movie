@@ -8,12 +8,13 @@ import vertexShader from '../shader/deep/vertex.glsl?raw'
 import fragmentShader from '../shader/deep/fragment.glsl?raw'
 import image_404 from '@/assets/images/404.png'
 import { useGUI } from '@/hooks'
+import { GUI } from 'dat.gui'
 
 /********************************* 场景 */
-const scene:THREE.Scene|undefined = inject('scene')
+const scene: THREE.Scene | undefined = inject('scene')
 const group = new THREE.Object3D()
 scene?.add(group)
-const camera:THREE.Camera|undefined = inject('camera')
+const camera: THREE.Camera | undefined = inject('camera')
 camera?.position.set(0, 0, 10)
 
 /******************************* 光源 */
@@ -70,9 +71,10 @@ floor.position.set(0, 0, 0)
 floor.receiveShadow = true
 group.add(floor)
 
-const { gui } = useGUI()
-gui
-  .add(params, 'uScale')
+const gui: GUI | undefined = inject('gui')
+const folder = gui?.addFolder('参数设置')
+folder
+  ?.add(params, 'uScale')
   .min(0)
   .max(1)
   .step(0.01)
@@ -103,6 +105,7 @@ onBeforeUnmount(() => {
   ambientLight.dispose()
   texture.dispose()
   dirLight.dispose()
+  folder && gui?.removeFolder(folder)
 })
 </script>
 <style lang="scss" scoped>

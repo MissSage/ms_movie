@@ -4,6 +4,7 @@
 <script lang="ts" setup>
 import * as THREE from 'three'
 import { useGUI } from '@/hooks/gui/useGUI'
+import { GUI } from 'dat.gui'
 const scene: THREE.Scene | undefined = inject('scene')
 const group = new THREE.Object3D()
 scene?.add(group)
@@ -49,49 +50,50 @@ directionalLight.shadow.mapSize.set(4096, 4096)
 group?.add(directionalLight)
 
 // 添加gui属性调节器
-const gui = useGUI()
-gui.gui
-  .add(directionalLight.shadow.camera as any, 'near')
+const gui: GUI | undefined = inject('gui')
+const folder = gui?.addFolder('光源设置')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'near')
   .min(0)
   .max(1)
   .step(0.1)
   .onChange(() => {
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
-gui.gui
-  .add(directionalLight.shadow.camera as any, 'far')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'far')
   .min(1)
   .max(1000)
   .step(1)
   .onChange(() => {
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
-  gui.gui
-  .add(directionalLight.shadow.camera as any, 'top')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'top')
   .min(1)
   .max(20)
   .step(1)
   .onChange(() => {
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
-  gui.gui
-  .add(directionalLight.shadow.camera as any, 'bottom')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'bottom')
   .min(-20)
   .max(-1)
   .step(1)
   .onChange(() => {
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
-  gui.gui
-  .add(directionalLight.shadow.camera as any, 'left')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'left')
   .min(-20)
   .max(-1)
   .step(1)
   .onChange(() => {
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
-  gui.gui
-  .add(directionalLight.shadow.camera as any, 'right')
+folder
+  ?.add(directionalLight.shadow.camera as any, 'right')
   .min(1)
   .max(20)
   .step(1)
@@ -99,8 +101,8 @@ gui.gui
     directionalLight.shadow.camera.updateProjectionMatrix()
   })
 
-gui.gui
-  .add(directionalLight.shadow as any, 'radius')
+folder
+  ?.add(directionalLight.shadow as any, 'radius')
   .min(1)
   .max(100)
   .step(0.1)
@@ -116,6 +118,7 @@ onBeforeUnmount(() => {
   material.dispose()
   directionalLight.dispose()
   light.dispose()
+  folder && gui?.removeFolder(folder)
 })
 </script>
 <style lang="scss" scoped>
