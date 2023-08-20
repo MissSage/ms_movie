@@ -24,7 +24,7 @@
   <p>更复杂的条件：</p>
   <css-doodle use="var(--matchComplex)"></css-doodle>
 </template>
-<script lang="ts">
+<script lang="ts" setup>
 import "css-doodle"
 </script>
 <style lang="scss">
