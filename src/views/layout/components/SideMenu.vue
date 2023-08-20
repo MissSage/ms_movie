@@ -38,7 +38,7 @@ const handleMouseMove = (e: MouseEvent) => {
   if (state.isDraging) {
     console.log(e)
     state.width = e.clientX
-    if(state.width<100){
+    if (state.width < 100) {
       state.width = 4
     }
     emit('resize', state.width)
@@ -61,6 +61,9 @@ onMounted(() => {
   .el-menu {
     width: 100%;
     min-width: 200px;
+    height: 100%;
+    overflow-y: auto;
+    @include hideScrollBar;
   }
   .drag-line {
     position: absolute;
@@ -74,6 +77,5 @@ onMounted(() => {
       cursor: col-resize;
     }
   }
-  @include hideScrollBar;
 }
 </style>

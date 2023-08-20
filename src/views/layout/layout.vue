@@ -2,7 +2,6 @@
   <div class="layout" :style="state.styleObj">
     <SideMenu @resize="handleMenuResize"></SideMenu>
     <el-container class="layout-main">
-      <HeadMenu></HeadMenu>
       <el-main>
         <router-view v-slot="{ Component }">
           <KeepAlive :include="['movie']">
@@ -23,7 +22,7 @@ import HeadMenu from './components/HeadMenu.vue'
 
 const state = reactive<{ styleObj: any }>({
   styleObj: {
-    '--menu-width': 200,
+    '--menu-width': '200px',
   },
 })
 const handleMenuResize = (width: number) => {

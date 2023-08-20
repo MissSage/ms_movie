@@ -214,6 +214,9 @@ devDependencies:
   vite-plugin-image-optimizer:
     specifier: ^1.1.6
     version: 1.1.6(vite@4.4.9)
+  vite-plugin-qiankun:
+    specifier: ^1.0.15
+    version: 1.0.15(typescript@5.1.6)(vite@4.4.9)
   vitepress:
     specifier: 1.0.0-beta.1
     version: 1.0.0-beta.1(@algolia/client-search@4.19.1)(@types/node@18.17.5)(axios@1.4.0)(nprogress@0.2.0)(sass@1.65.1)(search-insights@2.7.0)
@@ -3008,6 +3011,30 @@ packages:
       supports-color: 7.2.0
     dev: true
 
+  /cheerio-select@2.1.0:
+    resolution: {integrity: sha512-9v9kG0LvzrlcungtnJtpGNxY+fzECQKhK4EGJX2vByejiMX84MFNQw4UxPJl3bFbTMw+Dfs37XaIkCwTZfLh4g==}
+    dependencies:
+      boolbase: 1.0.0
+      css-select: 5.1.0
+      css-what: 6.1.0
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+    dev: true
+
+  /cheerio@1.0.0-rc.12:
+    resolution: {integrity: sha512-VqR8m68vM46BNnuZ5NtnGBKIE/DfN0cRIzg9n40EIq9NOv90ayxLBXA8fXC5gquFRGJSTRqBq25Jt2ECLR431Q==}
+    engines: {node: '>= 6'}
+    dependencies:
+      cheerio-select: 2.1.0
+      dom-serializer: 2.0.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      htmlparser2: 8.0.2
+      parse5: 7.1.2
+      parse5-htmlparser2-tree-adapter: 7.0.0
+    dev: true
+
   /chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
     engines: {node: '>= 8.10.0'}
@@ -4442,6 +4469,15 @@ packages:
     hasBin: true
     dev: true
 
+  /htmlparser2@8.0.2:
+    resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
+    dev: true
+
   /husky@8.0.3:
     resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
     engines: {node: '>=14'}
@@ -5281,6 +5317,19 @@ packages:
     engines: {node: '>=6'}
     dependencies:
       callsites: 3.1.0
+    dev: true
+
+  /parse5-htmlparser2-tree-adapter@7.0.0:
+    resolution: {integrity: sha512-B77tOZrqqfUfnVcOrUvfdLbz4pu4RopLD/4vmu3HUPswwTA8OH0EMW9BlWR2B0RCoiZRAHEUu7IxeP1Pd1UU+g==}
+    dependencies:
+      domhandler: 5.0.3
+      parse5: 7.1.2
+    dev: true
+
+  /parse5@7.1.2:
+    resolution: {integrity: sha512-Czj1WaSVpaoj0wbhMzLmWD69anp2WH7FXMB9n1Sy8/ZFF9jolSQVMu1Ij5WIyGmcBmhk7EOndpO4mIpihVqAXw==}
+    dependencies:
+      entities: 4.5.0
     dev: true
 
   /path-exists@4.0.0:
@@ -6341,6 +6390,17 @@ packages:
     dependencies:
       ansi-colors: 4.1.3
       pathe: 1.1.1
+      vite: 4.4.9(@types/node@18.17.5)(sass@1.65.1)
+    dev: true
+
+  /vite-plugin-qiankun@1.0.15(typescript@5.1.6)(vite@4.4.9):
+    resolution: {integrity: sha512-0QB0Wr8Eu/LGcuJAfuNXDb7BAFDszo3GCxq4bzgXdSFAlK425u1/UGMxaDEBVA1uPFrLsZPzig83Ufdfl6J45A==}
+    peerDependencies:
+      typescript: '>=4'
+      vite: '>=2'
+    dependencies:
+      cheerio: 1.0.0-rc.12
+      typescript: 5.1.6
       vite: 4.4.9(@types/node@18.17.5)(sass@1.65.1)
     dev: true
 

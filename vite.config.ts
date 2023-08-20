@@ -1,5 +1,6 @@
 import { defineConfig, UserConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import qiankun from "vite-plugin-qiankun"
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import {
@@ -15,10 +16,12 @@ function pathResolve(dir: string) {
   return path.resolve(__dirname, '.', dir)
 }
 // https://vitejs.dev/config/
-export default defineConfig((): UserConfig => {
+export default defineConfig(({mode}): UserConfig => {
   const root = process.cwd()
+  const isPro = mode === "production"
   return {
     root,
+    base: isPro ? "/ms_movie/" : "/",
     mode: 'production',
     resolve: {
       alias: [
@@ -45,6 +48,10 @@ export default defineConfig((): UserConfig => {
               tag.startsWith('fc-') || tag.startsWith('css-'),
           },
         },
+      }),
+      // qiankun的第一个参数必须与主应用在main.ts中registerMicroApps的name值一致
+      qiankun('vue3', {
+        useDevMode: true,
       }),
       AutoImport({
         // 这里除了引入 vue 以外还可以引入pinia、vue-router、vueuse等，
