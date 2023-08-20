@@ -35,10 +35,14 @@ export default defineConfig(({mode}): UserConfig => {
       drop: ['console', 'debugger'],
     },
     server: {
+      headers: {
+        "Access-Control-Allow-Origin": "*" // 主应用获取子应用时跨域响应头
+      },
       hmr: {
         overlay: true,
       },
       host: true,
+      port: 5000
     },
     plugins: [
       vue({
@@ -50,7 +54,7 @@ export default defineConfig(({mode}): UserConfig => {
         },
       }),
       // qiankun的第一个参数必须与主应用在main.ts中registerMicroApps的name值一致
-      qiankun('vue3', {
+      qiankun('ms_movie', {
         useDevMode: true,
       }),
       AutoImport({

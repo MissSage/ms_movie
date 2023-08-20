@@ -12,6 +12,7 @@ import media from './modules/media'
 import webgl from './modules/webgl'
 import NotFound from '@/views/404.vue'
 import games from './modules/games'
+import { qiankunWindow } from 'vite-plugin-qiankun/dist/helper'
 export const routes: RouteRecordRaw[] = [
   {
     meta: {
@@ -21,7 +22,6 @@ export const routes: RouteRecordRaw[] = [
     },
     path: '/',
     component: () => import('@/views/layout/layout.vue'),
-    redirect: '/home',
     children: [
       {
         meta: {
@@ -29,7 +29,7 @@ export const routes: RouteRecordRaw[] = [
           icon: 'mdi:home',
         },
         name: 'home',
-        path: '/home',
+        path: '/',
         component: () => import('@/views/pages/home.vue'),
       },
 
@@ -44,7 +44,8 @@ export const routes: RouteRecordRaw[] = [
 ]
 
 const routerConfig = {
-  history: createWebHistory(),
+  // 当通过qiankun加载的时候，base值取activeRule的值
+  history: createWebHistory(qiankunWindow.__POWERED_BY_QIANKUN__? '/myweb':'/'),
   routes,
   scrollBehavior(to: any, from: any) {
     if (to.path !== from.path) {

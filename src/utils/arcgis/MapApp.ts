@@ -5,7 +5,7 @@ import { initTintLayer } from '@/utils/arcgis/TintLayer'
 import { loadModules, loadScript } from 'esri-loader'
 export class MapApp {
   constructor(sdk = window.SITE_CONFIG.GIS_CONFIG.gisSDK) {
-    this.sdk = sdk
+    // this.sdk = sdk
   }
   private modules: {
     Map?: typeof __esri.Map
@@ -15,13 +15,13 @@ export class MapApp {
     request?: typeof __esri.request
   } = {}
   private mapView?: __esri.MapView
-  private sdk: string
-  async loadScript() {
-    await loadScript({
-      url: `${this.sdk}/init.js`,
-      css: `${this.sdk}/esri/themes/light/main.css`,
-    })
-  }
+  // private sdk: string
+  // async loadScript() {
+  //   await loadScript({
+  //     url: `${this.sdk}/init.js`,
+  //     css: `${this.sdk}/esri/themes/light/main.css`,
+  //   })
+  // }
   async loadModules() {
     const [Map, MapView, BaseTileLayer, MapImageLayer, request] = await loadModules<
       [

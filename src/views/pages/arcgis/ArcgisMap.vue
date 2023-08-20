@@ -7,7 +7,7 @@
 import { MapApp } from '@/utils/arcgis/MapApp'
 onMounted(async () => {
   const app = new MapApp()
-  await app.loadScript()
+  // await app.loadScript()
   await app.initMap('map-div', 'gd')
   await app.addPipe()
 })
