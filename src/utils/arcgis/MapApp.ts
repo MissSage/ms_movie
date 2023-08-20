@@ -4,8 +4,10 @@
 import { initTintLayer } from '@/utils/arcgis/TintLayer'
 import { loadModules, loadScript } from 'esri-loader'
 export class MapApp {
-  constructor(sdk = window.SITE_CONFIG.GIS_CONFIG.gisSDK) {
-    // this.sdk = sdk
+  constructor(
+    sdk = window.SITE_CONFIG.GIS_CONFIG?.gisSDK || 'https://js.arcgis.com/4.27',
+  ) {
+    this.sdk = sdk
   }
   private modules: {
     Map?: typeof __esri.Map
@@ -15,29 +17,30 @@ export class MapApp {
     request?: typeof __esri.request
   } = {}
   private mapView?: __esri.MapView
-  // private sdk: string
-  // async loadScript() {
-  //   await loadScript({
-  //     url: `${this.sdk}/init.js`,
-  //     css: `${this.sdk}/esri/themes/light/main.css`,
-  //   })
-  // }
+  private sdk: string
+  async loadScript() {
+    await loadScript({
+      url: `${this.sdk}/init.js`,
+      css: `${this.sdk}/esri/themes/light/main.css`,
+    })
+  }
   async loadModules() {
-    const [Map, MapView, BaseTileLayer, MapImageLayer, request] = await loadModules<
-      [
-        typeof __esri.Map,
-        typeof __esri.MapView,
-        typeof __esri.BaseTileLayer,
-        typeof __esri.MapImageLayer,
-        typeof __esri.request,
-      ]
-    >([
-      'esri/Map',
-      'esri/views/MapView',
-      'esri/layers/BaseTileLayer',
-      'esri/layers/MapImageLayer',
-      'esri/request',
-    ])
+    const [Map, MapView, BaseTileLayer, MapImageLayer, request] =
+      await loadModules<
+        [
+          typeof __esri.Map,
+          typeof __esri.MapView,
+          typeof __esri.BaseTileLayer,
+          typeof __esri.MapImageLayer,
+          typeof __esri.request,
+        ]
+      >([
+        'esri/Map',
+        'esri/views/MapView',
+        'esri/layers/BaseTileLayer',
+        'esri/layers/MapImageLayer',
+        'esri/request',
+      ])
     this.modules = {
       Map,
       MapView,
@@ -46,10 +49,16 @@ export class MapApp {
       request,
     }
   }
-  async initMap(container: string | HTMLDivElement | undefined, baseMap?: 'tdt' | 'gd') {
+  async initMap(
+    container: string | HTMLDivElement | undefined,
+    baseMap?: 'tdt' | 'gd',
+  ) {
     debugger
     await this.loadModules()
-    const TintLayer = initTintLayer(this.modules.BaseTileLayer!, this.modules.request!)
+    const TintLayer = initTintLayer(
+      this.modules.BaseTileLayer!,
+      this.modules.request!,
+    )
     const tiledLayer =
       baseMap === 'tdt'
         ? [
